@@ -1,9 +1,12 @@
 {
-  "a11y": {
-    "skipToContent": "تخطّي إلى المحتوى"
-  },
-  "availability": {
-    "label": "متاحة لأدوار هندسة برمجيات متقدمة"
+  "a11y": { "skipToContent": "تخطّي إلى المحتوى" },
+  "availability": { "label": "متاحة لأدوار هندسة برمجيات متقدمة" },
+  "loader": {
+    "initializing": "جارٍ التهيئة",
+    "loadingAssets": "تحميل الأصول",
+    "loadingFonts": "تحميل الخطوط",
+    "compositing": "التركيب",
+    "almostReady": "اقتربنا"
   },
   "nav": {
     "primary": "التنقل الرئيسي",

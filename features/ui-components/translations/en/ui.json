@@ -1,9 +1,12 @@
 {
-  "a11y": {
-    "skipToContent": "Skip to content"
-  },
-  "availability": {
-    "label": "Available for senior full-stack roles"
+  "a11y": { "skipToContent": "Skip to content" },
+  "availability": { "label": "Available for senior full-stack roles" },
+  "loader": {
+    "initializing": "INITIALIZING",
+    "loadingAssets": "LOADING ASSETS",
+    "loadingFonts": "LOADING FONTS",
+    "compositing": "COMPOSITING",
+    "almostReady": "ALMOST READY"
   },
   "nav": {
     "primary": "Primary",
