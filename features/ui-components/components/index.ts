@@ -9,3 +9,4 @@ export { ScrollProgress } from './ScrollProgress';
 export { SectionHead } from './SectionHead';
 export { SplitReveal } from './SplitReveal';
 export { ThemeToggle } from './ThemeToggle';
+export { TopNav } from './TopNav';

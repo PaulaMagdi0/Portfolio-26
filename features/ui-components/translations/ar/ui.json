@@ -5,6 +5,16 @@
   "availability": {
     "label": "متاحة لأدوار هندسة برمجيات متقدمة"
   },
+  "nav": {
+    "primary": "التنقل الرئيسي",
+    "work": "الأعمال",
+    "experience": "الخبرات",
+    "certifications": "الشهادات",
+    "stack": "التقنيات",
+    "contact": "التواصل",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة"
+  },
   "theme": {
     "switchToLight": "التبديل إلى الوضع الفاتح",
     "switchToDark": "التبديل إلى الوضع الداكن"

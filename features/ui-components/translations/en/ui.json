@@ -5,6 +5,16 @@
   "availability": {
     "label": "Available for senior full-stack roles"
   },
+  "nav": {
+    "primary": "Primary",
+    "work": "Work",
+    "experience": "Experience",
+    "certifications": "Certifications",
+    "stack": "Stack",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
   "theme": {
     "switchToLight": "Switch to light theme",
     "switchToDark": "Switch to dark theme"
