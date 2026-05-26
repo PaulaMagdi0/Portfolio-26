@@ -8,3 +8,4 @@ export { Reveal } from './Reveal';
 export { ScrollProgress } from './ScrollProgress';
 export { SectionHead } from './SectionHead';
 export { SplitReveal } from './SplitReveal';
+export { ThemeToggle } from './ThemeToggle';
