@@ -35,6 +35,10 @@ Object.defineProperty(window, 'matchMedia', {
     matches: false,
     media: query,
     onchange: null,
+    // Legacy API used by next-themes
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    // Modern API
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),

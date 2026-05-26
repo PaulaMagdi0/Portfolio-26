@@ -31,7 +31,7 @@ export function TopNav() {
     <nav
       className={cn(
         'fixed inset-x-0 top-0 z-[60] px-6 py-4 transition-colors md:px-10',
-        scrolled && 'border-b border-line bg-bg/60 backdrop-blur-md',
+        scrolled && 'border-line bg-bg/60 border-b backdrop-blur-md',
       )}
       aria-label={t('primary')}
     >
@@ -49,14 +49,14 @@ export function TopNav() {
           ))}
         </ul>
         <div className="flex items-center gap-3">
-          <span className="hidden font-mono text-xs text-inkmute md:inline">
+          <span className="text-inkmute hidden font-mono text-xs md:inline">
             <LiveClock />
           </span>
           <LocaleSwitcher />
           <ThemeToggle />
           <button
             type="button"
-            className="font-mono text-xs uppercase tracking-widest md:hidden"
+            className="font-mono text-xs tracking-widest uppercase md:hidden"
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"

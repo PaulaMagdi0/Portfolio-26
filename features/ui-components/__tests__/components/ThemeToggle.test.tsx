@@ -16,7 +16,10 @@ describe('ThemeToggle', () => {
   it('renders a button with a switch-theme label after mount', async () => {
     render(withTheme(<ThemeToggle />));
     const button = await screen.findByRole('button');
-    expect(button).toHaveAccessibleName(/Switch to (light|dark) theme/);
+    // next-intl is mocked as `namespace.key`; accept either the real strings or the mock form
+    expect(button).toHaveAccessibleName(
+      /Switch to (light|dark) theme|ui\.theme\.switch(ToLight|ToDark)/,
+    );
   });
 
   it('toggles theme on click', async () => {
