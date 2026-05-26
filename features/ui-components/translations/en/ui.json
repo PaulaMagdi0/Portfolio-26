@@ -1,5 +1,8 @@
 {
   "a11y": {
     "skipToContent": "Skip to content"
+  },
+  "availability": {
+    "label": "Available for senior full-stack roles"
   }
 }
