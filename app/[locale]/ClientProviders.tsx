@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from 'next-themes';
 import { NextIntlClientProvider } from 'next-intl';
+import { MotionProvider } from '@/core/motion';
 import type { ReactNode } from 'react';
 import type { AbstractIntlMessages } from 'next-intl';
 
@@ -15,7 +16,7 @@ export function ClientProviders({ locale, messages, children }: ClientProvidersP
   return (
     <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
       <NextIntlClientProvider locale={locale} messages={messages}>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
       </NextIntlClientProvider>
     </ThemeProvider>
   );
