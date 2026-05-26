@@ -57,3 +57,34 @@ out/
 # Misc
 *.bak
 *.tmp
+
+# Next.js
+/.next/
+/out/
+
+# Production
+/build
+
+# Misc
+*.pem
+
+# Debug
+.pnpm-debug.log*
+
+# Env
+.env*.local
+.env.production
+
+# Vercel
+.vercel
+
+# Typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Test artifacts
+/coverage
+/playwright-report
+/test-results
+/blob-report
+/playwright/.cache
