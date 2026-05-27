@@ -13,9 +13,9 @@ export async function Hero() {
     >
       <div
         aria-hidden
-        className="text-amber pointer-events-none absolute top-1/2 right-[-40px] hidden -translate-y-1/2 lg:block xl:right-[-60px] 2xl:right-[-80px]"
+        className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1200px] lg:block"
       >
-        <div className="h-[420px] w-[420px] xl:h-[520px] xl:w-[520px] 2xl:h-[640px] 2xl:w-[640px]">
+        <div className="text-amber absolute top-1/2 right-[-40px] h-[420px] w-[420px] -translate-y-1/2 xl:right-[-60px] xl:h-[520px] xl:w-[520px] 2xl:right-[-80px] 2xl:h-[640px] 2xl:w-[640px]">
           <Hero3DLazy />
         </div>
       </div>
@@ -24,7 +24,8 @@ export async function Hero() {
         <Reveal as="div" className="relative z-10 flex flex-wrap items-center gap-x-4 gap-y-3">
           <span
             aria-hidden
-            className="bg-amber inline-block h-px w-12 origin-left scale-x-0 animate-[hero-rule_1.1s_cubic-bezier(0.2,0.7,0.2,1)_0.2s_forwards]"
+            style={{ transform: 'scaleX(1)' }}
+            className="bg-amber inline-block h-px w-12 origin-left animate-[hero-rule_1.1s_cubic-bezier(0.2,0.7,0.2,1)_0.2s_forwards]"
           />
           <span className="text-inkmute animate-[hero-fade_0.7s_ease-out_0.6s_forwards] font-mono text-[11px] tracking-[0.2em] uppercase opacity-0">
             {t('portfolio')}
