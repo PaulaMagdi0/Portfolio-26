@@ -19,8 +19,10 @@ export function CustomCursor() {
     const tick = () => {
       rx += (mx - rx) * 0.18;
       ry += (my - ry) * 0.18;
-      if (ringRef.current) ringRef.current.style.transform = `translate(${rx}px, ${ry}px)`;
-      if (dotRef.current) dotRef.current.style.transform = `translate(${mx}px, ${my}px)`;
+      if (ringRef.current)
+        ringRef.current.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+      if (dotRef.current)
+        dotRef.current.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
       rafId = requestAnimationFrame(tick);
     };
     rafId = requestAnimationFrame(tick);
