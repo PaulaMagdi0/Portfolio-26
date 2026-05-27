@@ -63,7 +63,7 @@ export function TopNav() {
     >
       <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6 md:px-10">
         <a href="#top" className="flex items-baseline gap-3">
-          <span className="text-ink font-serif text-[20px]">Paula Magdy</span>
+          <span className="text-ink font-serif text-[20px]">{tBrand('name')}</span>
           <span className="text-inkmute hidden font-mono text-[12px] md:inline">
             — {t('cairo')}
           </span>

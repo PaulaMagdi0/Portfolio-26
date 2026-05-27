@@ -2,7 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
+import { useLocale } from 'next-intl';
 import { gsap, ScrollTrigger, registerGsapPlugins } from '@/core/motion';
+import { toLocaleDigits } from '@/lib/digits';
 
 interface SectionHeadProps {
   num: string;
@@ -13,6 +15,7 @@ interface SectionHeadProps {
 
 export function SectionHead({ num, label, kicker, children }: SectionHeadProps) {
   const ruleRef = useRef<HTMLSpanElement | null>(null);
+  const locale = useLocale();
 
   useEffect(() => {
     const el = ruleRef.current;
@@ -44,7 +47,9 @@ export function SectionHead({ num, label, kicker, children }: SectionHeadProps) 
     <header className="mb-10 md:mb-16">
       <div className="flex items-baseline gap-6">
         <div className="flex shrink-0 items-baseline gap-4">
-          <span className="text-amber font-mono text-[11px] tracking-[0.2em] uppercase">{num}</span>
+          <span className="text-amber font-mono text-[11px] tracking-[0.2em] uppercase">
+            {toLocaleDigits(num, locale)}
+          </span>
           <span className="section-num">— {label}</span>
         </div>
         <span ref={ruleRef} className="h-rule flex-1 -translate-y-[2px]" />
