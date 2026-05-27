@@ -1,15 +1,15 @@
 # Project State / Handoff
 
-**Last updated:** 2026-05-27 (parity sweep complete)
+**Last updated:** 2026-05-27 (v2 parity sweep + MetaCell strip; 14 visual issues queued)
 **Branch:** `feature/nextjs-conversion`
-**Latest commit:** `82c438f fix(hero): unify h1 ownership between HeroHeadline and SplitReveal`
+**Latest commit:** `b12225f feat(parity): legacy-parity v2 sweep + MetaCell strip`
 **Working tree:** clean
 
 ---
 
 ## Active task for the next session
 
-**Visual sign-off on the legacy parity sweep.** Walk `/en` and `/ar` against `legacy/Portfolio.html` side-by-side and confirm parity holds. Once confirmed, run Task 18 in `docs/superpowers/plans/2026-05-27-legacy-parity.md` — delete `legacy/` and commit.
+**Resolve the 14 visual issues from the 2026-05-27 screenshot review.** Plan + concrete fixes are listed below. Each item has a screenshot reference in the prior conversation (Images 1–23). The source-of-truth plan is `docs/superpowers/plans/2026-05-27-legacy-parity-v2.md` (extend it with the 14 new tasks before implementing).
 
 ```bash
 pnpm dev                                          # localhost:3000
@@ -18,66 +18,70 @@ cd legacy && python3 -m http.server 8001          # localhost:8001/Portfolio.htm
 
 Open both side-by-side at 1440 / 1024 / 768 / 375 viewport widths.
 
+### The 14 queued items (in priority order)
+
+1. **Cursor centering bug.** `CustomCursor.tsx:22-23` sets `transform: translate(rx,ry)` which clobbers the CSS `translate(-50%,-50%)` centering. Combine both — use `translate(${rx}px,${ry}px) translate(-50%,-50%)` or position via `left/top` and keep CSS centering.
+
+2. **ThemeToggle sun/moon icons missing.** Legacy `components.jsx:521-525` renders `<Icon.Sun|Moon className="ico" />` inside `.knob`. Current `ThemeToggle.tsx:79` renders empty `<span className="knob" />`. Add the inline SVG so the existing `.ico` CSS (`globals.css:380-384`) takes effect.
+
+3. **Hero eyebrow row spacing + headline width.** Current `Hero.tsx:24` uses `gap-4` between rule and PORTFOLIO label; legacy keeps them tight (visually). Also "Software Engineer" wraps to two lines at lg+ — give the headline its own row with `max-w-[1100px]` or similar so it lays out on one line at ≥lg matching legacy `sections.jsx:106`.
+
+4. **Project title underline always-on.** `WorkRow.tsx:137` has `title-underline inline` but the title appears underlined without hover. The `.title-underline` CSS expects `.group:hover` parent — verify the `<li className="work-row group">` wraps everything and no other CSS draws an underline. Image 9 shows the broken state.
+
+5. **Certifications layout drift.** Legacy `sections.jsx:822+` puts the heading "Credentials & training." in a left rail (md:col-span-4) with cert rows in the remaining 8 cols. Also the date format is `Month YYYY → Month YYYY` (no "ISSUED"/"EXPIRES" words). Current `Certifications.tsx` renders heading on top and shows the verbose form. Rebuild to legacy layout.
+
+6. **Stack micro-tweaks.** Compare row spacing, intro-paragraph max-width, and group-title leading. Legacy `sections.jsx:963-1010`.
+
+7. **Contact heading italic.** `Contact.tsx:47` has `<em className="text-inkdim font-light not-italic">{sec('heading2')}</em>` — drop `not-italic` so "something" renders in italic per legacy `sections.jsx:1180`. Also tighten the inter-word spacing.
+
+8. **Back-to-top shows "OPEN" cursor label.** `Contact.tsx:147` has `data-cursor-label="open"`. Change to `"top"` (or remove the attribute).
+
+9. **MetaCell content recommendation.** User asked for stronger suggestions vs current Based-in / Years / Currently / Focus. Recommended: keep Years coding 6+; swap Currently → "Open to" (Senior full-stack & consulting); swap Focus → "Reply within" (24h). Confirm with user before changing.
+
+10. **Theme-swap animation order.** Legacy `components.jsx:476-510` probes the NEXT theme's `--bg` via a synchronous data-theme swap, then animates clip-path FROM 0 → maxR (mask grows, hiding the swap), then fades the overlay. Current `ThemeToggle.tsx:46-68` does the opposite (starts at maxR, shrinks to 0). Rewrite to match.
+
+11. **Arabic font joining broken.** Body uses Inter / Instrument Serif — neither has Arabic ligature support, so AR letters render disconnected. Add `next/font/google` Noto Naskh Arabic (or Cairo) as a CSS variable `--font-arabic-serif` and apply via `html[lang="ar"]` selector to body + serif headings. User has delegated full AR design discretion.
+
+12. **404 page redesign.** Current `app/[locale]/not-found.tsx` is plain "404 / Not found". Match site chrome: serif 404 numeral, mono subline, ghost button to home, grain + vignette layers, Paula watermark optional.
+
+13. **Next.js preload warnings.** Console shows `The resource <font-url> was preloaded using link preload but not used within a few seconds`. Likely from `next/font/google` loading variants we don't render. Audit `app/fonts.ts` (or equivalent) and remove unused weights/styles; ensure `display: 'swap'` is set.
+
+14. **Quality gates re-run.** After all 13 fixes: `pnpm lint && pnpm type-check && pnpm test -- --run && pnpm test:e2e --project=chromium`.
+
 ---
 
 ## Status at a glance
 
-The Next.js 16 portfolio is **at full legacy parity**. All 7 home sections render in both `en` and `ar` locales. SEO is wired (sitemap, robots, OG images, Person JSON-LD, hreflang). **21/21 unit tests pass, 19/19 chromium E2E tests pass**, lint + format + type-check + build all green.
+**Done in this session (committed as `b12225f`):**
 
-Two plans drove the work:
-- `docs/superpowers/plans/2026-05-27-nextjs-conversion.md` — original port (35 tasks, all done except gated Task 35).
-- `docs/superpowers/plans/2026-05-27-legacy-parity.md` — parity sweep (18 tasks; 17 done, Task 18 = delete `legacy/` is gated on user sign-off).
+The Next.js 16 portfolio now has the **v2 parity sweep** on top of the original parity work:
+
+- **SectionHead** — gap-6 outer + gap-4 inner, md:mb-16, rule -2px, num tracking 0.2em
+- **Magnetic** — Framer Motion spring physics (stiffness 200, damping 18, mass 0.4) via static motion-tag map (`as` narrowed to `'button' | 'a' | 'span' | 'div'`)
+- **CustomCursor** — `data-cursor-label` rendered as `<span class="cursor-label">` child (was `textContent`)
+- **TopNav** — mobile active uses `text-amber`; hamburger spans `-translate-y-1 / translate-y-1`
+- **LiveClock** — wrapped in `font-mono text-[11px] tracking-[0.18em] text-inkdim tabular-nums`
+- **AvailabilityPill** — dot upsized to `h-2 w-2`
+- **CaseStudyDrawer** — contribution amber rule delay `0.70 + mt-2`, sticky header `tracking-[0.2em]`
+- **AnimatedMetric** — default duration `1600ms`
+- **Certifications** — logo `opacity-90`
+- **Stack** — chips `text-[12px] px-2.5 py-1.5`
+- **Contact** — bottom-strip pulse dot `h-1.5 w-1.5`, Paula watermark `text-center`
+- **Field** — conditional `border-amber` on error
+- **NEW: MetaCell + HeroMetaStrip** — restored info strip between Hero and Work with `home.metaStrip.*` translations in en + ar
+
+**Gated tasks still open:**
+- v1 parity Task 18 (delete `legacy/`) — gated on user sign-off after all visual issues resolved.
+
+---
+
+## Plans
+
+- `docs/superpowers/plans/2026-05-27-nextjs-conversion.md` — original port (35 tasks, complete except Task 35 gated).
+- `docs/superpowers/plans/2026-05-27-legacy-parity.md` — v1 parity sweep (18 tasks; 17 done, Task 18 gated).
+- `docs/superpowers/plans/2026-05-27-legacy-parity-v2.md` — v2 sweep (9 tasks, all complete this session). **Next session: extend with the 14 visual issues above.**
 
 Spec: `docs/superpowers/specs/2026-05-27-legacy-parity-design.md`.
-
----
-
-## Parity sweep — what landed
-
-1. **SplitReveal hardened** — `mode='instant'`, 1.5s safety timeout that forces visible state when SplitText silently fails.
-2. **Hero rebuilt** — eyebrow with animated amber rule + `Portfolio / 2026` label + AvailabilityPill at right (delay 1.0s); `<h1>` with char-stagger SplitReveal (instant mode); amber mono sub-kicker `Building systems that teams rely on.`; CTAs; 3D scene anchored right at lg+. Section id renamed `#hero` → `#top`.
-3. **MetaCell removed** — was a net-new addition, not in legacy.
-4. **TopNav rebuilt** — active-section detection (viewport 0.42 band), mono `01–05` amber number prefixes, scale-x amber underline on active, full-screen mobile drawer with serif 40px links + bottom pulse/clock/Cairo row.
-5. **WorkRow polish** — `<article role="button">` semantics, framer-motion ArrowUpRight spring on hover/focus, focus-visible amber ring.
-6. **CaseStudyDrawer parity** — top-16 below nav, sticky header with `CASE STUDY · <BADGE>` label, CSBlock delays match legacy (0.28 / 0.36 / 0.44 / 0.52 / 0.60 / 0.70).
-7. **Stack rebuilt** — full-bleed marquee FIRST (speed 48), serif intro paragraph, 5 group rows with `01–05` amber indices + serif group titles + chip rows.
-8. **Certifications rebuilt** — vertical list with magnetic logos (strength 0.35), 12-col rail with name/issuer/division/desc/CredId/skills.
-9. **Contact rebuilt** — huge serif `Let's build something.` headline; 4/8 pitch+form grid; **underline-only** serif inputs (not boxed); magnetic submit with ArrowUpRight; **direct-contact strip** with click-to-copy email (Check icon crossfade + amber "copied" toast), phone, and 4 socials (GitHub/LinkedIn/LeetCode/HackerRank with brand SVGs and group-hover ArrowUpRight); **bottom strip** with footer credit + green-pulse LiveClock + Back-to-top anchor; giant `Paula` watermark at 0.04 opacity.
-10. **BgSpotlight wired** — `--mx`/`--my` cursor follow that was sitting in dead CSS scaffolding.
-11. **Theme-swap radial unmask** — GSAP clip-path shrink from full-screen to circle(0) at the toggle's click point, then opacity fade. Reduced-motion short-circuits.
-12. **Cursor labels** — `data-cursor-label` set on download/case-study/copy/send/close/open across the page.
-13. **Translation parity** — EN/AR fully synced (0 keys diverge). Added `hero.kicker`, `stack.intro1/introEmph`, `contact.phoneValue/footerBuilt/backToTop`, `nav.cairo`. Removed `hero.meta.*`.
-
----
-
-## What's left (prioritized)
-
-### 1. User sign-off + `legacy/` deletion (Task 18)
-
-The **only remaining task in the parity plan**. After visual sign-off:
-
-```bash
-git rm -r legacy/
-git commit -m "chore: remove legacy/ — Next.js port at full parity"
-```
-
-Then bump this file to remove the deletion-pending note.
-
-### 2. Arabic OG image with proper script rendering (deferred)
-
-`app/[locale]/opengraph-image.tsx` emits Latin text for both locales. Satori needs a bundled Noto Naskh Arabic font to render certain GSUB substitutions. Path: add font to `public/fonts/`, pass via `ImageResponse({ fonts })`, branch text on `safeLocale === 'ar'`.
-
-### 3. Arabic translation polish (deferred)
-
-The new keys (`hero.kicker`, `stack.intro*`, `contact.phoneValue/footerBuilt/backToTop`) were AI-drafted alongside the parity edits. A native Arabic reviewer should pass over the AR strings before shipping — tone target: editorial, professional, parallel to English.
-
-### 4. Lighthouse SEO 92 → 100 (production env only)
-
-SEO is 92 on localhost because the `canonical` audit fails when `NEXT_PUBLIC_SITE_URL` defaults to `http://localhost:3000`. Setting that env var to the real production URL lifts it to 100. No code change required.
-
-### 5. Firefox/WebKit Playwright browsers (only if CI needs cross-browser)
-
-`pnpm test:e2e` only runs Chromium locally — Firefox/WebKit binaries aren't installed. Run `npx playwright install` in CI if needed.
 
 ---
 
@@ -100,18 +104,17 @@ pnpm dev                               # localhost:3000
 
 ## Key files to read first when resuming
 
-1. `docs/superpowers/specs/2026-05-27-legacy-parity-design.md` — parity design doc.
-2. `docs/superpowers/plans/2026-05-27-legacy-parity.md` — 18-task plan (Task 18 still open).
-3. `docs/superpowers/plans/2026-05-27-nextjs-conversion.md` — original port plan (for context).
+1. **This file (STATE.md).** Active task + 14 queued items.
+2. `docs/superpowers/plans/2026-05-27-legacy-parity-v2.md` — v2 plan (extend with new tasks).
+3. `docs/superpowers/specs/2026-05-27-legacy-parity-design.md` — parity design doc.
 4. `.claude/CLAUDE.md` and `AGENTS.md` — project conventions.
-5. `e2e/verify.spec.ts` — comprehensive flow regression check.
-6. This file.
+5. `legacy/Portfolio.html` + `legacy/src/*.jsx` — design source-of-truth.
 
 ---
 
 ## Branch / merge state
 
-Branch `feature/nextjs-conversion` is **ready for merge to `main`** once Task 18 (delete `legacy/`) is signed off. No remote configured; to push:
+Branch `feature/nextjs-conversion` is **NOT yet ready for merge** — the 14 queued visual issues must land first, then `legacy/` deletion (v1 Task 18), then merge.
 
 ```bash
 git remote add origin <your-repo-url>
