@@ -8,41 +8,70 @@ export async function Stack() {
 
   return (
     <section id="stack" className="relative px-6 py-16 md:px-10 md:py-24">
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto max-w-[1200px]">
         <SectionHead num="05" label={sec('label')} />
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-5 md:gap-6">
+
+        {/* Full-bleed marquee */}
+        <div className="border-line -mx-6 mt-8 mb-14 border-y py-6 md:-mx-10 md:mb-20 md:py-8">
+          <Marquee speed={48} ariaLabel="Tooling marquee">
+            {MARQUEE_TOOLS.map((tool) => (
+              <div key={tool.name} className="mx-8 flex shrink-0 items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={tool.src}
+                  alt={tool.name}
+                  width={36}
+                  height={36}
+                  className="marquee-logo h-9 w-9 md:h-10 md:w-10"
+                  loading="lazy"
+                  draggable={false}
+                />
+                <span className="text-inkdim font-mono text-[11px] tracking-[0.18em] uppercase md:text-[12px]">
+                  {tool.name}
+                </span>
+              </div>
+            ))}
+          </Marquee>
+        </div>
+
+        {/* Intro paragraph */}
+        <Reveal className="text-ink mb-14 max-w-[820px] font-serif text-[28px] leading-[1.15] md:text-[40px]">
+          <p>
+            {sec('intro1')}
+            <em className="text-inkdim font-light not-italic">{sec('introEmph')}</em>
+          </p>
+        </Reveal>
+
+        {/* Group rows */}
+        <ul>
           {STACK.map((group, i) => (
-            <Reveal key={group.titleKey} delay={i * 0.05}>
-              <h3 className="text-amber mb-4 font-mono text-[11px] tracking-[0.18em] uppercase">
-                {t(group.titleKey)}
-              </h3>
-              <ul className="space-y-1.5">
+            <Reveal
+              as="li"
+              key={group.titleKey}
+              delay={i * 0.04}
+              className="border-line grid grid-cols-1 gap-6 border-t py-6 md:grid-cols-12"
+            >
+              <div className="flex items-baseline gap-3 md:col-span-3">
+                <span className="text-amber font-mono text-[10px]">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 className="text-ink font-serif text-[24px] md:text-[28px]">
+                  {t(group.titleKey)}
+                </h3>
+              </div>
+              <ul className="flex flex-wrap gap-2 md:col-span-9">
                 {group.items.map((item) => (
-                  <li key={item} className="text-ink text-[14px]">
+                  <li
+                    key={item}
+                    className="border-line bg-bg2/40 text-inkdim hover:border-amber/40 hover:text-ink rounded-md border px-2.5 py-1.5 font-mono text-[12px] transition-colors"
+                  >
                     {item}
                   </li>
                 ))}
               </ul>
             </Reveal>
           ))}
-        </div>
-        <Marquee className="truncate-fade mt-16 py-4" ariaLabel="Tooling marquee">
-          {MARQUEE_TOOLS.map((tool) => (
-            <div key={tool.name} className="mx-5 flex shrink-0 items-center gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={tool.src}
-                alt={tool.name}
-                width={28}
-                height={28}
-                className="marquee-logo h-7 w-7"
-              />
-              <span className="text-inkdim font-mono text-[11px] tracking-[0.18em] uppercase">
-                {tool.name}
-              </span>
-            </div>
-          ))}
-        </Marquee>
+        </ul>
       </div>
     </section>
   );

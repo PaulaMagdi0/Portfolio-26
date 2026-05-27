@@ -176,6 +176,8 @@
   },
   "stack": {
     "label": "STACK",
+    "intro1": "Tools I reach for daily, grouped by where they live in the stack —",
+    "introEmph": " chosen for shipping, not for the résumé.",
     "frontend": "Frontend",
     "backend": "Backend",
     "databases": "Databases",
