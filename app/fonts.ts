@@ -16,14 +16,14 @@ export const instrumentSerif = Instrument_Serif({
 
 export const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
+  weight: ['300', '400'],
   display: 'swap',
   variable: '--font-inter',
 });
 
 export const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400'],
   display: 'swap',
   variable: '--font-jetbrains-mono',
 });
