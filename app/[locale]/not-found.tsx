@@ -3,6 +3,7 @@ import { Link } from '@/i18n/routing';
 
 export default async function NotFound() {
   const t = await getTranslations('ui.notFound');
+  const tBrand = await getTranslations('ui.brand');
 
   return (
     <main className="vignette relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 text-center">
@@ -43,7 +44,7 @@ export default async function NotFound() {
         aria-hidden
         className="text-ink pointer-events-none absolute right-0 -bottom-20 left-0 text-center font-serif text-[28vw] leading-none tracking-tighter opacity-[0.04] select-none"
       >
-        Paula
+        {tBrand('watermark')}
       </p>
     </main>
   );
