@@ -1,10 +1,21 @@
 # Project State / Handoff
 
-**Last updated:** 2026-05-28 (animation parity audit + ports landed; awaiting visual sign-off and `legacy/` deletion)
+**Last updated:** 2026-05-28 (round 2 of animation parity — caught 4 more misses the first audit pass missed; awaiting visual sign-off and `legacy/` deletion)
 **Branch:** `feature/nextjs-conversion`
-**Latest commit:** `c76d959 feat(motion): scroll-progress — add 100ms ease-out smoothing`
 **Working tree:** clean
-**Quality gates (last full run after `c76d959`):** lint ✓, type-check ✓, format ✓, vitest 21/21 ✓, build ✓ (e2e not re-run this session — pure motion-internal changes)
+**Quality gates after round 2:** lint ✓, type-check ✓, build ✓ (vitest + e2e not re-run this session)
+
+### Round 2 — animations the first audit missed
+
+Round 1 (commits `27508da` → `c76d959`) ported the drift rows the explore-agent audit caught. The user then identified 4 additional gaps that the audit had classified as `match` when they weren't. All four are now fixed in this run:
+
+1. **WorkRow metrics rendered as static text** — `features/home/components/WorkRow.tsx:181` rendered `{m.value}` directly. Legacy uses `<AnimatedMetric>` to tween 0→N over 1.6s ease-out cubic. The `AnimatedMetric` component already existed and was used in CaseStudyDrawer but wasn't wired up to WorkRow. **Fix:** import and wrap.
+
+2. **SplitReveal scroll-mode safety timer killed char cascades** — `features/ui-components/components/SplitReveal.tsx:118` set a 1500ms safety timer that fired regardless of mode. In scroll mode, when a section was below the fold for >1.5s, the safety force-revealed the chars (`yPercent: 0, opacity: 1`); the observer later triggered `play()` but the GSAP tween then animated `0→0` — no visible cascade. This was the "section H2s appear instantly" symptom. **Fix:** safety timer now only runs in `mode === 'instant'`; scroll mode relies on the observer alone.
+
+3. **PageLoader unmounted before its CSS curtain wipe could play** — `features/ui-components/components/PageLoader.tsx:82` returned `null` immediately after adding `html.loaded`. The 1.1s `clip-path: inset(0 0 100% 0)` transition (defined in `globals.css:499-503`) never played because React removed the element first. **Fix:** keep the element mounted for 1200ms after adding the `loaded` class.
+
+4. **CaseStudyDrawer h2 + meta row had no entrance** — `features/home/components/CaseStudyDrawer.tsx:85` was a plain `<h2>`. Legacy uses a `motion.h2` (opacity 0→1, y 24→0, 0.75s ease [0.2,0.7,0.2,1], delay 0.05) plus a separate `motion.div` meta row for company · period (delay 0.18s). **Fix:** wrap h2 in `motion.h2` and add the meta row underneath.
 
 ---
 
