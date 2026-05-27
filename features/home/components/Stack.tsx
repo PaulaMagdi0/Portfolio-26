@@ -7,33 +7,35 @@ export async function Stack() {
   const sec = await getTranslations('home.stack');
 
   return (
-    <section id="stack" className="relative px-6 py-16 md:px-10 md:py-24">
-      <div className="mx-auto max-w-[1200px]">
+    <section id="stack" className="relative py-16 md:py-24">
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         <SectionHead num="05" label={sec('label')} />
+      </div>
 
-        {/* Full-bleed marquee */}
-        <div className="border-line -mx-6 mt-8 mb-14 border-y py-6 md:-mx-10 md:mb-20 md:py-8">
-          <Marquee speed={48} ariaLabel="Tooling marquee">
-            {MARQUEE_TOOLS.map((tool) => (
-              <div key={tool.name} className="mx-8 flex shrink-0 items-center gap-3">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={tool.src}
-                  alt={tool.name}
-                  width={36}
-                  height={36}
-                  className="marquee-logo h-9 w-9 md:h-10 md:w-10"
-                  loading="lazy"
-                  draggable={false}
-                />
-                <span className="text-inkdim font-mono text-[11px] tracking-[0.18em] uppercase md:text-[12px]">
-                  {tool.name}
-                </span>
-              </div>
-            ))}
-          </Marquee>
-        </div>
+      {/* Full-bleed marquee — spans the entire viewport width */}
+      <div className="border-line mt-8 mb-14 border-y py-6 md:mb-20 md:py-8">
+        <Marquee speed={48} ariaLabel="Tooling marquee">
+          {MARQUEE_TOOLS.map((tool) => (
+            <div key={tool.name} className="mx-8 flex shrink-0 items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={tool.src}
+                alt={tool.name}
+                width={36}
+                height={36}
+                className="marquee-logo h-9 w-9 md:h-10 md:w-10"
+                loading="lazy"
+                draggable={false}
+              />
+              <span className="text-inkdim font-mono text-[11px] tracking-[0.18em] uppercase md:text-[12px]">
+                {tool.name}
+              </span>
+            </div>
+          ))}
+        </Marquee>
+      </div>
 
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         {/* Intro paragraph */}
         <Reveal className="text-ink mb-14 max-w-[820px] font-serif text-[28px] leading-[1.15] md:text-[40px]">
           <p>
