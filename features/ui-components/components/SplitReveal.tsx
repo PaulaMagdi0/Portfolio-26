@@ -14,6 +14,11 @@ interface SplitRevealProps {
   duration?: number;
   /** Initial delay before the cascade starts (seconds) */
   delay?: number;
+  /**
+   * 'scroll' (default) — play when the element scrolls into view.
+   * 'instant' — play on mount; no IntersectionObserver wait.
+   */
+  mode?: 'scroll' | 'instant';
 }
 
 export function SplitReveal({
@@ -23,6 +28,7 @@ export function SplitReveal({
   stagger = 0.018,
   duration = 1.0,
   delay = 0,
+  mode = 'scroll',
 }: SplitRevealProps) {
   const ref = useRef<HTMLElement | null>(null);
 
@@ -43,44 +49,64 @@ export function SplitReveal({
     let observer: IntersectionObserver | null = null;
     let safety: number | null = null;
 
+    const forceVisible = () => {
+      el.style.opacity = '1';
+      el.querySelectorAll<HTMLElement>('.split-char, .split-word').forEach((node) => {
+        node.style.transform = 'none';
+        node.style.opacity = '1';
+      });
+    };
+
     const setVisibleFallback = () => {
       if (split) {
-        gsap.set(split.chars, { yPercent: 0 });
-      } else {
-        el.style.opacity = '1';
+        gsap.set(split.chars, { yPercent: 0, opacity: 1 });
       }
+      forceVisible();
+    };
+
+    const play = () => {
+      if (!split || cancelled) return;
+      tween = gsap.to(split.chars, {
+        yPercent: 0,
+        duration,
+        ease: 'power4.out',
+        delay,
+        stagger,
+      });
     };
 
     const run = () => {
       if (cancelled || !ref.current) return;
 
-      split = new SplitText(ref.current, {
-        type: 'lines,words,chars',
-        linesClass: 'split-line',
-        wordsClass: 'split-word',
-        charsClass: 'split-char',
-      });
+      try {
+        split = new SplitText(ref.current, {
+          type: 'lines,words,chars',
+          linesClass: 'split-line',
+          wordsClass: 'split-word',
+          charsClass: 'split-char',
+        });
+        gsap.set(split.chars, { yPercent: 110 });
+      } catch {
+        forceVisible();
+        return;
+      }
 
-      gsap.set(split.chars, { yPercent: 110 });
+      if (mode === 'instant') {
+        play();
+      } else {
+        observer = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((e) => e.isIntersecting) && split) {
+              observer?.disconnect();
+              play();
+            }
+          },
+          { threshold: 0.15 },
+        );
+        observer.observe(el);
+      }
 
-      observer = new IntersectionObserver(
-        (entries) => {
-          if (entries.some((e) => e.isIntersecting) && split) {
-            observer?.disconnect();
-            tween = gsap.to(split.chars, {
-              yPercent: 0,
-              duration,
-              ease: 'power4.out',
-              delay,
-              stagger,
-            });
-          }
-        },
-        { threshold: 0.15 },
-      );
-      observer.observe(el);
-
-      safety = window.setTimeout(setVisibleFallback, 1800);
+      safety = window.setTimeout(setVisibleFallback, 1500);
     };
 
     if (document.fonts && document.fonts.ready) {
@@ -98,7 +124,7 @@ export function SplitReveal({
       tween?.kill();
       split?.revert();
     };
-  }, [delay, duration, stagger]);
+  }, [delay, duration, stagger, mode]);
 
   return (
     <Component ref={ref as never} className={`split-host ${className}`}>
