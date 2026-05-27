@@ -104,13 +104,13 @@ export function Marquee({
   return (
     <div
       ref={wrapRef}
+      dir="ltr"
       aria-label={ariaLabel}
       className={`overflow-hidden select-none ${className}`}
       style={{ cursor: draggable ? 'grab' : 'default' }}
     >
       <div
         ref={innerRef}
-        dir="ltr"
         className="flex"
         style={{ width: 'max-content', willChange: 'transform' }}
       >
