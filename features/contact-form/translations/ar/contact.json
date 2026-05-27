@@ -1,1 +1,19 @@
-{}
+{
+  "formName": "اسمك",
+  "formEmail": "البريد الإلكتروني",
+  "formMessage": "الرسالة",
+  "formNamePlaceholder": "اسمك الكامل",
+  "formEmailPlaceholder": "بريد عملك",
+  "formMessagePlaceholder": "اكتب بضعة أسطر عن مشروعك أو الدور الذي تفكّر فيه.",
+  "formSend": "إرسال الرسالة",
+  "formSending": "جارٍ فتح البريد…",
+  "formSent": "الرسالة جاهزة",
+  "formHelper": "يفتح في عميل البريد لديك",
+  "errors": {
+    "nameRequired": "من فضلك اكتب اسمك.",
+    "nameMax": "الاسم طويل جدًا.",
+    "emailInvalid": "من فضلك أدخل بريدًا إلكترونيًا صالحًا.",
+    "messageMin": "يجب أن تكون الرسالة عشرة أحرف على الأقل.",
+    "messageMax": "الرسالة طويلة جدًا."
+  }
+}

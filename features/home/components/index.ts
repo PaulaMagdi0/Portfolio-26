@@ -1,6 +1,7 @@
 export { AnimatedMetric } from './AnimatedMetric';
 export { CaseStudyDrawer } from './CaseStudyDrawer';
 export { Certifications } from './Certifications';
+export { Contact } from './Contact';
 export { CSBlock } from './CSBlock';
 export { Education } from './Education';
 export { Experience } from './Experience';
