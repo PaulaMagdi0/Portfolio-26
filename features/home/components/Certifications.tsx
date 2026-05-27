@@ -31,7 +31,7 @@ export async function Certifications() {
               className="border-line grid grid-cols-1 gap-6 border-t py-8 first:border-t-0 md:grid-cols-12 md:py-10"
             >
               <div className="flex flex-col gap-3 md:col-span-3">
-                <Magnetic strength={0.35}>
+                <Magnetic as="span" strength={0.35} className="inline-block">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={c.logo}
