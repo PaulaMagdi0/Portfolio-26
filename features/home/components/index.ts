@@ -1,8 +1,12 @@
 export { AnimatedMetric } from './AnimatedMetric';
 export { CaseStudyDrawer } from './CaseStudyDrawer';
+export { Certifications } from './Certifications';
 export { CSBlock } from './CSBlock';
+export { Education } from './Education';
+export { Experience } from './Experience';
 export { Hero } from './Hero';
 export { Hero3DLazy } from './Hero3DLazy';
 export { MetaCell } from './MetaCell';
+export { Stack } from './Stack';
 export { Work } from './Work';
 export { WorkRow } from './WorkRow';
