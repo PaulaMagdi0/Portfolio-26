@@ -40,6 +40,11 @@
     "open": "open",
     "top": "top",
     "caseStudy": "CASE STUDY",
-    "visit": "VISIT"
+    "visit": "VISIT",
+    "send": "send",
+    "copy": "copy"
+  },
+  "stack": {
+    "marqueeLabel": "Tooling marquee"
   }
 }

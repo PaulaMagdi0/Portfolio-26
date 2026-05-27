@@ -5,6 +5,7 @@ import { MARQUEE_TOOLS, STACK } from '../config';
 export async function Stack() {
   const t = await getTranslations();
   const sec = await getTranslations('home.stack');
+  const tUi = await getTranslations('ui');
 
   return (
     <section id="stack" className="relative py-16 md:py-24">
@@ -14,7 +15,7 @@ export async function Stack() {
 
       {/* Full-bleed marquee — spans the entire viewport width */}
       <div className="border-line mt-8 mb-14 border-y py-6 md:mb-20 md:py-8">
-        <Marquee speed={48} ariaLabel="Tooling marquee">
+        <Marquee speed={48} ariaLabel={tUi('stack.marqueeLabel')}>
           {MARQUEE_TOOLS.map((tool) => (
             <div key={tool.name} className="mx-8 flex shrink-0 items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}

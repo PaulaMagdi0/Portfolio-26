@@ -11,7 +11,7 @@
     "descriptionLead": "I architect and ship production-grade web platforms —",
     "descriptionEmph": "resilient backends, clean APIs, and interfaces built for scale.",
     "ctaWork": "View Work",
-    "ctaResume": "Download Resume"
+    "ctaResume": "Resume"
   },
   "metaStrip": {
     "label": "About",
@@ -205,6 +205,7 @@
     "phoneValue": "+20 127 776 7028",
     "elsewhere": "ELSEWHERE",
     "copied": "copied to clipboard",
+    "copyAria": "Copy email {email}",
     "footerBuilt": "Designed and built by Paula Magdy · Cairo, 2026",
     "backToTop": "Back to top",
     "socials": {

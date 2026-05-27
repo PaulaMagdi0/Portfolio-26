@@ -13,6 +13,7 @@ type Status = 'idle' | 'sending' | 'sent';
 
 export function ContactForm() {
   const t = useTranslations('contact');
+  const tUi = useTranslations('ui');
   const schema = buildContactSchema(t);
   const [status, setStatus] = useState<Status>('idle');
 
@@ -66,7 +67,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={status !== 'idle'}
-            data-cursor-label="send"
+            data-cursor-label={tUi('cursor.send')}
             className="btn-base btn-primary disabled:opacity-60"
           >
             {submitLabel}

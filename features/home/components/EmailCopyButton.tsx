@@ -10,6 +10,7 @@ interface EmailCopyButtonProps {
 
 export function EmailCopyButton({ email }: EmailCopyButtonProps) {
   const t = useTranslations('home.contact');
+  const tUi = useTranslations('ui');
   const [copied, setCopied] = useState(false);
 
   const onCopy = async () => {
@@ -35,8 +36,8 @@ export function EmailCopyButton({ email }: EmailCopyButtonProps) {
       <button
         type="button"
         onClick={onCopy}
-        data-cursor-label="copy"
-        aria-label={`Copy email ${email}`}
+        data-cursor-label={tUi('cursor.copy')}
+        aria-label={t('copyAria', { email })}
         className="text-ink hover:text-amber group flex items-center gap-3 font-serif text-[20px] transition-colors md:text-[24px]"
       >
         <span>{email}</span>

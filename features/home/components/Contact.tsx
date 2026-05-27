@@ -116,7 +116,7 @@ export async function Contact() {
                         className="ms-auto inline-flex transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5"
                       >
                         <svg
-                          className="h-3.5 w-3.5"
+                          className="h-3.5 w-3.5 rtl:-scale-x-100"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"

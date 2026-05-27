@@ -11,7 +11,7 @@
     "descriptionLead": "أصمم وأطلق منصات ويب جاهزة للإنتاج —",
     "descriptionEmph": "واجهات خلفية متينة، وواجهات برمجية نظيفة، وواجهات مستخدم مبنية للتوسع.",
     "ctaWork": "عرض الأعمال",
-    "ctaResume": "تحميل السيرة الذاتية"
+    "ctaResume": "السيرة الذاتية"
   },
   "metaStrip": {
     "label": "عن المهندسة",
@@ -207,6 +207,7 @@
     "backToTop": "العودة إلى الأعلى",
     "elsewhere": "في مكان آخر",
     "copied": "تم النسخ إلى الحافظة",
+    "copyAria": "نسخ البريد الإلكتروني {email}",
     "socials": {
       "github": "GitHub",
       "linkedin": "LinkedIn",
