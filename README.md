@@ -9,7 +9,7 @@ Built with Next.js 16 App Router, statically rendered for both `en` and `ar` loc
 - **React 19**, **TypeScript** (strict)
 - **Tailwind CSS 4** (with `@theme` tokens)
 - **next-intl** — EN / AR with RTL
-- **next-themes** — light / dark with OS detection
+- **next-themes** — light / dark with OS detection, radial-unmask theme switch
 - **framer-motion**, **GSAP** (ScrollTrigger, SplitText), **Lenis** — scroll-driven animations
 - **Three.js** — hero 3D scene (lazy-loaded)
 - **react-hook-form + Zod** — contact form (mailto:)
@@ -57,8 +57,6 @@ i18n/                    # next-intl config, routing, request loader
 lib/utils.ts             # cn()
 public/                  # Resume.pdf, favicons
 e2e/                     # Playwright specs
-legacy/                  # Original Babel-in-browser build, kept as reference
-docs/superpowers/plans/  # Implementation plan
 ```
 
 ## Local dev
@@ -72,7 +70,7 @@ pnpm dev
 ## Testing
 
 ```bash
-pnpm test -- --run                 # All unit + a11y tests
+pnpm test -- --run                  # All unit + a11y tests
 pnpm test:e2e -- --project=chromium # E2E in Chromium
 ```
 
