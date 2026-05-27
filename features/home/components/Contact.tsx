@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { Reveal, SectionHead, SplitReveal } from '@/features/ui-components';
+import { LiveClock, Reveal, SectionHead, SplitReveal } from '@/features/ui-components';
 import { ContactForm } from '@/features/contact-form';
 import { RECIPIENT_EMAIL, SOCIALS } from '../config';
 import { EmailCopyButton } from './EmailCopyButton';
@@ -138,6 +138,47 @@ export async function Contact() {
             </ul>
           </Reveal>
         </div>
+
+        {/* Bottom strip */}
+        <div className="border-line flex flex-col gap-4 border-t pt-8 md:flex-row md:items-center md:justify-between">
+          <p className="text-inkmute font-mono text-[11px]">{sec('footerBuilt')}</p>
+          <div className="flex items-center gap-3">
+            <span aria-hidden className="relative inline-flex h-2 w-2">
+              <span className="bg-emerald-400 animate-ping-slow absolute inline-flex h-full w-full rounded-full opacity-75" />
+              <span className="bg-emerald-400 relative inline-flex h-2 w-2 rounded-full" />
+            </span>
+            <LiveClock />
+            <a
+              href="#top"
+              data-cursor-label="open"
+              className="text-inkdim hover:text-ink inline-flex items-center gap-1 font-mono text-[11px] transition-colors"
+            >
+              <span>{sec('backToTop')}</span>
+              <svg
+                className="h-3.5 w-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="m18 15-6-6-6 6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Watermark */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-20 left-0 right-0 select-none"
+      >
+        <p className="text-ink font-serif tracking-tighter text-[28vw] leading-none opacity-[0.04]">
+          Paula
+        </p>
       </div>
     </section>
   );
