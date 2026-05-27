@@ -21,7 +21,7 @@ export async function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col">
-        <Reveal as="div" className="relative z-10 flex items-center gap-4">
+        <Reveal as="div" className="relative z-10 flex flex-wrap items-center gap-x-4 gap-y-3">
           <span
             aria-hidden
             className="bg-amber inline-block h-px w-12 origin-left scale-x-0 animate-[hero-rule_1.1s_cubic-bezier(0.2,0.7,0.2,1)_0.2s_forwards]"
@@ -34,7 +34,8 @@ export async function Hero() {
           </span>
         </Reveal>
 
-        <div className="relative z-10 mt-8 max-w-[1100px] md:mt-12">
+        <div className="relative z-10 flex flex-1 flex-col justify-center lg:max-w-[58%]">
+        <div className="mt-8 max-w-[1100px] md:mt-12">
           <HeroHeadline>
             <SplitReveal
               as="h1"
@@ -42,7 +43,7 @@ export async function Hero() {
               delay={0.15}
               stagger={0.014}
               duration={1.0}
-              className="text-ink font-serif text-[14vw] leading-[0.95] tracking-[-0.02em] sm:text-[12vw] md:text-[9.5vw] lg:text-[120px] xl:text-[140px] 2xl:text-[160px]"
+              className="text-ink font-serif text-[14vw] leading-[0.95] tracking-[-0.02em] sm:text-[12vw] md:text-[9.5vw] lg:text-[108px] xl:text-[128px] 2xl:text-[148px]"
             >
               {t('headline')}
               <span className="text-amber">.</span>
@@ -50,7 +51,7 @@ export async function Hero() {
           </HeroHeadline>
         </div>
 
-        <div className="relative z-10 mt-10 max-w-[560px] animate-[hero-fade_0.9s_ease-out_1s_forwards] opacity-0 md:mt-14">
+        <div className="mt-10 max-w-[560px] animate-[hero-fade_0.9s_ease-out_1s_forwards] opacity-0 md:mt-14">
           <p className="text-amber font-mono text-[11px] tracking-[0.18em] uppercase">
             {t('kicker')}
           </p>
@@ -59,7 +60,7 @@ export async function Hero() {
           </p>
         </div>
 
-        <div className="relative z-10 mt-8 flex animate-[hero-fade_0.9s_ease-out_1.2s_forwards] flex-wrap items-center gap-4 opacity-0">
+        <div className="mt-8 flex animate-[hero-fade_0.9s_ease-out_1.2s_forwards] flex-wrap items-center gap-4 opacity-0">
           <Magnetic as="span" strength={0.25}>
             <a href="#work" className="btn-base btn-primary">
               {t('ctaWork')}
@@ -100,6 +101,7 @@ export async function Hero() {
               </svg>
             </a>
           </Magnetic>
+        </div>
         </div>
       </div>
     </section>
