@@ -14,7 +14,7 @@ export function Work() {
 
   return (
     <section id="work" className="relative px-6 py-16 md:px-10 md:py-24">
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto max-w-[1200px]">
         <SectionHead num="01" label={t('label')} />
         <Reveal>
           <SplitReveal
