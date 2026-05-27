@@ -43,8 +43,9 @@ export async function Contact() {
             duration={1.0}
             className="text-ink mt-8 mb-12 font-serif text-[14vw] leading-[0.95] tracking-[-0.02em] sm:text-[12vw] md:mb-16 md:text-[9.5vw] lg:text-[120px] xl:text-[140px] 2xl:text-[160px]"
           >
-            {sec('heading1')}{' '}
-            <em className="text-inkdim font-light not-italic">{sec('heading2')}</em>
+            {sec('heading1')}
+            {' '}
+            <em className="text-inkdim font-light italic">{sec('heading2')}</em>
             <span className="text-amber">.</span>
           </SplitReveal>
         </Reveal>
