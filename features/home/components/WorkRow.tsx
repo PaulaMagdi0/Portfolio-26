@@ -133,13 +133,13 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
           </span>
         </div>
         <div className="md:col-span-5">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h3 className="title-underline inline-block font-serif text-[28px] leading-tight md:text-[36px]">
-              {t(project.nameKey)}
+          <div className="mb-3 flex items-baseline gap-3">
+            <h3 className="text-ink font-serif text-[28px] leading-[1.1] md:text-[36px]">
+              <span className="title-underline">{t(project.nameKey)}</span>
             </h3>
             <motion.span
               aria-hidden
-              className="text-amber inline-flex"
+              className="text-amber inline-flex shrink-0"
               animate={{
                 x: hovered ? 4 : 0,
                 y: hovered ? -4 : 0,
@@ -160,7 +160,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
               </svg>
             </motion.span>
           </div>
-          <p className="text-inkdim mt-3 max-w-[440px] text-[14px] leading-relaxed">
+          <p className="text-inkdim max-w-[440px] text-[14px] leading-relaxed">
             {t(project.blurbKey)}
           </p>
           <div className="text-inkmute mt-4 flex items-center gap-3 font-mono text-[11px]">
