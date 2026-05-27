@@ -20,7 +20,7 @@ export function ScrollProgress() {
     <div aria-hidden className="bg-line fixed top-0 right-0 left-0 z-[70] h-px">
       <div
         ref={fillRef}
-        className="bg-amber h-full origin-left"
+        className="bg-amber h-full origin-left transition-transform duration-100 ease-out"
         style={{ transform: 'scaleX(0)' }}
       />
     </div>
