@@ -3,12 +3,14 @@
 import { useEffect, useState } from 'react';
 
 function formatCairoTime(): string {
-  return new Intl.DateTimeFormat('en-GB', {
+  const t = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Africa/Cairo',
     hour: '2-digit',
     minute: '2-digit',
+    second: '2-digit',
     hour12: false,
   }).format(new Date());
+  return `${t} CAI`;
 }
 
 export function LiveClock() {

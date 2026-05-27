@@ -61,7 +61,7 @@ export function TopNav() {
         scrolled ? 'border-line bg-bg/70 border-b backdrop-blur-md' : 'border-transparent',
       )}
     >
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 md:px-10">
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6 md:px-10">
         <a href="#top" className="flex items-baseline gap-3">
           <span className="text-ink font-serif text-[20px]">
             Paula Magdy<span className="text-amber">.</span>

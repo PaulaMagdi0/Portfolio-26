@@ -20,6 +20,7 @@ export async function Hero() {
         </div>
       </div>
 
+      <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col">
       <Reveal as="div" className="relative z-10 flex items-center gap-4">
         <span
           aria-hidden
@@ -99,6 +100,7 @@ export async function Hero() {
             </svg>
           </a>
         </Magnetic>
+      </div>
       </div>
     </section>
   );
