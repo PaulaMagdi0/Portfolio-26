@@ -43,9 +43,9 @@ export function SectionHead({ num, label, kicker, children }: SectionHeadProps) 
   return (
     <header className="mb-10 md:mb-14">
       <div className="mb-3 flex items-center gap-4">
-        <span className="section-num">{num}</span>
+        <span className="section-num text-amber">{num}</span>
+        <span className="section-num">— {label}</span>
         <span ref={ruleRef} className="h-rule flex-1" />
-        <span className="section-num">{label}</span>
       </div>
       {kicker ? <div className="mt-2">{kicker}</div> : null}
       {children}
