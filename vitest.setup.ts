@@ -35,7 +35,7 @@ Object.defineProperty(window, 'matchMedia', {
     matches: false,
     media: query,
     onchange: null,
-    // Legacy API used by next-themes
+    // Legacy MediaQueryList API (kept for environments that still call addListener)
     addListener: vi.fn(),
     removeListener: vi.fn(),
     // Modern API

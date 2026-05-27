@@ -5,6 +5,7 @@ import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server
 import { LOCALE_DIRECTIONS, SUPPORTED_LOCALES, isLocale, type Locale } from '@/i18n/config';
 import { buildMetadata, buildPersonJsonLd } from '@/core/seo';
 import { SkipLink } from '@/core/accessibility';
+import { ThemeInitScript } from '@/core/theme';
 import { instrumentSerif, inter, jetbrainsMono } from '../fonts';
 import { ClientProviders } from './ClientProviders';
 
@@ -57,6 +58,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         />
       </head>
       <body className="flex min-h-full flex-col">
+        <ThemeInitScript />
         <ClientProviders locale={locale} messages={messages}>
           <SkipLink />
           {children}

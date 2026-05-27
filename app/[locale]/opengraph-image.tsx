@@ -1,8 +1,11 @@
 import { ImageResponse } from 'next/og';
 import type { Locale } from '@/i18n/config';
-import { isLocale } from '@/i18n/config';
+import { SUPPORTED_LOCALES, isLocale } from '@/i18n/config';
 
-export const runtime = 'edge';
+export function generateStaticParams() {
+  return SUPPORTED_LOCALES.map((locale) => ({ locale }));
+}
+
 export const alt = 'Paula Magdy — Software Engineer';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
