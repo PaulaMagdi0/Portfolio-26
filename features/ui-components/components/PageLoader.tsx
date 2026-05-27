@@ -1,10 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { toLocaleDigits } from '@/lib/digits';
 
 export function PageLoader() {
   const t = useTranslations('ui.loader');
+  const tBrand = useTranslations('ui.brand');
+  const tNav = useTranslations('ui.nav');
+  const locale = useLocale();
   const [done, setDone] = useState(false);
   const counterRef = useRef<HTMLSpanElement>(null);
   const statusRef = useRef<HTMLSpanElement>(null);
@@ -27,7 +31,10 @@ export function PageLoader() {
 
     const apply = () => {
       if (counterRef.current) {
-        counterRef.current.textContent = String(Math.floor(pct)).padStart(2, '0');
+        counterRef.current.textContent = toLocaleDigits(
+          String(Math.floor(pct)).padStart(2, '0'),
+          locale,
+        );
       }
       if (fillRef.current) fillRef.current.style.transform = `scaleX(${pct / 100})`;
       const newStage = Math.min(stages.length - 1, Math.floor(pct / 22));
@@ -70,7 +77,7 @@ export function PageLoader() {
       cancelled = true;
       cancelAnimationFrame(rafId);
     };
-  }, [t]);
+  }, [t, locale]);
 
   if (done) return null;
 
@@ -78,7 +85,8 @@ export function PageLoader() {
     <div id="page-loader" aria-hidden>
       <div className="pl-top">
         <span className="pl-name">
-          Paula Magdy<span className="pl-dot">.</span>
+          {tBrand('name')}
+          <span className="pl-dot">.</span>
         </span>
         <span ref={statusRef} className="pl-status">
           {t('initializing')}
@@ -87,7 +95,7 @@ export function PageLoader() {
       <div className="pl-center">
         <div className="pl-counter-wrap">
           <span ref={counterRef} className="pl-counter">
-            00
+            {toLocaleDigits('00', locale)}
           </span>
           <span className="pl-percent">%</span>
         </div>
@@ -95,12 +103,12 @@ export function PageLoader() {
       <div className="pl-bottom">
         <span className="pl-meta">
           <span className="pl-pulse" />
-          Portfolio · 2026
+          {t('portfolio')}
         </span>
         <span className="pl-progress">
           <span ref={fillRef} className="pl-progress-fill" />
         </span>
-        <span className="pl-meta pl-locale">Cairo · EG</span>
+        <span className="pl-meta pl-locale">{tNav('cairo')}</span>
       </div>
     </div>
   );
