@@ -138,7 +138,11 @@ Render between Hero and Work, inside a `max-w-[1200px]` container, with `border-
 
 ---
 
-# Part B — Visual sweep from 2026-05-27 screenshot review
+**v2 status: complete.** The 14 visual issues raised after this sweep have been moved to a dedicated plan: `docs/superpowers/plans/2026-05-27-legacy-parity-v3.md`. Continue there.
+
+<!-- Below was the original Part B section, now superseded by v3. Kept here only as a historical record. -->
+
+# Historical: Part B — Visual sweep from 2026-05-27 screenshot review (SUPERSEDED BY v3)
 
 After completing Tasks 1–9 above, the user reviewed the running site against legacy and flagged 14 remaining issues. Below is the actionable plan for each.
 

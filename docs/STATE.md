@@ -9,7 +9,7 @@
 
 ## Active task for the next session
 
-**Resolve the 14 visual issues from the 2026-05-27 screenshot review.** Plan + concrete fixes are listed below. Each item has a screenshot reference in the prior conversation (Images 1–23). The source-of-truth plan is `docs/superpowers/plans/2026-05-27-legacy-parity-v2.md` (extend it with the 14 new tasks before implementing).
+**Execute the 14 tasks in `docs/superpowers/plans/2026-05-27-legacy-parity-v3.md`.** That plan is the single source-of-truth — each task has files, drift summary, fix code, and a commit message ready to use. Read the v3 plan first; the 14-item list below is just a quick index.
 
 ```bash
 pnpm dev                                          # localhost:3000
@@ -79,7 +79,8 @@ The Next.js 16 portfolio now has the **v2 parity sweep** on top of the original 
 
 - `docs/superpowers/plans/2026-05-27-nextjs-conversion.md` — original port (35 tasks, complete except Task 35 gated).
 - `docs/superpowers/plans/2026-05-27-legacy-parity.md` — v1 parity sweep (18 tasks; 17 done, Task 18 gated).
-- `docs/superpowers/plans/2026-05-27-legacy-parity-v2.md` — v2 sweep (9 tasks, all complete this session). **Next session: extend with the 14 visual issues above.**
+- `docs/superpowers/plans/2026-05-27-legacy-parity-v2.md` — v2 sweep (9 tasks, all complete).
+- `docs/superpowers/plans/2026-05-27-legacy-parity-v3.md` — **active plan** for next session (14 tasks from the 2026-05-27 screenshot review).
 
 Spec: `docs/superpowers/specs/2026-05-27-legacy-parity-design.md`.
 
