@@ -33,8 +33,8 @@ The plan that produced this work is in `docs/superpowers/plans/2026-05-27-nextjs
 **This is now the headline task** (see "Active task" section above). The plan's original Task 35 said: compare side-by-side and if parity holds, `git rm -r legacy/`. The user has confirmed parity does **not** hold — multiple legacy details (styles, animations, positioning) are missing in the Next.js port. The next session needs to:
 
 1. Start `pnpm dev` and the legacy build (`cd legacy && python3 -m http.server 8001`)
-2. Walk through each section (Hero, Work, Experience, Education, Certifications, Stack, Contact, plus chrome: TopNav, LocaleSwitcher, ThemeToggle, CustomCursor, ScrollProgress, PageLoader)
-3. Catalogue gaps per section: style, animation, positioning, behavior
+2. Walk through **every section, component, and element** in the legacy build — not a fixed list. Inventory them straight from `legacy/Portfolio.html` + `legacy/src/`, including any decorative elements (cursors, dividers, badges, hover states, micro-interactions, scroll progress, page loader, marquee, reveal effects, etc.). If it exists in legacy, it goes in the catalogue.
+3. Catalogue gaps for each one: style, animation, positioning, behavior, copy/labels, accessibility states
 4. Write a parity spec via the brainstorming skill, then an implementation plan via writing-plans, then execute
 5. Only after full parity is verified: `git rm -r legacy/` and commit
 
