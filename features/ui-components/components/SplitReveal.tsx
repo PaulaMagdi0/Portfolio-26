@@ -41,6 +41,15 @@ export function SplitReveal({
       return;
     }
 
+    // Arabic / RTL: SplitText breaks letter joining (each char becomes its own span,
+    // disabling shaping). Skip the per-char animation and just reveal the element.
+    const htmlLang = document.documentElement.lang;
+    const isRTL = document.documentElement.dir === 'rtl' || htmlLang === 'ar';
+    if (isRTL) {
+      el.style.opacity = '1';
+      return;
+    }
+
     registerGsapPlugins();
 
     let cancelled = false;
