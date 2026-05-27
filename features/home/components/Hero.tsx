@@ -1,13 +1,8 @@
-import dynamic from 'next/dynamic';
 import { getTranslations } from 'next-intl/server';
 import { MaskReveal, Reveal } from '@/features/ui-components';
 import { AnimatedMetric } from './AnimatedMetric';
+import { Hero3DLazy } from './Hero3DLazy';
 import { MetaCell } from './MetaCell';
-
-const Hero3D = dynamic(() => import('@/features/hero-3d').then((m) => m.Hero3D), {
-  ssr: false,
-  loading: () => null,
-});
 
 export async function Hero() {
   const t = await getTranslations('home.hero');
@@ -18,16 +13,15 @@ export async function Hero() {
           <Reveal>
             <div className="mb-8 flex items-center gap-3">
               <span className="section-num">{t('portfolio')}</span>
-              <span className="block h-2 w-2 rounded-full bg-amber" aria-hidden />
+              <span className="bg-amber block h-2 w-2 rounded-full" aria-hidden />
               <span className="section-num">{t('availability')}</span>
             </div>
           </Reveal>
           <h1 className="font-serif text-[clamp(56px,9vw,160px)] leading-[0.95] tracking-[-0.02em]">
             <MaskReveal>{t('headline')}</MaskReveal>
           </h1>
-          <p className="mt-8 max-w-xl text-lg text-inkdim">
-            <span>{t('descriptionLead')}</span>{' '}
-            <em className="text-ink">{t('descriptionEmph')}</em>
+          <p className="text-inkdim mt-8 max-w-xl text-lg">
+            <span>{t('descriptionLead')}</span> <em className="text-ink">{t('descriptionEmph')}</em>
           </p>
           <div className="mt-10 flex items-center gap-4">
             <span data-magnetic>
@@ -43,7 +37,7 @@ export async function Hero() {
           </div>
         </div>
         <div className="relative aspect-[4/5] min-h-[420px] lg:col-span-5">
-          <Hero3D />
+          <Hero3DLazy />
         </div>
       </div>
       <div className="mt-20 grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-4">
