@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { Reveal, SectionHead, SplitReveal } from '@/features/ui-components';
+import { Magnetic, Reveal, SectionHead, SplitReveal } from '@/features/ui-components';
 import { CERTIFICATIONS } from '../config';
 
 export async function Certifications() {
@@ -15,62 +15,72 @@ export async function Certifications() {
             as="h2"
             stagger={0.018}
             duration={0.95}
-            className="text-ink mb-12 font-serif text-[40px] leading-tight md:text-[56px]"
+            className="text-ink mt-6 mb-12 font-serif text-[34px] leading-[1.05] md:text-[44px]"
           >
-            {sec('heading1')}{' '}
-            <span className="text-inkdim font-light italic">{sec('heading2')}</span>
+            {sec('heading1')}
+            <br />
+            <em className="text-inkdim font-light not-italic">{sec('heading2')}</em>
           </SplitReveal>
         </Reveal>
-        <ul className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <ul>
           {CERTIFICATIONS.map((c, i) => (
             <Reveal
               key={c.id}
-              delay={i * 0.06}
               as="li"
-              className="border-line bg-bg2 flex h-full flex-col rounded-lg border p-6"
+              delay={i * 0.05}
+              className="border-line grid grid-cols-1 gap-6 border-t py-8 first:border-t-0 md:grid-cols-12 md:py-10"
             >
-              <div className="mb-5 flex items-center justify-between">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={c.logo}
-                  alt={t(c.issuerKey)}
-                  width={28}
-                  height={28}
-                  className="marquee-logo h-7 w-7"
-                />
-                {c.division ? (
-                  <span className="text-amber font-mono text-[10px] tracking-[0.18em] uppercase">
-                    {c.division}
-                  </span>
+              <div className="flex flex-col gap-3 md:col-span-3">
+                <Magnetic strength={0.35}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={c.logo}
+                    alt={t(c.issuerKey)}
+                    width={56}
+                    height={32}
+                    className="marquee-logo h-8 w-auto"
+                    loading="lazy"
+                    draggable={false}
+                  />
+                </Magnetic>
+                <p className="text-amber font-mono text-[11px] tracking-[0.1em] uppercase">
+                  {sec('issued')} {c.issued}
+                  {c.expires ? (
+                    <>
+                      {' '}
+                      → {sec('expires')} {c.expires}
+                    </>
+                  ) : null}
+                </p>
+              </div>
+              <div className="space-y-3 md:col-span-9">
+                <h3 className="text-ink font-serif text-[24px] md:text-[28px]">
+                  {t(c.nameKey)}
+                </h3>
+                <p className="text-inkdim font-mono text-[13px]">
+                  {t(c.issuerKey)}
+                  {c.division ? <span className="text-inkmute"> · {c.division}</span> : null}
+                </p>
+                <p className="text-inkdim max-w-[600px] text-[14px]">{t(c.descKey)}</p>
+                {c.credentialId ? (
+                  <p className="text-inkmute font-mono text-[11px]">
+                    {sec('credId')}:{' '}
+                    <span className="text-ink break-all">{c.credentialId}</span>
+                  </p>
+                ) : null}
+                {c.skills.length ? (
+                  <ul className="mt-2 flex flex-wrap gap-2">
+                    {c.skills.map((s) => (
+                      <li
+                        key={s}
+                        className="border-line bg-bg2/40 text-inkdim rounded-md border px-2 py-1 font-mono text-[11px]"
+                      >
+                        {s}
+                      </li>
+                    ))}
+                  </ul>
                 ) : null}
               </div>
-              <h3 className="text-ink mb-1 font-serif text-[20px] leading-tight">{t(c.nameKey)}</h3>
-              <p className="text-inkdim mb-4 font-mono text-[12px]">{t(c.issuerKey)}</p>
-              <p className="text-inkdim mb-5 flex-1 text-[13px]">{t(c.descKey)}</p>
-              <dl className="border-line text-inkmute grid grid-cols-2 gap-y-2 border-t pt-4 font-mono text-[10px] tracking-[0.18em] uppercase">
-                <dt>{sec('issued')}</dt>
-                <dd className="text-inkdim normal-case">{c.issued}</dd>
-                {c.expires ? (
-                  <>
-                    <dt>{sec('expires')}</dt>
-                    <dd className="text-inkdim normal-case">{c.expires}</dd>
-                  </>
-                ) : null}
-                <dt className="col-span-2 mt-2">{sec('credId')}</dt>
-                <dd className="text-inkdim col-span-2 truncate normal-case">{c.credentialId}</dd>
-              </dl>
-              {c.skills.length ? (
-                <ul className="mt-4 flex flex-wrap gap-1.5">
-                  {c.skills.map((s) => (
-                    <li
-                      key={s}
-                      className="border-line text-inkdim rounded-full border px-2 py-0.5 font-mono text-[10px]"
-                    >
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
             </Reveal>
           ))}
         </ul>
