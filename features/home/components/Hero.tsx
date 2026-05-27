@@ -15,7 +15,7 @@ export async function Hero() {
         aria-hidden
         className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1200px] lg:block"
       >
-        <div className="text-amber absolute top-1/2 right-[-40px] h-[420px] w-[420px] -translate-y-1/2 xl:right-[-60px] xl:h-[520px] xl:w-[520px] 2xl:right-[-80px] 2xl:h-[640px] 2xl:w-[640px]">
+        <div className="text-amber absolute end-[-40px] top-1/2 h-[420px] w-[420px] -translate-y-1/2 xl:end-[-60px] xl:h-[520px] xl:w-[520px] 2xl:end-[-80px] 2xl:h-[640px] 2xl:w-[640px]">
           <Hero3DLazy />
         </div>
       </div>
@@ -30,7 +30,7 @@ export async function Hero() {
           <span className="text-inkmute animate-[hero-fade_0.7s_ease-out_0.6s_forwards] font-mono text-[11px] tracking-[0.2em] uppercase opacity-0">
             {t('portfolio')}
           </span>
-          <span className="ml-auto">
+          <span className="ms-auto">
             <AvailabilityPill delaySeconds={1.0} />
           </span>
         </Reveal>

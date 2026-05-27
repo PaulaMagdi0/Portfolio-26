@@ -110,7 +110,7 @@ export async function Contact() {
                       <span className="font-mono text-[12px]">{t(s.labelKey)}</span>
                       <span
                         aria-hidden
-                        className="ml-auto inline-flex transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        className="ms-auto inline-flex transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5"
                       >
                         <svg
                           className="h-3.5 w-3.5"
