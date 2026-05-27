@@ -1,12 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Hero3DLazy } from './Hero3DLazy';
 import { HeroHeadline } from './HeroHeadline';
-import {
-  AvailabilityPill,
-  Magnetic,
-  Reveal,
-  SplitReveal,
-} from '@/features/ui-components';
+import { AvailabilityPill, Magnetic, Reveal, SplitReveal } from '@/features/ui-components';
 
 export async function Hero() {
   const t = await getTranslations('home.hero');
@@ -30,7 +25,7 @@ export async function Hero() {
           aria-hidden
           className="bg-amber inline-block h-px w-12 origin-left scale-x-0 animate-[hero-rule_1.1s_cubic-bezier(0.2,0.7,0.2,1)_0.2s_forwards]"
         />
-        <span className="text-inkmute font-mono text-[11px] tracking-[0.2em] uppercase opacity-0 animate-[hero-fade_0.7s_ease-out_0.6s_forwards]">
+        <span className="text-inkmute animate-[hero-fade_0.7s_ease-out_0.6s_forwards] font-mono text-[11px] tracking-[0.2em] uppercase opacity-0">
           {t('portfolio')}
         </span>
         <span className="ml-auto">
@@ -46,7 +41,7 @@ export async function Hero() {
             delay={0.15}
             stagger={0.014}
             duration={1.0}
-            className="font-serif text-[14vw] leading-[0.95] tracking-[-0.02em] text-ink sm:text-[12vw] md:text-[9.5vw] lg:text-[120px] xl:text-[140px] 2xl:text-[160px]"
+            className="text-ink font-serif text-[14vw] leading-[0.95] tracking-[-0.02em] sm:text-[12vw] md:text-[9.5vw] lg:text-[120px] xl:text-[140px] 2xl:text-[160px]"
           >
             {t('headline')}
             <span className="text-amber">.</span>
@@ -54,17 +49,16 @@ export async function Hero() {
         </HeroHeadline>
       </div>
 
-      <div className="relative z-10 mt-10 max-w-[560px] opacity-0 animate-[hero-fade_0.9s_ease-out_1s_forwards] md:mt-14">
+      <div className="relative z-10 mt-10 max-w-[560px] animate-[hero-fade_0.9s_ease-out_1s_forwards] opacity-0 md:mt-14">
         <p className="text-amber font-mono text-[11px] tracking-[0.18em] uppercase">
           {t('kicker')}
         </p>
         <p className="text-inkdim mt-4 text-[15px] leading-[1.55] md:text-[17px]">
-          {t('descriptionLead')}{' '}
-          <em className="text-ink not-italic">{t('descriptionEmph')}</em>
+          {t('descriptionLead')} <em className="text-ink not-italic">{t('descriptionEmph')}</em>
         </p>
       </div>
 
-      <div className="relative z-10 mt-8 flex flex-wrap items-center gap-4 opacity-0 animate-[hero-fade_0.9s_ease-out_1.2s_forwards]">
+      <div className="relative z-10 mt-8 flex animate-[hero-fade_0.9s_ease-out_1.2s_forwards] flex-wrap items-center gap-4 opacity-0">
         <Magnetic as="span" strength={0.25}>
           <a href="#work" className="btn-base btn-primary">
             {t('ctaWork')}

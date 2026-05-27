@@ -63,7 +63,7 @@ export function TopNav() {
     >
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 md:px-10">
         <a href="#top" className="flex items-baseline gap-3">
-          <span className="font-serif text-[20px] text-ink">
+          <span className="text-ink font-serif text-[20px]">
             Paula Magdy<span className="text-amber">.</span>
           </span>
           <span className="text-inkmute hidden font-mono text-[12px] md:inline">
@@ -175,8 +175,8 @@ export function TopNav() {
           </ul>
           <div className="text-inkmute flex items-center gap-3 font-mono text-[12px]">
             <span aria-hidden className="relative inline-flex h-2 w-2">
-              <span className="bg-emerald-400 absolute inline-flex h-full w-full animate-ping-slow rounded-full opacity-75" />
-              <span className="bg-emerald-400 relative inline-flex h-2 w-2 rounded-full" />
+              <span className="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
             </span>
             <LiveClock />
             <span>· {t('cairo')}</span>

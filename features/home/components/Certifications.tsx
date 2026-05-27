@@ -54,9 +54,7 @@ export async function Certifications() {
                 </p>
               </div>
               <div className="space-y-3 md:col-span-9">
-                <h3 className="text-ink font-serif text-[24px] md:text-[28px]">
-                  {t(c.nameKey)}
-                </h3>
+                <h3 className="text-ink font-serif text-[24px] md:text-[28px]">{t(c.nameKey)}</h3>
                 <p className="text-inkdim font-mono text-[13px]">
                   {t(c.issuerKey)}
                   {c.division ? <span className="text-inkmute"> · {c.division}</span> : null}
@@ -64,8 +62,7 @@ export async function Certifications() {
                 <p className="text-inkdim max-w-[600px] text-[14px]">{t(c.descKey)}</p>
                 {c.credentialId ? (
                   <p className="text-inkmute font-mono text-[11px]">
-                    {sec('credId')}:{' '}
-                    <span className="text-ink break-all">{c.credentialId}</span>
+                    {sec('credId')}: <span className="text-ink break-all">{c.credentialId}</span>
                   </p>
                 ) : null}
                 {c.skills.length ? (
