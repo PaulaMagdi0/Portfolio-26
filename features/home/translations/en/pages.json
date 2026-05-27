@@ -1,0 +1,224 @@
+{
+  "meta": {
+    "title": "Paula Magdy — Software Engineer",
+    "description": "Paula Magdy — Software Engineer based in Cairo. Building government-grade platforms on Next.js, NestJS, AWS, and PostgreSQL. Available for senior full-stack roles and consulting."
+  },
+  "hero": {
+    "portfolio": "PORTFOLIO / 2026",
+    "availability": "AVAILABLE FOR SENIOR FULL-STACK ROLES",
+    "headline": "Software Engineer",
+    "kicker": "Building systems that teams rely on.",
+    "descriptionLead": "I architect and ship production-grade web platforms —",
+    "descriptionEmph": "resilient backends, clean APIs, and interfaces built for scale.",
+    "ctaWork": "View Work",
+    "ctaResume": "Resume"
+  },
+  "metaStrip": {
+    "label": "About",
+    "locationLabel": "Based in",
+    "locationValue": "Cairo, EG",
+    "yearsLabel": "Years coding",
+    "yearsValue": "6+",
+    "currentlyLabel": "Open to",
+    "currentlyValue": "Senior full-stack & consulting",
+    "focusLabel": "Reply within",
+    "focusValue": "24 hours"
+  },
+  "work": {
+    "label": "SELECTED WORK",
+    "intro1": "A short list of platforms I've shipped end-to-end —",
+    "introEmph": "from API design and database schemas to AWS infrastructure and CI/CD.",
+    "caseStudy": {
+      "label": "Case study",
+      "close": "CLOSE",
+      "role": "ROLE",
+      "problem": "PROBLEM",
+      "architecture": "ARCHITECTURE",
+      "contributions": "WHAT I DID",
+      "outcomes": "OUTCOMES",
+      "stack": "STACK"
+    },
+    "metric": {
+      "users": "concurrent users",
+      "latency": "API latency",
+      "deploys": "faster deploys",
+      "active": "active users",
+      "uptime": "pipeline uptime",
+      "admin": "manual admin",
+      "efficiency": "processing efficiency",
+      "leaderboards": "leaderboards",
+      "automated": "support automated",
+      "coldstart": "cold-start budget*",
+      "eventarch": "driven arch",
+      "infra": "infra + APIM",
+      "pipelines": "release pipelines",
+      "shipped": "shipped"
+    },
+    "mie": {
+      "name": "Make it in the Emirates — Awards Platform",
+      "company": "Challenge Group",
+      "period": "Oct 2025 — Present",
+      "blurb": "Government platform for the UAE Ministry of Industry & Advanced Technology. End-to-end ownership across frontend, backend, infra, and CI/CD.",
+      "badge": "LIVE",
+      "caseStudy": {
+        "role": "Lead Full-Stack Engineer",
+        "problem": "Deliver a public-facing awards platform for the UAE Ministry of Industry & Advanced Technology — concurrent traffic from applicants, jurors, and program operators, with the security and uptime expectations of a government deployment.",
+        "architecture": "Next.js frontend and NestJS backend over PostgreSQL with Prisma. AWS infrastructure across VPC, EC2, RDS, S3, CloudFront, ECS, and CodePipeline. Container-based deploys, Vitest + Playwright for unit/E2E coverage, structured logging into CloudWatch.",
+        "contributions": "Owned the frontend architecture, API surface, database schema, and AWS infra end-to-end. · Rewrote the deployment pipeline around containers + CodePipeline, taking releases from 20 minutes to under five. · Optimised PostgreSQL queries and added a targeted caching layer that cut median API latency by 35%. · Introduced structured logging + dashboards that reduced mean time to issue detection by ~40%."
+      }
+    },
+    "sabeel": {
+      "name": "Sabeel — Mobile Backend",
+      "company": "Backend Engineer",
+      "period": "2024",
+      "blurb": "Backend powering a high-traffic mobile product. Hardened the API surface, cut latency, and shipped reliable infra on AWS.",
+      "badge": "BACKEND · PRIVATE",
+      "caseStudy": {
+        "role": "Backend Engineer",
+        "problem": "A growing mobile app needed a backend that could handle thousands of concurrent users without latency spikes, plus a deploy pipeline the team could trust.",
+        "architecture": "Laravel API on AWS ECS behind an ALB, MySQL on RDS, static assets through S3 + CloudFront. CI/CD pushing through ECR with CloudWatch monitoring and alerts.",
+        "contributions": "Profiled and refactored the hottest endpoints, dropping median latency by ~30%. · Containerised the API and moved deployments onto ECS for predictable rollouts. · Hardened auth, role-based access, and request validation across the API surface. · Set up CloudWatch dashboards and alarms so on-call could spot regressions in minutes."
+      }
+    },
+    "esl": {
+      "name": "Egyptian Schools League — Competition Engine",
+      "company": "Full-Stack",
+      "period": "2025",
+      "blurb": "Modular competition engine with real-time leaderboards. Replaced spreadsheet workflows with a configurable rules engine.",
+      "badge": "LIVE",
+      "caseStudy": {
+        "role": "Full-Stack Engineer",
+        "problem": "Operators were running national school competitions out of spreadsheets — slow scoring, fragile state, and no real-time visibility for participants.",
+        "architecture": "Next.js front-end, NestJS back-end with a modular rules engine, PostgreSQL via Prisma, and a Docker-based deploy. WebSockets for live leaderboard updates.",
+        "contributions": "Designed the rules-engine abstraction so new competition formats are config, not code. · Built the real-time leaderboard pipeline and the operator dashboards that consume it. · Reduced manual admin work by ~80% by replacing spreadsheet ingest with structured forms + validation."
+      }
+    },
+    "wabot": {
+      "name": "WhatsApp AI Chatbot Automation",
+      "company": "Serverless",
+      "period": "2024",
+      "blurb": "Serverless AI chatbot combining Amazon Lex and Twilio to automate customer-support workflows on WhatsApp.",
+      "badge": "INTERNAL · AUTOMATION",
+      "caseStudy": {
+        "role": "Serverless Engineer",
+        "problem": "Support agents were drowning in repetitive WhatsApp inquiries — order status, hours, common FAQs — and customers waited hours for answers any bot could give in seconds.",
+        "architecture": "Twilio webhook → AWS Lambda (Python) → Amazon Lex for intent + slot filling, with secrets in AWS Secrets Manager and CloudWatch for traceability. Pure event-driven: scales to zero between conversations.",
+        "contributions": "Designed intent + slot taxonomy across the support team's real ticket history. · Wrote the Lambda orchestration that bridges Lex, Twilio, and the internal CRM. · Automated ~60% of inbound conversations end-to-end, escalating cleanly to a human when confidence dropped."
+      }
+    },
+    "eltan": {
+      "name": "Eltanfeethi — Azure Delivery",
+      "company": "Cloud Lead",
+      "period": "2024",
+      "blurb": "Led Azure infrastructure, release pipelines, and production deployment for a managed government-services platform.",
+      "badge": "CLOUD · API GATEWAY",
+      "caseStudy": {
+        "role": "Cloud Delivery Lead",
+        "problem": "A managed government-services platform needed Azure infra stood up, API gateway in place, and a release process the team could actually trust before going to production.",
+        "architecture": "Azure compute + storage, Azure API Management fronting the service surface, release pipelines through Azure DevOps with environment gates.",
+        "contributions": "Designed the Azure infrastructure layout — subscriptions, network, identity, and policy. · Configured API Management with the routing, throttling, and key-management the platform required. · Built the release pipelines and gates that took the platform from staging into a production rollout."
+      }
+    }
+  },
+  "experience": {
+    "label": "EXPERIENCE",
+    "heading1": "Roles",
+    "heading2": "& tenure.",
+    "r1": {
+      "period": "Oct 2025 — Present",
+      "role": "Full-Stack Software Engineer",
+      "company": "Challenge Group",
+      "location": "Cairo",
+      "b1": "Architecting and shipping the UAE Ministry of Industry & Advanced Technology awards platform serving 2,000+ concurrent users.",
+      "b2": "Owning frontend (Next.js), backend (NestJS), PostgreSQL schema design, and AWS infrastructure end-to-end.",
+      "b3": "Cut deployment time from 20min → <5min and reduced API latency by 35% through container-based CI/CD and query optimization."
+    },
+    "r2": {
+      "period": "Nov 2024 — Jun 2025",
+      "role": "Full-Stack Development Fellow",
+      "company": "Information Technology Institute (ITI)",
+      "location": "Cairo · Government-sponsored",
+      "b1": "~1,200 hours of full-stack engineering training across the MERN, .NET, and cloud tracks.",
+      "b2": "Capstone projects covered API design, container deployment, and infrastructure automation."
+    },
+    "r3": {
+      "period": "Oct 2022 — Oct 2024",
+      "role": "Front-End Developer",
+      "company": "Freelance",
+      "location": "Remote",
+      "b1": "Delivered React / Next.js applications for clients across e-commerce, education, and SaaS.",
+      "b2": "Owned the full delivery loop: design handoff → implementation → deployment → maintenance."
+    }
+  },
+  "education": {
+    "label": "EDUCATION",
+    "period": "2018 — 2022",
+    "degree1": "B.Sc. Computer Science",
+    "degree2": "and Information Systems",
+    "school": "October 6 University",
+    "location": "Giza, Egypt",
+    "gradLabel": "GRADUATION PROJECT",
+    "grade": "Grade A",
+    "gradProject": "Learning Management System",
+    "gradStack": "Node.js · Express · MongoDB"
+  },
+  "certs": {
+    "label": "CERTIFICATIONS",
+    "heading1": "Credentials",
+    "heading2": "& training.",
+    "credId": "CREDENTIAL ID",
+    "hccda": {
+      "name": "HCCDA — Tech Essentials",
+      "issuer": "Huawei",
+      "desc": "Huawei Cloud Developer Associate — fundamentals of cloud architecture, deployment, and core services across the Huawei Cloud ecosystem.",
+      "issued": "May 2026",
+      "expires": "May 2029"
+    },
+    "aws-ccp": {
+      "name": "AWS Certified Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "desc": "Foundational understanding of IT services and their uses in the AWS Cloud — fluency, billing, security, and service awareness.",
+      "issued": "Apr 2026",
+      "expires": "Apr 2029"
+    },
+    "hcia-ai": {
+      "name": "HCIA — AI Certification",
+      "issuer": "Huawei",
+      "desc": "Core AI concepts, machine learning and deep learning fundamentals, plus practical model development and deployment.",
+      "issued": "Aug 2020",
+      "expires": "Aug 2023"
+    }
+  },
+  "stack": {
+    "label": "STACK",
+    "intro1": "Tools I reach for daily, grouped by where they live in the stack —",
+    "introEmph": " chosen for shipping, not for the résumé.",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "databases": "Databases",
+    "cloud": "Cloud & DevOps",
+    "languages": "Languages"
+  },
+  "contact": {
+    "label": "CONTACT",
+    "heading1": "Let's build",
+    "heading2": "something",
+    "sendMessage": "Send a message",
+    "pitchHeading": "Tell me what you're building.",
+    "pitchDescription": "Open to senior full-stack roles and consulting engagements on scalable web platforms. Replies within 24 hours.",
+    "email": "EMAIL",
+    "phone": "PHONE",
+    "phoneValue": "+20 127 776 7028",
+    "elsewhere": "ELSEWHERE",
+    "copied": "copied to clipboard",
+    "copyAria": "Copy email {email}",
+    "footerBuilt": "Designed and built by Paula Magdy · Cairo, 2026",
+    "backToTop": "Back to top",
+    "socials": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "leetcode": "LeetCode",
+      "hackerrank": "HackerRank"
+    }
+  }
+}

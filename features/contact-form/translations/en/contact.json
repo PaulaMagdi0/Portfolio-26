@@ -1,0 +1,19 @@
+{
+  "formName": "Your name",
+  "formEmail": "Email",
+  "formMessage": "Message",
+  "formNamePlaceholder": "Jane Doe",
+  "formEmailPlaceholder": "you@company.com",
+  "formMessagePlaceholder": "A few lines about what you're working on or the role you have in mind.",
+  "formSend": "Send message",
+  "formSending": "Opening mail…",
+  "formSent": "Message ready",
+  "formHelper": "Opens in your mail client",
+  "errors": {
+    "nameRequired": "Please enter your name.",
+    "nameMax": "Name is too long.",
+    "emailInvalid": "Please enter a valid email address.",
+    "messageMin": "Message must be at least 10 characters.",
+    "messageMax": "Message is too long."
+  }
+}

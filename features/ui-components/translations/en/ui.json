@@ -1,0 +1,51 @@
+{
+  "a11y": { "skipToContent": "Skip to content" },
+  "availability": { "label": "Available for senior full-stack roles" },
+  "loader": {
+    "initializing": "INITIALIZING",
+    "loadingAssets": "LOADING ASSETS",
+    "loadingFonts": "LOADING FONTS",
+    "compositing": "COMPOSITING",
+    "almostReady": "ALMOST READY",
+    "portfolio": "Portfolio · 2026"
+  },
+  "nav": {
+    "primary": "Primary",
+    "cairo": "Cairo, EG",
+    "work": "Work",
+    "experience": "Experience",
+    "certifications": "Certifications",
+    "stack": "Stack",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "theme": {
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme"
+  },
+  "notFound": {
+    "eyebrow": "ERROR 404",
+    "description": "The page you're looking for has moved or doesn't exist.",
+    "cta": "Back home"
+  },
+  "brand": {
+    "name": "Paula Magdy",
+    "watermark": "Paula"
+  },
+  "clock": {
+    "locationCode": "CAI"
+  },
+  "cursor": {
+    "open": "open",
+    "top": "top",
+    "caseStudy": "CASE STUDY",
+    "visit": "VISIT",
+    "send": "send",
+    "copy": "copy",
+    "download": "download"
+  },
+  "stack": {
+    "marqueeLabel": "Tooling marquee"
+  }
+}

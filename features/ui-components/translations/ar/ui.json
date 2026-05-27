@@ -1,0 +1,51 @@
+{
+  "a11y": { "skipToContent": "تخطّي إلى المحتوى" },
+  "availability": { "label": "متاحة لأدوار هندسة برمجيات متقدمة" },
+  "loader": {
+    "initializing": "جارٍ التهيئة",
+    "loadingAssets": "تحميل الأصول",
+    "loadingFonts": "تحميل الخطوط",
+    "compositing": "التركيب",
+    "almostReady": "اقتربنا",
+    "portfolio": "معرض الأعمال · ٢٠٢٦"
+  },
+  "nav": {
+    "primary": "التنقل الرئيسي",
+    "cairo": "القاهرة، مصر",
+    "work": "الأعمال",
+    "experience": "الخبرات",
+    "certifications": "الشهادات",
+    "stack": "التقنيات",
+    "contact": "التواصل",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة"
+  },
+  "theme": {
+    "switchToLight": "التبديل إلى الوضع الفاتح",
+    "switchToDark": "التبديل إلى الوضع الداكن"
+  },
+  "notFound": {
+    "eyebrow": "خطأ ٤٠٤",
+    "description": "الصفحة التي تبحث عنها لم تعد موجودة أو تم نقلها.",
+    "cta": "العودة للرئيسية"
+  },
+  "brand": {
+    "name": "بولا مجدي",
+    "watermark": "بولا"
+  },
+  "clock": {
+    "locationCode": "قاهرة"
+  },
+  "cursor": {
+    "open": "افتح",
+    "top": "أعلى",
+    "caseStudy": "دراسة الحالة",
+    "visit": "زُر",
+    "send": "إرسال",
+    "copy": "نسخ",
+    "download": "تنزيل"
+  },
+  "stack": {
+    "marqueeLabel": "شريط الأدوات المتحرك"
+  }
+}

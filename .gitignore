@@ -1,4 +1,4 @@
-# macOS
+# OS metadata
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -6,14 +6,10 @@
 .Spotlight-V100
 .Trashes
 .thumbnail
-
-# Windows
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
-
-# Linux
 *~
 .directory
 .Trash-*
@@ -31,26 +27,45 @@ $RECYCLE.BIN/
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+.pnpm-debug.log*
 
 # Environment files
 .env
 .env.local
 .env.*.local
+.env.production
 
-# Dependency directories (in case a build step is added later)
+# Dependencies
 node_modules/
 .pnp
 .pnp.js
 
-# Build / cache output (if ever introduced)
+# Build / cache output
+.next/
+out/
 dist/
 build/
 .cache/
 .parcel-cache/
-.next/
-out/
+
+# Test artifacts
+/coverage
+/playwright-report
+/test-results
+/blob-report
+/playwright/.cache
+
+# Bundler / TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel
+.vercel
 
 # Misc
 *.bak
 *.tmp
+*.pem
+
+# Claude Code
+.claude/
