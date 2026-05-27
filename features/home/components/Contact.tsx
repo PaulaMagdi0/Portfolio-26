@@ -145,7 +145,7 @@ export async function Contact() {
             <LiveClock />
             <a
               href="#top"
-              data-cursor-label="open"
+              data-cursor-label="top"
               className="text-inkdim hover:text-ink inline-flex items-center gap-1 font-mono text-[11px] transition-colors"
             >
               <span>{sec('backToTop')}</span>
