@@ -5,6 +5,7 @@ import { AvailabilityPill, Magnetic, Reveal, SplitReveal } from '@/features/ui-c
 
 export async function Hero() {
   const t = await getTranslations('home.hero');
+  const tCursor = await getTranslations('ui.cursor');
 
   return (
     <section
@@ -84,7 +85,7 @@ export async function Hero() {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cursor-label="open"
+                data-cursor-label={tCursor('open')}
                 className="btn-base btn-ghost"
               >
                 {t('ctaResume')}

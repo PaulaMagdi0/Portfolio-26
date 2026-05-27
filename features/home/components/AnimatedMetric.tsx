@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLocale } from 'next-intl';
+import { toLocaleDigits } from '@/lib/digits';
 
 interface ParsedMetric {
   prefix: string;
@@ -35,17 +37,20 @@ interface AnimatedMetricProps {
 
 export function AnimatedMetric({ value, durationMs = 1600 }: AnimatedMetricProps) {
   const ref = useRef<HTMLSpanElement>(null);
+  const locale = useLocale();
   const parsed = parseMetric(value);
   const [text, setText] = useState(parsed.number === null ? value : formatMetric(parsed, 0));
 
   useEffect(() => {
     if (parsed.number === null) {
-      requestAnimationFrame(() => setText(value));
+      requestAnimationFrame(() => setText(toLocaleDigits(value, locale)));
       return;
     }
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) {
-      requestAnimationFrame(() => setText(formatMetric(parsed, parsed.number!)));
+      requestAnimationFrame(() =>
+        setText(toLocaleDigits(formatMetric(parsed, parsed.number!), locale)),
+      );
       return;
     }
 
@@ -61,7 +66,7 @@ export function AnimatedMetric({ value, durationMs = 1600 }: AnimatedMetricProps
           // ease-out cubic
           const eased = 1 - Math.pow(1 - t, 3);
           const current = parsed.number! * eased;
-          setText(formatMetric(parsed, current));
+          setText(toLocaleDigits(formatMetric(parsed, current), locale));
           if (t < 1) rafId = requestAnimationFrame(tick);
         };
         rafId = requestAnimationFrame(tick);

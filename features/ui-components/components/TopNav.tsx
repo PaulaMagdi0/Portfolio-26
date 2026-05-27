@@ -12,6 +12,7 @@ type SectionId = (typeof SECTIONS)[number];
 
 export function TopNav() {
   const t = useTranslations('ui.nav');
+  const tBrand = useTranslations('ui.brand');
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<SectionId | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
