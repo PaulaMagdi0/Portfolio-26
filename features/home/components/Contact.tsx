@@ -144,10 +144,11 @@ export async function Contact() {
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </span>
             <LiveClock />
+            <span aria-hidden className="bg-inkmute/40 mx-3 h-3 w-px" />
             <a
               href="#top"
               data-cursor-label={tUi('cursor.top')}
-              className="text-inkdim hover:text-ink inline-flex items-center gap-1 font-mono text-[11px] transition-colors"
+              className="text-ink hover:text-amber inline-flex items-center gap-1.5 font-mono text-[12px] tracking-[0.04em] transition-colors"
             >
               <span>{sec('backToTop')}</span>
               <svg
