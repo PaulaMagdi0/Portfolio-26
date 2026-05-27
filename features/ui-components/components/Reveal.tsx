@@ -21,7 +21,7 @@ const variants: Variants = {
 const motionAnimation = (y: number, delay: number): HTMLMotionProps<'div'> => ({
   initial: { ...variants.hidden, y },
   whileInView: { ...variants.visible, y: 0 },
-  viewport: { once: true, amount: 0.2 },
+  viewport: { once: true, margin: '-80px' },
   transition: { duration: 0.9, delay, ease: [0.2, 0.7, 0.2, 1] },
 });
 

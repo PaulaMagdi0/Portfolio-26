@@ -29,7 +29,7 @@ export function MaskReveal({ children, delay = 0, className = '' }: MaskRevealPr
         style={{
           display: 'inline-block',
           transform: shown ? 'translateY(0%)' : 'translateY(110%)',
-          transition: `transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1) ${delay}s`,
+          transition: `transform 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) ${delay}s`,
           willChange: 'transform',
         }}
       >
