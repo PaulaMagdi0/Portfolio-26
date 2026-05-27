@@ -1,4 +1,10 @@
-import { Instrument_Serif, Inter, JetBrains_Mono } from 'next/font/google';
+import {
+  Cairo,
+  Instrument_Serif,
+  Inter,
+  JetBrains_Mono,
+  Noto_Naskh_Arabic,
+} from 'next/font/google';
 
 export const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
@@ -20,4 +26,20 @@ export const jetbrainsMono = JetBrains_Mono({
   weight: ['400', '500'],
   display: 'swap',
   variable: '--font-jetbrains-mono',
+});
+
+export const cairo = Cairo({
+  subsets: ['arabic'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  preload: false,
+  variable: '--font-arabic-sans',
+});
+
+export const notoNaskhArabic = Noto_Naskh_Arabic({
+  subsets: ['arabic'],
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  preload: false,
+  variable: '--font-arabic-serif',
 });

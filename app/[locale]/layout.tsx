@@ -6,7 +6,7 @@ import { LOCALE_DIRECTIONS, SUPPORTED_LOCALES, isLocale, type Locale } from '@/i
 import { buildMetadata, buildPersonJsonLd } from '@/core/seo';
 import { SkipLink } from '@/core/accessibility';
 import { ThemeInitScript } from '@/core/theme';
-import { instrumentSerif, inter, jetbrainsMono } from '../fonts';
+import { cairo, instrumentSerif, inter, jetbrainsMono, notoNaskhArabic } from '../fonts';
 import { ClientProviders } from './ClientProviders';
 
 export function generateStaticParams() {
@@ -48,7 +48,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       dir={dir}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} ${cairo.variable} ${notoNaskhArabic.variable} h-full antialiased`}
     >
       <head>
         <script
