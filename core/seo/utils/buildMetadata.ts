@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config';
-import { OG_IMAGE_PATH, SITE_NAME, SITE_TWITTER, SITE_URL } from '../config/site.config';
+import { SITE_NAME, SITE_TWITTER, SITE_URL } from '../config/site.config';
 
 interface BuildMetadataInput {
   locale: Locale;
@@ -35,14 +35,14 @@ export function buildMetadata({
       type: 'website',
       siteName: SITE_NAME,
       locale: locale === 'ar' ? 'ar_EG' : 'en_US',
-      images: [{ url: OG_IMAGE_PATH, width: 1200, height: 630, alt: SITE_NAME }],
+      images: [{ url: `/${locale}/opengraph-image`, width: 1200, height: 630, alt: SITE_NAME }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
       site: SITE_TWITTER,
-      images: [OG_IMAGE_PATH],
+      images: [`/${locale}/opengraph-image`],
     },
     robots: {
       index: true,
