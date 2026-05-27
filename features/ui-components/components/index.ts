@@ -1,5 +1,6 @@
 // --- Components ---
 export { AvailabilityPill } from './AvailabilityPill';
+export { BgSpotlight } from './BgSpotlight';
 export { ClipReveal } from './ClipReveal';
 export { CustomCursor } from './CustomCursor';
 export { LiveClock } from './LiveClock';
