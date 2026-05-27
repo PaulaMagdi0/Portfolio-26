@@ -707,6 +707,22 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* --- Slow pulse for status dots --- */
+@keyframes ping-slow {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  75%,
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+.animate-ping-slow {
+  animation: ping-slow 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
 /* --- Hero entrance keyframes --- */
 @keyframes hero-rule {
   from {
