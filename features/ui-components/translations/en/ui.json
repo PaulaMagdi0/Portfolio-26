@@ -27,5 +27,18 @@
     "eyebrow": "ERROR 404",
     "description": "The page you're looking for has moved or doesn't exist.",
     "cta": "Back home"
+  },
+  "brand": {
+    "name": "Paula Magdy",
+    "watermark": "Paula"
+  },
+  "clock": {
+    "locationCode": "CAI"
+  },
+  "cursor": {
+    "open": "open",
+    "top": "top",
+    "caseStudy": "CASE STUDY",
+    "visit": "VISIT"
   }
 }
