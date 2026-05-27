@@ -1,15 +1,42 @@
 # Project State / Handoff
 
-**Last updated:** 2026-05-27 (v2 parity sweep + MetaCell strip; 14 visual issues queued)
+**Last updated:** 2026-05-27 (v3 parity sweep complete; awaiting sign-off + legacy/ deletion)
 **Branch:** `feature/nextjs-conversion`
-**Latest commit:** `b12225f feat(parity): legacy-parity v2 sweep + MetaCell strip`
+**Latest commit:** `5d8de20 chore(parity-v3): test mocks + prettier polish for gate run`
 **Working tree:** clean
 
 ---
 
 ## Active task for the next session
 
-**Execute the 14 tasks in `docs/superpowers/plans/2026-05-27-legacy-parity-v3.md`.** That plan is the single source-of-truth — each task has files, drift summary, fix code, and a commit message ready to use. Read the v3 plan first; the 14-item list below is just a quick index.
+**Visual sign-off + legacy deletion.** All 14 v3 tasks are committed and quality gates green (lint, type-check, format, 21/21 unit, 19/19 e2e chromium, build). Walk both `/en` and `/ar` against `legacy/Portfolio.html` at 1440/1024/768/375. If everything passes muster, delete `legacy/` (v1 Task 18) and the branch is ready for merge.
+
+Quick gate of what shipped in v3:
+
+- Task 1: cursor centering — `translate(rx,ry) translate(-50%,-50%)`
+- Task 2: sun/moon SVG inside ThemeToggle knob
+- Task 3: hero eyebrow `flex-wrap gap-x-4 gap-y-3` + `lg:max-w-[58%]` headline container, scaled lg+ font down to fit one line
+- Task 4: title underline hover-only — added `text-decoration:none`, lifted selector to `.work-row.group:hover .title-underline`
+- Task 5: Certifications left-rail (md:col-span-3 heading, md:col-span-9 list), concise `Issued → Expires` dates, removed unused `issued/expires` translation keys
+- Task 6: Stack `py-6 md:py-8` rows, `mb-16` intro, `leading-none` group titles, italic emph
+- Task 7: Contact heading `<em>` now `italic` (was `not-italic`)
+- Task 8: back-to-top `data-cursor-label="top"`
+- Task 9: MetaCell labels — "Open to / Senior full-stack & consulting" + "Reply within / 24 hours" (both locales)
+- Task 10: theme-swap rewritten — overlay grows 0→maxR with NEXT theme color, then `setTheme(next)` on complete, then fade
+- Task 11: Cairo + Noto_Naskh_Arabic via `next/font` (preload:false), `html[lang="ar"]` font-family overrides in globals.css
+- Task 12: 404 redesign — eyebrow + `text-[28vw]` serif numeral + ghost CTA + Paula watermark; `ui.notFound.*` keys in en/ar
+- Task 13: trimmed Inter weights to 300/400; JetBrains_Mono to 400
+- Task 14: gsap mock added to vitest.setup.ts so ThemeToggle test passes with new async setTheme path; Certifications row promoted to `<Reveal as="li">` so `<ol>` has direct `<li>` children (axe-clean)
+
+Once you sign off, run:
+
+```bash
+git rm -r legacy/ && git commit -m "chore: remove legacy/ — Next.js port at full parity"
+```
+
+---
+
+## Original v3 task index (kept for reference — all done)
 
 ```bash
 pnpm dev                                          # localhost:3000
