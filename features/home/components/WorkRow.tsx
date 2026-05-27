@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { ClipReveal } from '@/features/ui-components';
+import { toLocaleDigits } from '@/lib/digits';
 import type { WorkProject } from '../types';
 
 interface WorkRowProps {
@@ -71,8 +72,9 @@ function useSwatchParallax(
 
 export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
   const t = useTranslations();
-  const indexLabel = String(index + 1).padStart(2, '0');
-  const totalLabel = String(total).padStart(2, '0');
+  const locale = useLocale();
+  const indexLabel = toLocaleDigits(String(index + 1).padStart(2, '0'), locale);
+  const totalLabel = toLocaleDigits(String(total).padStart(2, '0'), locale);
   const [hovered, setHovered] = useState(false);
 
   const bgLayerRef = useRef<HTMLDivElement | null>(null);
@@ -82,12 +84,12 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
 
   const isLive = project.kind === 'live';
   const hasLiveLink = isLive && !!project.url;
-  let cursorLabel = 'CASE STUDY';
+  let cursorLabel = t('ui.cursor.caseStudy');
   if (hasLiveLink && project.url) {
     try {
       cursorLabel = new URL(project.url).hostname;
     } catch {
-      cursorLabel = 'VISIT';
+      cursorLabel = t('ui.cursor.visit');
     }
   }
 
