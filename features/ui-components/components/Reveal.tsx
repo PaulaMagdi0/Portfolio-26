@@ -25,13 +25,7 @@ const motionAnimation = (y: number, delay: number): HTMLMotionProps<'div'> => ({
   transition: { duration: 0.9, delay, ease: [0.2, 0.7, 0.2, 1] },
 });
 
-export function Reveal({
-  children,
-  delay = 0,
-  y = 24,
-  className = '',
-  as = 'div',
-}: RevealProps) {
+export function Reveal({ children, delay = 0, y = 24, className = '', as = 'div' }: RevealProps) {
   const anim = motionAnimation(y, delay);
   if (as === 'li') {
     return (
