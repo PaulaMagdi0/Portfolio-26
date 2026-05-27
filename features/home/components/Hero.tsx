@@ -82,10 +82,10 @@ export async function Hero() {
             </Magnetic>
             <Magnetic as="span" strength={0.25}>
               <a
-                href="/resume.pdf"
+                href="/Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cursor-label={tCursor('download')}
+                data-cursor-label={tCursor('open')}
                 className="btn-base btn-ghost"
               >
                 {t('ctaResume')}
@@ -99,7 +99,7 @@ export async function Hero() {
                   strokeLinejoin="round"
                   aria-hidden
                 >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                  <path d="M15 3h6v6M10 14 21 3M21 14v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" />
                 </svg>
               </a>
             </Magnetic>
