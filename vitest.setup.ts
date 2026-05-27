@@ -55,6 +55,13 @@ vi.mock('next-intl', async () => {
   };
 });
 
+vi.mock('next-intl/server', () => ({
+  getTranslations: (namespace?: string) =>
+    Promise.resolve((key: string) => (namespace ? `${namespace}.${key}` : key)),
+  getLocale: () => Promise.resolve('en'),
+  getMessages: () => Promise.resolve({}),
+}));
+
 vi.mock('@/i18n/routing', () => ({
   Link: ({ children, ...props }: { children: React.ReactNode; href?: string }) => {
     const a = document.createElement('a');

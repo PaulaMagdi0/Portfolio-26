@@ -28,33 +28,33 @@ export async function Experience() {
           <div className="md:col-span-9">
             <ol className="relative">
               {EXPERIENCE.map((e, i) => (
-                <Reveal key={i} delay={i * 0.05}>
-                  <li className="group border-line grid grid-cols-1 gap-6 border-t py-8 first:border-t-0 md:grid-cols-12 md:py-10">
-                    <div className="md:col-span-3">
-                      <span className="text-amber font-mono text-[11px] tracking-[0.1em]">
-                        {t(e.periodKey)}
-                      </span>
-                    </div>
-                    <div className="md:col-span-9">
-                      <h3 className="text-ink mb-1 font-serif text-[24px] leading-[1.15] md:text-[28px]">
-                        {t(e.roleKey)}
-                      </h3>
-                      <p className="text-inkdim mb-4 font-mono text-[13px]">
-                        {t(e.companyKey)} <span className="text-inkmute">· {t(e.locationKey)}</span>
-                      </p>
-                      <ul className="space-y-2.5">
-                        {e.bulletKeys.map((bk) => (
-                          <li
-                            key={bk}
-                            className="text-inkdim flex gap-3 text-[14px] leading-relaxed"
-                          >
-                            <span className="bg-amber/70 mt-2 h-px w-3 shrink-0" aria-hidden />
-                            <span>{t(bk)}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </li>
+                <Reveal
+                  key={i}
+                  delay={i * 0.05}
+                  as="li"
+                  className="group border-line grid grid-cols-1 gap-6 border-t py-8 first:border-t-0 md:grid-cols-12 md:py-10"
+                >
+                  <div className="md:col-span-3">
+                    <span className="text-amber font-mono text-[11px] tracking-[0.1em]">
+                      {t(e.periodKey)}
+                    </span>
+                  </div>
+                  <div className="md:col-span-9">
+                    <h3 className="text-ink mb-1 font-serif text-[24px] leading-[1.15] md:text-[28px]">
+                      {t(e.roleKey)}
+                    </h3>
+                    <p className="text-inkdim mb-4 font-mono text-[13px]">
+                      {t(e.companyKey)} <span className="text-inkmute">· {t(e.locationKey)}</span>
+                    </p>
+                    <ul className="space-y-2.5">
+                      {e.bulletKeys.map((bk) => (
+                        <li key={bk} className="text-inkdim flex gap-3 text-[14px] leading-relaxed">
+                          <span className="bg-amber/70 mt-2 h-px w-3 shrink-0" aria-hidden />
+                          <span>{t(bk)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </Reveal>
               ))}
             </ol>
