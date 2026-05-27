@@ -16,8 +16,9 @@ export default async function Image({ params }: ImageProps) {
   const safeLocale: Locale = isLocale(locale) ? locale : 'en';
 
   const isArabic = safeLocale === 'ar';
-  const title = isArabic ? 'بولا مجدي' : 'Paula Magdy';
-  const subtitle = isArabic ? 'مهندسة برمجيات · القاهرة' : 'Software Engineer · Cairo';
+  const title = isArabic ? 'Paula Magdy' : 'Paula Magdy';
+  const subtitle = isArabic ? 'Software Engineer · Cairo' : 'Software Engineer · Cairo';
+  const label = 'Portfolio · 2026';
 
   return new ImageResponse(
     <div
@@ -44,7 +45,7 @@ export default async function Image({ params }: ImageProps) {
           marginBottom: 24,
         }}
       >
-        Portfolio · 2026
+        {label}
       </div>
       <div
         style={{
