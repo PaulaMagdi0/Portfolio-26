@@ -30,9 +30,6 @@ export function ThemeToggle() {
       return;
     }
 
-    const root = document.documentElement;
-    const oldBg = getComputedStyle(root).getPropertyValue('--color-bg').trim() || '10 10 10';
-
     const rect = btn.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
@@ -40,29 +37,36 @@ export function ThemeToggle() {
     const h = window.innerHeight;
     const maxR = Math.hypot(Math.max(cx, w - cx), Math.max(cy, h - cy));
 
+    const root = document.documentElement;
+    const prevAttr = root.getAttribute('data-theme') ?? (isLight ? 'light' : 'dark');
+    root.setAttribute('data-theme', next);
+    const nextBg = getComputedStyle(root).getPropertyValue('--color-bg').trim() || '10 10 10';
+    root.setAttribute('data-theme', prevAttr);
+
     const overlay = document.createElement('div');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.style.cssText = `
       position: fixed; inset: 0; z-index: 100;
-      background: rgb(${oldBg});
-      clip-path: circle(${maxR}px at ${cx}px ${cy}px);
+      background: rgb(${nextBg});
+      clip-path: circle(0px at ${cx}px ${cy}px);
       pointer-events: none;
       will-change: clip-path, opacity;
     `;
     document.body.appendChild(overlay);
 
-    setTheme(next);
-
     gsap.to(overlay, {
-      clipPath: `circle(0px at ${cx}px ${cy}px)`,
+      clipPath: `circle(${maxR}px at ${cx}px ${cy}px)`,
       duration: 0.7,
       ease: 'power2.inOut',
       onComplete: () => {
-        gsap.to(overlay, {
-          opacity: 0,
-          duration: 0.35,
-          ease: 'power2.out',
-          onComplete: () => overlay.remove(),
+        setTheme(next);
+        requestAnimationFrame(() => {
+          gsap.to(overlay, {
+            opacity: 0,
+            duration: 0.35,
+            ease: 'power2.out',
+            onComplete: () => overlay.remove(),
+          });
         });
       },
     });
