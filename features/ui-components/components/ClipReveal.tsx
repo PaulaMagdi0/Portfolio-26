@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
-import { gsap } from '@/core/motion';
+import { gsap, ScrollTrigger, registerGsapPlugins } from '@/core/motion';
 
 interface ClipRevealProps {
   children: ReactNode;
@@ -11,11 +11,6 @@ interface ClipRevealProps {
   duration?: number;
 }
 
-/**
- * Subtle scroll-driven reveal: scales the child from 1.1 → 1 when the element
- * enters the viewport. The child is always visible — even before the trigger
- * fires — so no risk of permanently-hidden content if observer never fires.
- */
 export function ClipReveal({ children, className = '', duration = 1.1 }: ClipRevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -27,34 +22,22 @@ export function ClipReveal({ children, className = '', duration = 1.1 }: ClipRev
     const inner = el.firstElementChild;
     if (!inner) return;
 
+    registerGsapPlugins();
+
+    gsap.set(el, { clipPath: 'inset(0 0 100% 0)' });
     gsap.set(inner, { scale: 1.1, transformOrigin: 'center center' });
 
-    let played = false;
-    let tween: gsap.core.Tween | null = null;
-
-    const play = () => {
-      if (played) return;
-      played = true;
-      tween = gsap.to(inner, { scale: 1, duration, ease: 'power3.out' });
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          observer.disconnect();
-          play();
-        }
-      },
-      { threshold: 0.12 },
-    );
-    observer.observe(el);
-
-    const safety = window.setTimeout(play, 1500);
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+    });
+    tl.to(el, { clipPath: 'inset(0 0 0% 0)', duration, ease: 'power3.out' }, 0);
+    tl.to(inner, { scale: 1, duration: duration * 1.1, ease: 'power3.out' }, 0);
 
     return () => {
-      observer.disconnect();
-      window.clearTimeout(safety);
-      tween?.kill();
+      tl.kill();
+      ScrollTrigger.getAll()
+        .filter((st) => st.trigger === el)
+        .forEach((st) => st.kill());
     };
   }, [duration]);
 
