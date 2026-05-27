@@ -58,7 +58,7 @@ export function TopNav() {
     <nav
       aria-label={t('primary')}
       className={cn(
-        'fixed inset-x-0 top-0 z-[60] transition-[background-color,border-color,backdrop-filter] duration-300',
+        'fixed inset-x-0 top-0 z-[60] transition-[background-color,border-color,backdrop-filter] duration-500',
         scrolled ? 'border-line bg-bg/70 border-b backdrop-blur-md' : 'border-transparent',
       )}
     >
