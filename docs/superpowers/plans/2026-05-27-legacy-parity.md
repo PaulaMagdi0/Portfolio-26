@@ -188,7 +188,7 @@ export async function Hero() {
         </Magnetic>
         <Magnetic as="span" strength={0.25}>
           <a
-            href="/resume.pdf"
+            href="/Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             data-cursor-label="open"
@@ -1674,7 +1674,7 @@ grep -rn "data-cursor-label" features app
 |---|---|---|
 | WorkRow article (live row) | `features/home/components/WorkRow.tsx` | hostname from `project.url` |
 | WorkRow article (case-study row) | `features/home/components/WorkRow.tsx` | `"case study"` |
-| Hero "Download Resume" link | (set in Task 2) | `"open"` |
+| Hero "Resume" link | (set in Task 2) | `"open"` |
 | Case study close button | (set in Task 6) | `"close"` |
 | Email copy button | (set in Task 10) | `"copy"` |
 | Contact form submit | (set in Task 9) | `"send"` |

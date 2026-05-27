@@ -85,7 +85,7 @@ Replace card grid with vertical list:
 4. **Headline** — `<SplitReveal mode="instant" delay={0.15} stagger={0.014} duration={1.0}>` over `<h1>` with `text-[14vw] sm:[12vw] md:[9.5vw] lg:[120px] xl:[140px] 2xl:[160px] leading-[0.95] tracking-[-0.02em]`. Content `Software Engineer` + amber `.`. Restore char-stagger animation with 1.5s safety timeout that forces `yPercent: 0`.
 5. **Hero parallax** — `HeroHeadline` already handles `scrollY * 0.13` clamp 80 + opacity. Keep.
 6. **Sub-kicker** — mono 11px 0.18em amber uppercase `Building systems that teams rely on.` followed by lead+emph paragraph (inkdim default, ink emphasis, `text-[15px] md:text-[17px]`, leading 1.55, max-width 560px). Framer Motion delay 1.0, duration 0.9.
-7. **CTAs** — `btn-base btn-primary` `View Work` → `#work` with `ArrowDown` icon, `btn-base btn-ghost` `Download Resume` → `/resume.pdf` with `Download` icon and `data-cursor-label="open"`. Both wrapped in `<Magnetic strength={0.25}>`. Framer Motion delay 1.2, duration 0.9.
+7. **CTAs** — `btn-base btn-primary` `View Work` → `#work` with `ArrowDown` icon, `btn-base btn-ghost` `Resume` → `/Resume.pdf` with `Download` icon and `data-cursor-label="open"`. Both wrapped in `<Magnetic strength={0.25}>`. Framer Motion delay 1.2, duration 0.9.
 8. **Remove** `MetaCell` row entirely.
 
 ### TopNav polish (`features/ui-components/components/TopNav.tsx`)
@@ -120,7 +120,7 @@ Reduced-motion path: skip the animation, flip the theme instantly.
 #### Cursor labels
 
 Audit every interactive element and add `data-cursor-label="..."`:
-- Hero `Download Resume` → `"open"`.
+- Hero `Resume` → `"open"`.
 - WorkRow live → hostname; case-study → `"case study"`.
 - Case study drawer close → `"close"`.
 - Email copy button → `"copy"`.

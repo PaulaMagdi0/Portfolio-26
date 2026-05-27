@@ -206,8 +206,8 @@ test.describe.serial('full app verification', () => {
     expect(focused.toLowerCase()).toContain('skip');
   });
 
-  test('11. resume.pdf is downloadable', async ({ request }) => {
-    const res = await request.get('/resume.pdf');
+  test('11. Resume.pdf is downloadable', async ({ request }) => {
+    const res = await request.get('/Resume.pdf');
     expect(res.status()).toBe(200);
     expect(res.headers()['content-type']).toContain('pdf');
   });

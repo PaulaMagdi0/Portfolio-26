@@ -55,7 +55,7 @@ features/                # Vertical slices
   localization/          # Locale switcher
 i18n/                    # next-intl config, routing, request loader
 lib/utils.ts             # cn()
-public/                  # resume.pdf, favicons
+public/                  # Resume.pdf, favicons
 e2e/                     # Playwright specs
 legacy/                  # Original Babel-in-browser build, kept as reference
 docs/superpowers/plans/  # Implementation plan

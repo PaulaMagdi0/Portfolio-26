@@ -132,7 +132,7 @@ Portfolio/
 ├── lib/
 │   └── utils.ts                      # cn()
 ├── public/
-│   ├── resume.pdf
+│   ├── Resume.pdf
 │   ├── og-image.png
 │   ├── favicon.ico
 │   ├── apple-touch-icon.png
@@ -2487,7 +2487,7 @@ export async function Hero() {
               <a href="#work">{t('ctaWork')}</a>
             </Magnetic>
             <Magnetic as="a" className="btn-base btn-ghost">
-              <a href="/resume.pdf" download>
+              <a href="/Resume.pdf" download>
                 {t('ctaResume')}
               </a>
             </Magnetic>
@@ -3164,7 +3164,7 @@ git commit -m "feat(seo): add robots.txt with sitemap pointer"
 ### Task 28: Open Graph image and resume
 
 **Files:**
-- Create: `public/og-image.png` (1200×630), `public/resume.pdf`, `public/favicon.ico`, `public/apple-touch-icon.png`, `public/icon.svg`
+- Create: `public/og-image.png` (1200×630), `public/Resume.pdf`, `public/favicon.ico`, `public/apple-touch-icon.png`, `public/icon.svg`
 
 - [ ] **Step 1: Provide assets**
 
