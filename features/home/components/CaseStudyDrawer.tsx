@@ -56,7 +56,7 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
             className="border-line bg-bg2 fixed top-16 right-0 bottom-0 z-[70] w-full overflow-y-auto overscroll-contain border-l md:w-[680px]"
           >
             <div className="bg-bg2/95 border-line sticky top-0 z-10 flex items-center justify-between border-b px-8 py-5 backdrop-blur-sm md:px-12">
-              <span className="font-mono text-[10px] tracking-[0.18em] uppercase">
+              <span className="font-mono text-[10px] tracking-[0.2em] uppercase">
                 <span className="text-amber">{t('home.work.caseStudy.label')}</span>
                 <span className="text-inkmute"> · {t(project.badgeKey)}</span>
               </span>
@@ -113,10 +113,10 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
                           animate={{ scaleX: 1 }}
                           transition={{
                             duration: 0.45,
-                            delay: 0.67 + i * 0.08,
+                            delay: 0.7 + i * 0.08,
                             ease: [0.2, 0.7, 0.2, 1],
                           }}
-                          className="bg-amber/70 mt-2.5 h-px w-3 shrink-0 origin-left"
+                          className="bg-amber/70 mt-2 h-px w-3 shrink-0 origin-left"
                           aria-hidden
                         />
                         <span>{item.trim()}</span>

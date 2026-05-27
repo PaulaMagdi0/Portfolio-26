@@ -65,7 +65,7 @@ export async function Stack() {
                 {group.items.map((item) => (
                   <li
                     key={item}
-                    className="border-line bg-bg2/40 text-inkdim hover:border-amber/40 hover:text-ink rounded-md border px-2 py-1 font-mono text-[11px] transition-colors"
+                    className="border-line bg-bg2/40 text-inkdim hover:border-amber/40 hover:text-ink rounded-md border px-2.5 py-1.5 font-mono text-[12px] transition-colors"
                   >
                     {item}
                   </li>

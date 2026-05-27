@@ -16,8 +16,9 @@ type FieldProps = BaseProps &
   );
 
 export function Field({ id, label, error, textarea, ...rest }: FieldProps) {
-  const inputClass =
-    'block w-full border-b border-line bg-transparent pb-2 pt-1 font-serif text-[20px] md:text-[24px] text-ink placeholder:text-inkmute placeholder:font-serif placeholder:font-normal focus:border-amber/70 focus:outline-none transition-colors';
+  const inputClass = `block w-full border-b ${
+    error ? 'border-amber' : 'border-line focus:border-amber/70'
+  } bg-transparent pb-2 pt-1 font-serif text-[20px] md:text-[24px] text-ink placeholder:text-inkmute placeholder:font-serif placeholder:font-normal focus:outline-none transition-colors`;
 
   return (
     <div className="mb-8">

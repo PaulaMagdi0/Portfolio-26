@@ -121,14 +121,14 @@ export function TopNav() {
               aria-hidden
               className={cn(
                 'bg-ink absolute h-px w-5 transition-transform duration-300',
-                menuOpen ? 'rotate-45' : '-translate-y-1.5',
+                menuOpen ? 'rotate-45' : '-translate-y-1',
               )}
             />
             <span
               aria-hidden
               className={cn(
                 'bg-ink absolute h-px w-5 transition-transform duration-300',
-                menuOpen ? '-rotate-45' : 'translate-y-1.5',
+                menuOpen ? '-rotate-45' : 'translate-y-1',
               )}
             />
           </button>
@@ -155,7 +155,7 @@ export function TopNav() {
                   onClick={() => setMenuOpen(false)}
                   className={cn(
                     'group flex items-baseline gap-4 py-6',
-                    active === id ? 'text-ink' : 'text-inkdim hover:text-ink',
+                    active === id ? 'text-amber' : 'text-inkdim hover:text-ink',
                   )}
                 >
                   <span

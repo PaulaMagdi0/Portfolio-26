@@ -41,11 +41,13 @@ export function SectionHead({ num, label, kicker, children }: SectionHeadProps) 
   }, []);
 
   return (
-    <header className="mb-10 md:mb-14">
-      <div className="mb-3 flex items-center gap-4">
-        <span className="section-num text-amber">{num}</span>
-        <span className="section-num">— {label}</span>
-        <span ref={ruleRef} className="h-rule flex-1" />
+    <header className="mb-10 md:mb-16">
+      <div className="flex items-baseline gap-6">
+        <div className="flex shrink-0 items-baseline gap-4">
+          <span className="text-amber font-mono text-[11px] tracking-[0.2em] uppercase">{num}</span>
+          <span className="section-num">— {label}</span>
+        </div>
+        <span ref={ruleRef} className="h-rule flex-1 -translate-y-[2px]" />
       </div>
       {kicker ? <div className="mt-2">{kicker}</div> : null}
       {children}

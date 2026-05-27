@@ -1,7 +1,16 @@
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { isLocale } from '@/i18n/config';
-import { Certifications, Contact, Education, Experience, Hero, Stack, Work } from '@/features/home';
+import {
+  Certifications,
+  Contact,
+  Education,
+  Experience,
+  Hero,
+  HeroMetaStrip,
+  Stack,
+  Work,
+} from '@/features/home';
 import {
   BgSpotlight,
   CustomCursor,
@@ -28,6 +37,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <TopNav />
       <main id="main" className="relative z-10">
         <Hero />
+        <HeroMetaStrip />
         <Work />
         <Experience />
         <Education />

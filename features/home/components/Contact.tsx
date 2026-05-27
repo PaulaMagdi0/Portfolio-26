@@ -137,9 +137,9 @@ export async function Contact() {
         <div className="border-line flex flex-col gap-4 border-t pt-8 md:flex-row md:items-center md:justify-between">
           <p className="text-inkmute font-mono text-[11px]">{sec('footerBuilt')}</p>
           <div className="flex items-center gap-3">
-            <span aria-hidden className="relative inline-flex h-2 w-2">
+            <span aria-hidden className="relative inline-flex h-1.5 w-1.5">
               <span className="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </span>
             <LiveClock />
             <a
@@ -168,7 +168,7 @@ export async function Contact() {
       {/* Watermark */}
       <div
         aria-hidden
-        className="pointer-events-none absolute right-0 -bottom-20 left-0 select-none"
+        className="pointer-events-none absolute right-0 -bottom-20 left-0 text-center select-none"
       >
         <p className="text-ink font-serif text-[28vw] leading-none tracking-tighter opacity-[0.04]">
           Paula

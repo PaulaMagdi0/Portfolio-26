@@ -38,12 +38,18 @@ export function CustomCursor() {
       ring.classList.toggle('hover', !!interactive);
       const labelHost = target.closest('[data-cursor-label]');
       const label = labelHost instanceof HTMLElement ? (labelHost.dataset.cursorLabel ?? '') : '';
+      let labelEl = ring.querySelector<HTMLSpanElement>('.cursor-label');
       if (label) {
         ring.classList.add('labeled');
-        ring.textContent = label;
+        if (!labelEl) {
+          labelEl = document.createElement('span');
+          labelEl.className = 'cursor-label';
+          ring.appendChild(labelEl);
+        }
+        if (labelEl.textContent !== label) labelEl.textContent = label;
       } else {
         ring.classList.remove('labeled');
-        ring.textContent = '';
+        if (labelEl) labelEl.remove();
       }
     };
 

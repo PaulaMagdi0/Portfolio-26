@@ -13,6 +13,17 @@
     "ctaWork": "View Work",
     "ctaResume": "Download Resume"
   },
+  "metaStrip": {
+    "label": "About",
+    "locationLabel": "Based in",
+    "locationValue": "Cairo, EG",
+    "yearsLabel": "Years coding",
+    "yearsValue": "6+",
+    "currentlyLabel": "Currently",
+    "currentlyValue": "Challenge Group",
+    "focusLabel": "Focus",
+    "focusValue": "Full-stack · AWS · CI/CD"
+  },
   "work": {
     "label": "SELECTED WORK",
     "intro1": "A short list of platforms I've shipped end-to-end —",

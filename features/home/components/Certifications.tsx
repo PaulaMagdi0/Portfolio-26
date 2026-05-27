@@ -38,7 +38,7 @@ export async function Certifications() {
                     alt={t(c.issuerKey)}
                     width={56}
                     height={32}
-                    className="marquee-logo h-8 w-auto"
+                    className="marquee-logo h-8 w-auto opacity-90"
                     loading="lazy"
                     draggable={false}
                   />

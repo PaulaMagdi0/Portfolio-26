@@ -26,5 +26,12 @@ export function LiveClock() {
     };
   }, []);
 
-  return <span suppressHydrationWarning>{time}</span>;
+  return (
+    <span
+      suppressHydrationWarning
+      className="text-inkdim font-mono text-[11px] tracking-[0.18em] tabular-nums"
+    >
+      {time}
+    </span>
+  );
 }

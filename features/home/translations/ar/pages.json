@@ -13,6 +13,17 @@
     "ctaWork": "عرض الأعمال",
     "ctaResume": "تحميل السيرة الذاتية"
   },
+  "metaStrip": {
+    "label": "عن المهندسة",
+    "locationLabel": "المقر",
+    "locationValue": "القاهرة، مصر",
+    "yearsLabel": "سنوات الخبرة",
+    "yearsValue": "+٦",
+    "currentlyLabel": "العمل الحالي",
+    "currentlyValue": "تشالنج جروب",
+    "focusLabel": "التخصص",
+    "focusValue": "تطوير متكامل · AWS · CI/CD"
+  },
   "work": {
     "label": "أعمال مختارة",
     "intro1": "قائمة مختصرة بالمنصات التي أطلقتها من الألف إلى الياء —",

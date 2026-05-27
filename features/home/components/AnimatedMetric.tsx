@@ -33,7 +33,7 @@ interface AnimatedMetricProps {
   durationMs?: number;
 }
 
-export function AnimatedMetric({ value, durationMs = 1200 }: AnimatedMetricProps) {
+export function AnimatedMetric({ value, durationMs = 1600 }: AnimatedMetricProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const parsed = parseMetric(value);
   const [text, setText] = useState(parsed.number === null ? value : formatMetric(parsed, 0));

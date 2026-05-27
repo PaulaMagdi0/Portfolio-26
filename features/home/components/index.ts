@@ -8,6 +8,8 @@ export { EmailCopyButton } from './EmailCopyButton';
 export { Experience } from './Experience';
 export { Hero } from './Hero';
 export { Hero3DLazy } from './Hero3DLazy';
+export { HeroMetaStrip } from './HeroMetaStrip';
+export { MetaCell } from './MetaCell';
 export { Stack } from './Stack';
 export { Work } from './Work';
 export { WorkRow } from './WorkRow';
