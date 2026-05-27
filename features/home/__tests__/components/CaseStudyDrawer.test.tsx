@@ -1,3 +1,4 @@
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -16,19 +17,23 @@ function stripMotionProps({ children, initial, animate, exit, transition, ...res
 
 vi.mock('framer-motion', async () => {
   const actual = await vi.importActual<typeof import('framer-motion')>('framer-motion');
+  const passthrough = (tag: string) => {
+    const Passthrough = (props: AnyProps) => {
+      const { children, rest } = stripMotionProps(props);
+      return React.createElement(tag, rest as Record<string, unknown>, children);
+    };
+    Passthrough.displayName = `motion.${tag}`;
+    return Passthrough;
+  };
   return {
     ...actual,
     AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-    motion: {
-      ...actual.motion,
-      div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-        <div {...props}>{children}</div>
-      ),
-      aside: (props: AnyProps) => {
-        const { children, rest } = stripMotionProps(props);
-        return <aside {...(rest as React.HTMLAttributes<HTMLElement>)}>{children}</aside>;
+    motion: new Proxy(actual.motion as object, {
+      get: (target, prop) => {
+        if (typeof prop !== 'string') return Reflect.get(target, prop);
+        return passthrough(prop);
       },
-    },
+    }),
   };
 });
 

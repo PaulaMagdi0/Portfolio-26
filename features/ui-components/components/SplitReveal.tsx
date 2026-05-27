@@ -1,79 +1,107 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import type { ElementType, ReactNode } from 'react';
+import { gsap, SplitText, registerGsapPlugins } from '@/core/motion';
 
 interface SplitRevealProps {
   children: ReactNode;
   as?: ElementType;
   className?: string;
-  /**
-   * Kept for API compatibility with earlier char-stagger implementation; ignored.
-   */
+  /** Per-char stagger in seconds */
   stagger?: number;
-  /**
-   * Reveal animation duration in milliseconds. Defaults to 950ms.
-   */
+  /** Per-char duration in seconds */
   duration?: number;
+  /** Initial delay before the cascade starts (seconds) */
+  delay?: number;
 }
 
-/**
- * Heading reveal that slides the whole element up and fades it in on viewport
- * entry. Falls back to the visible end state if the user prefers reduced motion.
- * Uses native CSS transitions — no GSAP — so it never gets stuck mid-animation
- * if scroll plumbing (Lenis, ScrollTrigger) isn't fully wired.
- */
 export function SplitReveal({
   children,
   as: Component = 'h2',
   className = '',
-  duration = 950,
+  stagger = 0.018,
+  duration = 1.0,
+  delay = 0,
 }: SplitRevealProps) {
   const ref = useRef<HTMLElement | null>(null);
-  const [shown, setShown] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const rafId = requestAnimationFrame(() => setShown(true));
-      return () => cancelAnimationFrame(rafId);
+      el.style.opacity = '1';
+      return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          observer.disconnect();
-          setShown(true);
-        }
-      },
-      { threshold: 0.15 },
-    );
-    observer.observe(el);
+    registerGsapPlugins();
 
-    // Fallback: if the observer never fires for any reason, reveal after 1.5s
-    // so the heading never stays hidden indefinitely.
-    const fallback = window.setTimeout(() => setShown(true), 1500);
+    let cancelled = false;
+    let split: SplitText | null = null;
+    let tween: gsap.core.Tween | null = null;
+    let observer: IntersectionObserver | null = null;
+    let safety: number | null = null;
+
+    const setVisibleFallback = () => {
+      if (split) {
+        gsap.set(split.chars, { yPercent: 0 });
+      } else {
+        el.style.opacity = '1';
+      }
+    };
+
+    const run = () => {
+      if (cancelled || !ref.current) return;
+
+      split = new SplitText(ref.current, {
+        type: 'lines,words,chars',
+        linesClass: 'split-line',
+        wordsClass: 'split-word',
+        charsClass: 'split-char',
+      });
+
+      gsap.set(split.chars, { yPercent: 110 });
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting) && split) {
+            observer?.disconnect();
+            tween = gsap.to(split.chars, {
+              yPercent: 0,
+              duration,
+              ease: 'power4.out',
+              delay,
+              stagger,
+            });
+          }
+        },
+        { threshold: 0.15 },
+      );
+      observer.observe(el);
+
+      safety = window.setTimeout(setVisibleFallback, 1800);
+    };
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        if (!cancelled) run();
+      });
+    } else {
+      run();
+    }
 
     return () => {
-      observer.disconnect();
-      window.clearTimeout(fallback);
+      cancelled = true;
+      if (safety !== null) window.clearTimeout(safety);
+      observer?.disconnect();
+      tween?.kill();
+      split?.revert();
     };
-  }, []);
+  }, [delay, duration, stagger]);
 
   return (
-    <Component
-      ref={ref as never}
-      className={`split-host ${className}`}
-      style={{
-        display: 'block',
-        opacity: shown ? 1 : 0,
-        transform: shown ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity ${duration}ms cubic-bezier(0.2, 0.7, 0.2, 1), transform ${duration}ms cubic-bezier(0.2, 0.7, 0.2, 1)`,
-        willChange: 'opacity, transform',
-      }}
-    >
+    <Component ref={ref as never} className={`split-host ${className}`}>
       {children}
     </Component>
   );

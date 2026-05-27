@@ -31,7 +31,9 @@
       "role": "ROLE",
       "problem": "PROBLEM",
       "architecture": "ARCHITECTURE",
-      "contributions": "WHAT I DID"
+      "contributions": "WHAT I DID",
+      "outcomes": "OUTCOMES",
+      "stack": "STACK"
     },
     "metric": {
       "users": "concurrent users",

@@ -1,33 +1,112 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
+import { ClipReveal } from '@/features/ui-components';
 import type { WorkProject } from '../types';
 
 interface WorkRowProps {
   project: WorkProject;
   index: number;
+  total: number;
   onOpen: (project: WorkProject) => void;
 }
 
-export function WorkRow({ project, index, onOpen }: WorkRowProps) {
+type StyledElement = HTMLElement | SVGElement;
+
+function useSwatchParallax(
+  layerRefs: ReadonlyArray<React.RefObject<StyledElement | null>>,
+  depth: ReadonlyArray<number>,
+) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    let raf = 0;
+    let mx = 0;
+    let my = 0;
+    let cx = 0;
+    let cy = 0;
+
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      mx = (e.clientX - r.left) / r.width - 0.5;
+      my = (e.clientY - r.top) / r.height - 0.5;
+    };
+    const onLeave = () => {
+      mx = 0;
+      my = 0;
+    };
+
+    const tick = () => {
+      cx += (mx - cx) * 0.08;
+      cy += (my - cy) * 0.08;
+      layerRefs.forEach((ref, i) => {
+        const node = ref.current;
+        if (!node) return;
+        const d = depth[i] ?? 0;
+        node.style.transform = `translate3d(${cx * d}px, ${cy * d}px, 0)`;
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    el.addEventListener('mousemove', onMove);
+    el.addEventListener('mouseleave', onLeave);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener('mousemove', onMove);
+      el.removeEventListener('mouseleave', onLeave);
+    };
+  }, [layerRefs, depth]);
+
+  return containerRef;
+}
+
+export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
   const t = useTranslations();
   const indexLabel = String(index + 1).padStart(2, '0');
+  const totalLabel = String(total).padStart(2, '0');
+
+  const bgLayerRef = useRef<HTMLDivElement | null>(null);
+  const stripesLayerRef = useRef<SVGSVGElement | null>(null);
+  const monoLayerRef = useRef<HTMLDivElement | null>(null);
+  const swatchRef = useSwatchParallax([bgLayerRef, stripesLayerRef, monoLayerRef], [-6, 10, 18]);
+
+  const isLive = project.kind === 'live';
+  const hasLiveLink = isLive && !!project.url;
+  let cursorLabel = 'CASE STUDY';
+  if (hasLiveLink && project.url) {
+    try {
+      cursorLabel = new URL(project.url).hostname;
+    } catch {
+      cursorLabel = 'VISIT';
+    }
+  }
 
   const handleClick = () => {
-    if (project.kind === 'live' && project.url) {
+    if (hasLiveLink && project.url) {
       window.open(project.url, '_blank', 'noopener,noreferrer');
     } else {
       onOpen(project);
     }
   };
 
+  const monogramChar = t(project.nameKey).trim().charAt(0) || project.id.charAt(0).toUpperCase();
+  const [color1, color2, color3] = project.swatch;
+
   return (
     <li className="work-row group">
       <button
         type="button"
         onClick={handleClick}
-        className="grid w-full grid-cols-1 items-baseline gap-6 py-8 text-start md:grid-cols-12 md:py-12"
-        data-cursor-label={project.kind === 'live' ? 'VISIT' : 'CASE STUDY'}
+        className="grid w-full grid-cols-1 items-start gap-6 py-10 text-start md:grid-cols-12 md:gap-8 md:py-14"
+        data-cursor-label={cursorLabel}
         data-magnetic
       >
         <div className="md:col-span-1">
@@ -35,26 +114,114 @@ export function WorkRow({ project, index, onOpen }: WorkRowProps) {
             {indexLabel}
           </span>
         </div>
-        <div className="md:col-span-6">
+        <div className="md:col-span-5">
           <h3 className="title-underline inline font-serif text-[28px] leading-tight md:text-[36px]">
             {t(project.nameKey)}
           </h3>
-          <p className="text-inkdim mt-3 text-[14px]">{t(project.blurbKey)}</p>
+          <p className="text-inkdim mt-3 max-w-[440px] text-[14px] leading-relaxed">
+            {t(project.blurbKey)}
+          </p>
+          <div className="text-inkmute mt-4 flex items-center gap-3 font-mono text-[11px]">
+            <span>{t(project.companyKey)}</span>
+            <span className="bg-inkmute h-1 w-1 rounded-full" />
+            <span>{t(project.periodKey)}</span>
+          </div>
         </div>
-        <div className="grid grid-cols-3 gap-x-6 gap-y-2 md:col-span-4">
+        <div className="grid grid-cols-3 gap-x-6 gap-y-2 self-start md:col-span-3 md:grid-cols-1">
           {project.metrics.map((m) => (
-            <div key={m.labelKey}>
-              <span className="text-amber block font-mono text-[14px]">{m.value}</span>
-              <span className="text-inkmute block font-mono text-[10px] tracking-[0.18em] uppercase">
+            <div
+              key={m.labelKey}
+              className="flex flex-col gap-1 md:flex-row md:items-baseline md:gap-3"
+            >
+              <span className="text-ink font-serif text-[24px] leading-none tabular-nums md:text-[28px]">
+                {m.value}
+              </span>
+              <span className="text-inkmute font-mono text-[10px] tracking-[0.08em] uppercase md:text-[11px]">
                 {t(m.labelKey)}
               </span>
             </div>
           ))}
         </div>
-        <div className="md:col-span-1">
-          <span className="text-amber font-mono text-[10px] tracking-[0.18em] uppercase">
-            {t(project.badgeKey)}
-          </span>
+        <div className="self-start md:col-span-3">
+          <div data-skew style={{ willChange: 'transform' }}>
+            <ClipReveal>
+              <div
+                ref={swatchRef}
+                className="border-line relative aspect-[4/3] overflow-hidden rounded-md border"
+              >
+                <div
+                  ref={bgLayerRef}
+                  className="absolute inset-[-10%]"
+                  style={{
+                    background: `linear-gradient(135deg, ${color1} 0%, ${color2} 60%, ${color3}22 100%)`,
+                    willChange: 'transform',
+                  }}
+                />
+                <svg
+                  ref={stripesLayerRef}
+                  className="absolute inset-[-10%] h-[120%] w-[120%] opacity-[0.07]"
+                  aria-hidden
+                  style={{ willChange: 'transform' }}
+                >
+                  <defs>
+                    <pattern
+                      id={`stripes-${project.id}`}
+                      width="8"
+                      height="8"
+                      patternUnits="userSpaceOnUse"
+                      patternTransform="rotate(45)"
+                    >
+                      <rect width="1" height="8" fill="#ededed" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill={`url(#stripes-${project.id})`} />
+                </svg>
+                <div
+                  ref={monoLayerRef}
+                  className="absolute inset-0 flex items-center justify-center"
+                  style={{ willChange: 'transform' }}
+                >
+                  <span className="text-ink/15 font-serif text-[80px] leading-none select-none md:text-[110px]">
+                    {monogramChar}
+                  </span>
+                </div>
+                <div className="absolute inset-0 flex items-start justify-between p-3 font-mono text-[9px] tracking-[0.18em] uppercase">
+                  <span className="text-ink/40">{project.id}</span>
+                  {isLive ? (
+                    <span className="bg-bg/40 flex items-center gap-1.5 rounded-sm border border-emerald-400/60 px-1.5 py-0.5 text-emerald-400 backdrop-blur-[2px]">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                      {t(project.badgeKey)}
+                    </span>
+                  ) : (
+                    <span className="text-amber/90 border-amber/40 bg-bg/40 rounded-sm border px-1.5 py-0.5 backdrop-blur-[2px]">
+                      {t(project.badgeKey)}
+                    </span>
+                  )}
+                </div>
+                <div className="text-ink/40 absolute inset-0 flex items-end justify-between p-3 font-mono text-[9px] tracking-[0.2em] uppercase">
+                  <span>{project.kind}</span>
+                  <span>
+                    {indexLabel}/{totalLabel}
+                  </span>
+                </div>
+              </div>
+            </ClipReveal>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {project.stack.slice(0, 6).map((tag) => (
+              <span
+                key={tag}
+                className="border-line bg-bg2/40 text-inkdim rounded border px-2 py-1 font-mono text-[10px]"
+              >
+                {tag.split(' (')[0]}
+              </span>
+            ))}
+            {project.stack.length > 6 ? (
+              <span className="text-inkmute px-2 py-1 font-mono text-[10px]">
+                +{project.stack.length - 6}
+              </span>
+            ) : null}
+          </div>
         </div>
       </button>
     </li>

@@ -158,9 +158,9 @@ test.describe.serial('full app verification', () => {
     await page.getByLabel(/^message$/i).fill('Hello there, this is a verification test message.');
     await shot(page, '11-contact-filled');
     await page.getByRole('button', { name: /send message/i }).click();
-    await expect(
-      page.getByRole('button', { name: /opening mail|message ready/i }),
-    ).toBeVisible({ timeout: 3000 });
+    await expect(page.getByRole('button', { name: /opening mail|message ready/i })).toBeVisible({
+      timeout: 3000,
+    });
   });
 
   test('9. SEO assets respond and contain expected content', async ({ page, request }) => {

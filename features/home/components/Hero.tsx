@@ -1,7 +1,8 @@
 import { getTranslations } from 'next-intl/server';
-import { MaskReveal, Reveal } from '@/features/ui-components';
+import { Magnetic, MaskReveal, Reveal } from '@/features/ui-components';
 import { AnimatedMetric } from './AnimatedMetric';
 import { Hero3DLazy } from './Hero3DLazy';
+import { HeroHeadline } from './HeroHeadline';
 import { MetaCell } from './MetaCell';
 
 export async function Hero() {
@@ -17,23 +18,23 @@ export async function Hero() {
               <span className="section-num">{t('availability')}</span>
             </div>
           </Reveal>
-          <h1 className="font-serif text-[clamp(56px,9vw,160px)] leading-[0.95] tracking-[-0.02em]">
+          <HeroHeadline>
             <MaskReveal>{t('headline')}</MaskReveal>
-          </h1>
+          </HeroHeadline>
           <p className="text-inkdim mt-8 max-w-xl text-lg">
             <span>{t('descriptionLead')}</span> <em className="text-ink">{t('descriptionEmph')}</em>
           </p>
           <div className="mt-10 flex items-center gap-4">
-            <span data-magnetic>
+            <Magnetic as="span" strength={0.2}>
               <a href="#work" className="btn-base btn-primary block w-full">
                 {t('ctaWork')}
               </a>
-            </span>
-            <span data-magnetic>
+            </Magnetic>
+            <Magnetic as="span" strength={0.2}>
               <a href="/resume.pdf" download className="btn-base btn-ghost block w-full">
                 {t('ctaResume')}
               </a>
-            </span>
+            </Magnetic>
           </div>
         </div>
         <div className="relative aspect-[4/5] min-h-[420px] lg:col-span-5">

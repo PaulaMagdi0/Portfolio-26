@@ -31,7 +31,9 @@
       "role": "الدور",
       "problem": "المشكلة",
       "architecture": "المعمارية",
-      "contributions": "ما قمت به"
+      "contributions": "ما قمت به",
+      "outcomes": "النتائج",
+      "stack": "التقنيات"
     },
     "metric": {
       "users": "مستخدم متزامن",

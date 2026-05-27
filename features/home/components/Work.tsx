@@ -26,7 +26,13 @@ export function Work() {
         </Reveal>
         <ol>
           {WORK.map((project, i) => (
-            <WorkRow key={project.id} project={project} index={i} onOpen={setActive} />
+            <WorkRow
+              key={project.id}
+              project={project}
+              index={i}
+              total={WORK.length}
+              onOpen={setActive}
+            />
           ))}
         </ol>
       </div>

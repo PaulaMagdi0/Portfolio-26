@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { Reveal, SectionHead } from '@/features/ui-components';
+import { Marquee, Reveal, SectionHead } from '@/features/ui-components';
 import { MARQUEE_TOOLS, STACK } from '../config';
 
 export async function Stack() {
@@ -26,12 +26,9 @@ export async function Stack() {
             </Reveal>
           ))}
         </div>
-        <div
-          className="no-scrollbar truncate-fade mt-16 flex items-center gap-10 overflow-x-auto py-4"
-          aria-label="Tooling marquee"
-        >
+        <Marquee className="truncate-fade mt-16 py-4" ariaLabel="Tooling marquee">
           {MARQUEE_TOOLS.map((tool) => (
-            <div key={tool.name} className="flex shrink-0 items-center gap-3">
+            <div key={tool.name} className="mx-5 flex shrink-0 items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={tool.src}
@@ -45,7 +42,7 @@ export async function Stack() {
               </span>
             </div>
           ))}
-        </div>
+        </Marquee>
       </div>
     </section>
   );
