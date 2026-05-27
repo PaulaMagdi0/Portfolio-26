@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Paula Magdy — Portfolio
 
-## Getting Started
+Personal portfolio site for Paula Magdy, Software Engineer (Cairo, Egypt).
+Built with Next.js 16 App Router, statically rendered for both `en` and `ar` locales, with full SEO.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Turbopack)
+- **React 19**, **TypeScript** (strict)
+- **Tailwind CSS 4** (with `@theme` tokens)
+- **next-intl** — EN / AR with RTL
+- **next-themes** — light / dark with OS detection
+- **framer-motion**, **GSAP** (ScrollTrigger, SplitText), **Lenis** — scroll-driven animations
+- **Three.js** — hero 3D scene (lazy-loaded)
+- **react-hook-form + Zod** — contact form (mailto:)
+- **Vitest + jest-axe** — unit and a11y tests
+- **Playwright** — E2E smoke tests
+
+## Scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm dev              # Dev server on localhost:3000
+pnpm build            # Production build (runs lint + format:check + type-check first)
+pnpm start            # Production server (after build)
+pnpm lint             # ESLint
+pnpm lint:fix         # ESLint with auto-fix
+pnpm type-check       # tsc --noEmit
+pnpm format           # Prettier write
+pnpm format:check     # Prettier check
+pnpm test             # Vitest (watch)
+pnpm test -- --run    # Vitest (single run)
+pnpm test:coverage    # Coverage report
+pnpm test:e2e         # Playwright (auto-starts dev server)
+pnpm analyze          # Bundle analyzer (ANALYZE=true next build)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Folder layout
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+app/                     # Next.js App Router
+  [locale]/              # Locale-scoped routes (en, ar)
+  fonts.ts               # next/font/google declarations
+  globals.css            # Tailwind v4 @theme tokens + presentation primitives
+  sitemap.ts robots.ts
+core/                    # Cross-feature utilities (no feature-specific code)
+  motion/                # Lenis + GSAP + useReducedMotion + MotionProvider
+  seo/                   # Metadata builders + Person JSON-LD
+  accessibility/         # SkipLink
+  theme/                 # (next-themes wrapper)
+features/                # Vertical slices
+  home/                  # All home sections + typed content config
+  hero-3d/               # Three.js scene (lazy via next/dynamic)
+  ui-components/         # Nav, cursor, scroll progress, page loader, etc.
+  contact-form/          # rhf + zod form (mailto)
+  localization/          # Locale switcher
+i18n/                    # next-intl config, routing, request loader
+lib/utils.ts             # cn()
+public/                  # resume.pdf, favicons
+e2e/                     # Playwright specs
+legacy/                  # Original Babel-in-browser build, kept as reference
+docs/superpowers/plans/  # Implementation plan
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Local dev
 
-## Learn More
+```bash
+pnpm install
+pnpm dev
+# Open http://localhost:3000 — redirects to /en
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Testing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm test -- --run                 # All unit + a11y tests
+pnpm test:e2e -- --project=chromium # E2E in Chromium
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+Deploy to Vercel (zero config). For other hosts, run `pnpm build` and serve `next start` against the produced output. Redirect `/Portfolio.html` → `/` is wired in `next.config.ts` for backlink safety.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Architecture notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `.claude/CLAUDE.md` for the full architecture guide and per-area rules under `.claude/rules/`.
+
+## License
+
+All rights reserved © Paula Magdy.
