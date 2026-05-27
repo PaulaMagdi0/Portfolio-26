@@ -51,7 +51,7 @@ export async function Stack() {
               as="li"
               key={group.titleKey}
               delay={i * 0.04}
-              className="border-line grid grid-cols-1 gap-6 border-t py-6 md:grid-cols-12"
+              className="border-line grid grid-cols-1 gap-6 border-t py-8 md:grid-cols-12 md:py-10"
             >
               <div className="flex items-baseline gap-3 md:col-span-3">
                 <span className="text-amber font-mono text-[10px]">
@@ -61,11 +61,11 @@ export async function Stack() {
                   {t(group.titleKey)}
                 </h3>
               </div>
-              <ul className="flex flex-wrap gap-2 md:col-span-9">
+              <ul className="flex flex-wrap items-center gap-1.5 md:col-span-9">
                 {group.items.map((item) => (
                   <li
                     key={item}
-                    className="border-line bg-bg2/40 text-inkdim hover:border-amber/40 hover:text-ink rounded-md border px-2.5 py-1.5 font-mono text-[12px] transition-colors"
+                    className="border-line bg-bg2/40 text-inkdim hover:border-amber/40 hover:text-ink rounded-md border px-2 py-1 font-mono text-[11px] transition-colors"
                   >
                     {item}
                   </li>
