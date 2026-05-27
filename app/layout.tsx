@@ -1,19 +1,12 @@
-import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { instrumentSerif, inter, jetbrainsMono } from './fonts';
 import './globals.css';
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
-};
-
+/**
+ * Root layout — minimal shell required by Next.js App Router.
+ * The locale-specific <html lang> and <body> are rendered by app/[locale]/layout.tsx.
+ * This shell is only hit for non-locale routes (e.g. /robots.txt, /sitemap.xml,
+ * the /_not-found fallback), which Next.js handles before reaching this file.
+ */
 export default function RootLayout({ children }: { children: ReactNode }) {
-  return (
-    <html
-      suppressHydrationWarning
-      className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col">{children}</body>
-    </html>
-  );
+  return children;
 }

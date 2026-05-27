@@ -5,6 +5,7 @@ import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server
 import { LOCALE_DIRECTIONS, SUPPORTED_LOCALES, isLocale, type Locale } from '@/i18n/config';
 import { buildMetadata, buildPersonJsonLd } from '@/core/seo';
 import { SkipLink } from '@/core/accessibility';
+import { instrumentSerif, inter, jetbrainsMono } from '../fonts';
 import { ClientProviders } from './ClientProviders';
 
 export function generateStaticParams() {
@@ -41,15 +42,22 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const dir = LOCALE_DIRECTIONS[locale];
 
   return (
-    <ClientProviders locale={locale} messages={messages}>
-      <div lang={locale} dir={dir}>
-        <SkipLink />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: buildPersonJsonLd() }}
-        />
-        {children}
-      </div>
-    </ClientProviders>
+    <html
+      lang={locale}
+      dir={dir}
+      suppressHydrationWarning
+      className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+    >
+      <body className="flex min-h-full flex-col">
+        <ClientProviders locale={locale} messages={messages}>
+          <SkipLink />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: buildPersonJsonLd() }}
+          />
+          {children}
+        </ClientProviders>
+      </body>
+    </html>
   );
 }
