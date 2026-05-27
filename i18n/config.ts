@@ -3,6 +3,8 @@ export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = 'en';
 
+export const TIME_ZONE = 'Africa/Cairo';
+
 export const LOCALE_DIRECTIONS: Record<Locale, 'ltr' | 'rtl'> = {
   en: 'ltr',
   ar: 'rtl',

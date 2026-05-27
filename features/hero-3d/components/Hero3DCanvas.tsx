@@ -121,12 +121,12 @@ export function Hero3DCanvas() {
     });
 
     // ----- animation loop -------------------------------------------------
-    const clock = new THREE.Clock();
+    const startedAt = performance.now();
     let raf = 0;
     let visible = true; // paused when out of view to save battery
 
     const tick = () => {
-      const t = clock.getElapsedTime();
+      const t = (performance.now() - startedAt) / 1000;
 
       // Continuous rotation — intentionally slow + asymmetric
       outerMesh.rotation.y += 0.0024;

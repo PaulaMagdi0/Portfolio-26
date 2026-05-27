@@ -45,16 +45,20 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     <html
       lang={locale}
       dir={dir}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          id="person-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: buildPersonJsonLd() }}
+        />
+      </head>
       <body className="flex min-h-full flex-col">
         <ClientProviders locale={locale} messages={messages}>
           <SkipLink />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: buildPersonJsonLd() }}
-          />
           {children}
         </ClientProviders>
       </body>
