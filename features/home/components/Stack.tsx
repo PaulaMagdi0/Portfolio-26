@@ -37,10 +37,10 @@ export async function Stack() {
 
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         {/* Intro paragraph */}
-        <Reveal className="text-ink mb-14 max-w-[820px] font-serif text-[28px] leading-[1.15] md:text-[40px]">
+        <Reveal className="text-ink mb-16 max-w-[820px] font-serif text-[28px] leading-[1.15] md:text-[40px]">
           <p>
             {sec('intro1')}
-            <em className="text-inkdim font-light not-italic">{sec('introEmph')}</em>
+            <em className="text-inkdim font-light italic">{sec('introEmph')}</em>
           </p>
         </Reveal>
 
@@ -51,17 +51,17 @@ export async function Stack() {
               as="li"
               key={group.titleKey}
               delay={i * 0.04}
-              className="border-line grid grid-cols-1 gap-6 border-t py-8 md:grid-cols-12 md:py-10"
+              className="border-line grid grid-cols-1 gap-6 border-t py-6 md:grid-cols-12 md:py-8"
             >
-              <div className="flex items-baseline gap-3 md:col-span-3">
-                <span className="text-amber font-mono text-[10px]">
+              <div className="flex items-start gap-3 md:col-span-3">
+                <span className="text-amber mt-1 font-mono text-[10px]">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <h3 className="text-ink font-serif text-[24px] md:text-[28px]">
+                <h3 className="text-ink font-serif text-[24px] leading-none md:text-[28px]">
                   {t(group.titleKey)}
                 </h3>
               </div>
-              <ul className="flex flex-wrap items-center gap-1.5 md:col-span-9">
+              <ul className="flex flex-wrap items-center gap-2 md:col-span-9">
                 {group.items.map((item) => (
                   <li
                     key={item}
