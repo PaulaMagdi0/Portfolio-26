@@ -707,6 +707,27 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* --- Hero entrance keyframes --- */
+@keyframes hero-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* --- Reduced Motion --- */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -719,6 +740,12 @@ html.lenis body {
 
   .split-char,
   .split-word {
+    transform: none !important;
+  }
+
+  [class*='animate-[hero-'] {
+    animation: none !important;
+    opacity: 1 !important;
     transform: none !important;
   }
 }

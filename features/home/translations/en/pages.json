@@ -7,19 +7,11 @@
     "portfolio": "PORTFOLIO / 2026",
     "availability": "AVAILABLE FOR SENIOR FULL-STACK ROLES",
     "headline": "Software Engineer",
+    "kicker": "Building systems that teams rely on.",
     "descriptionLead": "I architect and ship production-grade web platforms —",
     "descriptionEmph": "resilient backends, clean APIs, and interfaces built for scale.",
     "ctaWork": "View Work",
-    "ctaResume": "Download Resume",
-    "meta": {
-      "based": "BASED",
-      "basedValue": "Cairo, EG",
-      "focus": "FOCUS",
-      "focusValue": "Full-stack platforms",
-      "years": "YEARS",
-      "yearsValue": "5+",
-      "metric": "IMPACT"
-    }
+    "ctaResume": "Download Resume"
   },
   "work": {
     "label": "SELECTED WORK",
