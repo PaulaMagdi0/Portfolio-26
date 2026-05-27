@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
-import { useLocale } from 'next-intl';
 import { gsap } from '@/core/motion';
 
 interface MarqueeProps {
@@ -26,8 +25,6 @@ export function Marquee({
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const innerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const locale = useLocale();
-  const isRtl = locale === 'ar';
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -40,11 +37,8 @@ export function Marquee({
     if (trackWidth === 0) return;
 
     const duration = trackWidth / speed;
-    if (isRtl) {
-      gsap.set(inner, { x: -trackWidth });
-    }
     const tween = gsap.to(inner, {
-      x: isRtl ? 0 : -trackWidth,
+      x: -trackWidth,
       duration,
       ease: 'none',
       repeat: -1,
@@ -105,7 +99,7 @@ export function Marquee({
         window.removeEventListener('touchend', onUp);
       }
     };
-  }, [draggable, pauseOnHover, speed, isRtl]);
+  }, [draggable, pauseOnHover, speed]);
 
   return (
     <div
@@ -116,6 +110,7 @@ export function Marquee({
     >
       <div
         ref={innerRef}
+        dir="ltr"
         className="flex"
         style={{ width: 'max-content', willChange: 'transform' }}
       >
