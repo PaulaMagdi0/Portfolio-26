@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { ClipReveal } from '@/features/ui-components';
 import type { WorkProject } from '../types';
@@ -72,6 +73,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
   const t = useTranslations();
   const indexLabel = String(index + 1).padStart(2, '0');
   const totalLabel = String(total).padStart(2, '0');
+  const [hovered, setHovered] = useState(false);
 
   const bgLayerRef = useRef<HTMLDivElement | null>(null);
   const stripesLayerRef = useRef<SVGSVGElement | null>(null);
@@ -89,7 +91,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
     }
   }
 
-  const handleClick = () => {
+  const activate = () => {
     if (hasLiveLink && project.url) {
       window.open(project.url, '_blank', 'noopener,noreferrer');
     } else {
@@ -97,15 +99,31 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
     }
   };
 
+  const ariaLabel = hasLiveLink
+    ? `Visit ${t(project.nameKey)} (opens in new tab)`
+    : `Open ${t(project.nameKey)} case study`;
+
   const monogramChar = t(project.nameKey).trim().charAt(0) || project.id.charAt(0).toUpperCase();
   const [color1, color2, color3] = project.swatch;
 
   return (
     <li className="work-row group">
-      <button
-        type="button"
-        onClick={handleClick}
-        className="grid w-full grid-cols-1 items-start gap-6 py-10 text-start md:grid-cols-12 md:gap-8 md:py-14"
+      <article
+        role="button"
+        tabIndex={0}
+        aria-label={ariaLabel}
+        onClick={activate}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            activate();
+          }
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
+        className="focus-visible:ring-amber/60 grid w-full cursor-pointer grid-cols-1 items-start gap-6 rounded-sm py-10 text-start focus-visible:ring-1 focus-visible:outline-none md:grid-cols-12 md:gap-8 md:py-14"
         data-cursor-label={cursorLabel}
         data-magnetic
       >
@@ -115,9 +133,33 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
           </span>
         </div>
         <div className="md:col-span-5">
-          <h3 className="title-underline inline font-serif text-[28px] leading-tight md:text-[36px]">
-            {t(project.nameKey)}
-          </h3>
+          <div className="flex flex-wrap items-baseline gap-3">
+            <h3 className="title-underline inline font-serif text-[28px] leading-tight md:text-[36px]">
+              {t(project.nameKey)}
+            </h3>
+            <motion.span
+              aria-hidden
+              className="text-amber inline-flex"
+              animate={{
+                x: hovered ? 4 : 0,
+                y: hovered ? -4 : 0,
+                opacity: hovered ? 1 : 0.5,
+              }}
+              transition={{ type: 'spring', stiffness: 220, damping: 16 }}
+            >
+              <svg
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M7 17 17 7M7 7h10v10" />
+              </svg>
+            </motion.span>
+          </div>
           <p className="text-inkdim mt-3 max-w-[440px] text-[14px] leading-relaxed">
             {t(project.blurbKey)}
           </p>
@@ -223,7 +265,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
             ) : null}
           </div>
         </div>
-      </button>
+      </article>
     </li>
   );
 }
