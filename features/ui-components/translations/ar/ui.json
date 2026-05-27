@@ -34,7 +34,7 @@
     "watermark": "بولا"
   },
   "clock": {
-    "locationCode": "قاه"
+    "locationCode": "قاهرة"
   },
   "cursor": {
     "open": "افتح",
@@ -42,7 +42,8 @@
     "caseStudy": "دراسة الحالة",
     "visit": "زُر",
     "send": "إرسال",
-    "copy": "نسخ"
+    "copy": "نسخ",
+    "download": "تنزيل"
   },
   "stack": {
     "marqueeLabel": "شريط الأدوات المتحرك"

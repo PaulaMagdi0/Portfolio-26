@@ -42,7 +42,8 @@
     "caseStudy": "CASE STUDY",
     "visit": "VISIT",
     "send": "send",
-    "copy": "copy"
+    "copy": "copy",
+    "download": "download"
   },
   "stack": {
     "marqueeLabel": "Tooling marquee"
