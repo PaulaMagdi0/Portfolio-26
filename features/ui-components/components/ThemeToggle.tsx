@@ -40,14 +40,19 @@ export function ThemeToggle() {
     const root = document.documentElement;
     const prevAttr = root.getAttribute('data-theme') ?? (isLight ? 'light' : 'dark');
     root.setAttribute('data-theme', next);
-    const nextBg = getComputedStyle(root).getPropertyValue('--color-bg').trim() || '10 10 10';
+    // --color-bg in @theme is a full `rgb(r g b)` string (Tailwind v4), not a
+    // raw triplet. Use it as-is — wrapping in another rgb(...) yields invalid
+    // CSS and the overlay paints transparent (the bug: circle expands but is
+    // invisible, so the page just snaps to the new theme with no animation).
+    const nextBg =
+      getComputedStyle(root).getPropertyValue('--color-bg').trim() || 'rgb(10 10 10)';
     root.setAttribute('data-theme', prevAttr);
 
     const overlay = document.createElement('div');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.style.cssText = `
       position: fixed; inset: 0; z-index: 100;
-      background: rgb(${nextBg});
+      background: ${nextBg};
       clip-path: circle(0px at ${cx}px ${cy}px);
       pointer-events: none;
       will-change: clip-path, opacity;
