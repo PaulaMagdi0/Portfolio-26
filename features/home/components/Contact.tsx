@@ -31,6 +31,7 @@ const SOCIAL_FILL: Record<string, boolean> = {
 export async function Contact() {
   const t = await getTranslations();
   const sec = await getTranslations('home.contact');
+  const tUi = await getTranslations('ui');
 
   return (
     <section id="contact" className="relative overflow-hidden px-6 pt-16 pb-10 md:px-10 md:pt-24">
@@ -75,7 +76,9 @@ export async function Contact() {
             <p className="text-inkmute mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
               {sec('phone')}
             </p>
-            <p className="text-ink font-serif text-[20px] md:text-[24px]">{sec('phoneValue')}</p>
+            <p dir="ltr" className="text-ink font-serif text-[20px] md:text-[24px]">
+              {sec('phoneValue')}
+            </p>
           </Reveal>
 
           <Reveal as="div" delay={0.1} className="md:col-span-4">
@@ -92,7 +95,7 @@ export async function Contact() {
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      data-cursor-label="open"
+                      data-cursor-label={tUi('cursor.open')}
                       className="text-inkdim hover:text-amber group flex items-center gap-2 transition-colors"
                     >
                       <svg
@@ -143,7 +146,7 @@ export async function Contact() {
             <LiveClock />
             <a
               href="#top"
-              data-cursor-label="top"
+              data-cursor-label={tUi('cursor.top')}
               className="text-inkdim hover:text-ink inline-flex items-center gap-1 font-mono text-[11px] transition-colors"
             >
               <span>{sec('backToTop')}</span>
@@ -170,7 +173,7 @@ export async function Contact() {
         className="pointer-events-none absolute right-0 -bottom-20 left-0 text-center select-none"
       >
         <p className="text-ink font-serif text-[28vw] leading-none tracking-tighter opacity-[0.04]">
-          Paula
+          {tUi('brand.watermark')}
         </p>
       </div>
     </section>
