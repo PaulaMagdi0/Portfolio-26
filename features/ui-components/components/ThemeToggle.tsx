@@ -44,8 +44,7 @@ export function ThemeToggle() {
     // raw triplet. Use it as-is — wrapping in another rgb(...) yields invalid
     // CSS and the overlay paints transparent (the bug: circle expands but is
     // invisible, so the page just snaps to the new theme with no animation).
-    const nextBg =
-      getComputedStyle(root).getPropertyValue('--color-bg').trim() || 'rgb(10 10 10)';
+    const nextBg = getComputedStyle(root).getPropertyValue('--color-bg').trim() || 'rgb(10 10 10)';
     root.setAttribute('data-theme', prevAttr);
 
     const overlay = document.createElement('div');
