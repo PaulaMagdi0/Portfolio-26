@@ -134,7 +134,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
         </div>
         <div className="md:col-span-5">
           <div className="flex flex-wrap items-baseline gap-3">
-            <h3 className="title-underline inline font-serif text-[28px] leading-tight md:text-[36px]">
+            <h3 className="title-underline inline-block font-serif text-[28px] leading-tight md:text-[36px]">
               {t(project.nameKey)}
             </h3>
             <motion.span
