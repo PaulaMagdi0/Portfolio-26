@@ -2,9 +2,8 @@
 node_modules
 pnpm-lock.yaml
 public
-legacy
 .claude
-docs
 coverage
 playwright-report
 test-results
+.pnpm-store
