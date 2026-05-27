@@ -62,6 +62,39 @@ vi.mock('next-intl/server', () => ({
   getMessages: () => Promise.resolve({}),
 }));
 
+vi.mock('gsap', () => {
+  type GsapVars = { onComplete?: () => void; onStart?: () => void };
+  const run = (_target: unknown, vars?: GsapVars) => {
+    vars?.onStart?.();
+    vars?.onComplete?.();
+    return { kill: vi.fn(), pause: vi.fn(), play: vi.fn() };
+  };
+  const api = {
+    to: run,
+    from: run,
+    fromTo: run,
+    set: run,
+    registerPlugin: vi.fn(),
+    timeline: () => ({
+      to: run,
+      from: run,
+      fromTo: run,
+      set: run,
+      kill: vi.fn(),
+    }),
+  };
+  return {
+    gsap: api,
+    default: api,
+    ScrollTrigger: {
+      create: vi.fn(),
+      refresh: vi.fn(),
+      kill: vi.fn(),
+      getAll: () => [],
+    },
+  };
+});
+
 vi.mock('@/i18n/routing', () => ({
   Link: ({ children, ...props }: { children: React.ReactNode; href?: string }) => {
     const a = document.createElement('a');

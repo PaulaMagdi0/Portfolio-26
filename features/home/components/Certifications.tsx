@@ -30,60 +30,63 @@ export async function Certifications() {
           <div className="md:col-span-9">
             <ol>
               {CERTIFICATIONS.map((c, i) => (
-                <Reveal key={c.id} delay={i * 0.05}>
-                  <li className="border-line grid grid-cols-1 gap-6 border-t py-8 first:border-t-0 md:grid-cols-12 md:py-10">
-                    <div className="flex flex-col gap-3 md:col-span-3">
-                      <Magnetic as="span" strength={0.35} className="inline-block w-fit">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={c.logo}
-                          alt={t(c.issuerKey)}
-                          width={56}
-                          height={32}
-                          className="marquee-logo h-8 w-auto opacity-90"
-                          loading="lazy"
-                          draggable={false}
-                        />
-                      </Magnetic>
-                      <span className="text-amber font-mono text-[11px] tracking-[0.1em]">
-                        {c.issued}
-                        {c.expires ? <> → {c.expires}</> : null}
-                      </span>
-                    </div>
+                <Reveal
+                  key={c.id}
+                  as="li"
+                  delay={i * 0.05}
+                  className="border-line grid grid-cols-1 gap-6 border-t py-8 first:border-t-0 md:grid-cols-12 md:py-10"
+                >
+                  <div className="flex flex-col gap-3 md:col-span-3">
+                    <Magnetic as="span" strength={0.35} className="inline-block w-fit">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={c.logo}
+                        alt={t(c.issuerKey)}
+                        width={56}
+                        height={32}
+                        className="marquee-logo h-8 w-auto opacity-90"
+                        loading="lazy"
+                        draggable={false}
+                      />
+                    </Magnetic>
+                    <span className="text-amber font-mono text-[11px] tracking-[0.1em]">
+                      {c.issued}
+                      {c.expires ? <> → {c.expires}</> : null}
+                    </span>
+                  </div>
 
-                    <div className="md:col-span-9">
-                      <h3 className="text-ink mb-1 font-serif text-[24px] leading-[1.15] md:text-[28px]">
-                        {t(c.nameKey)}
-                      </h3>
-                      <p className="text-inkdim mb-4 font-mono text-[13px]">
-                        {t(c.issuerKey)}
-                        {c.division ? <span className="text-inkmute"> · {c.division}</span> : null}
-                      </p>
-                      <p className="text-inkdim mb-4 max-w-[600px] text-[14px] leading-relaxed">
-                        {t(c.descKey)}
-                      </p>
-                      {c.credentialId ? (
-                        <div className="text-inkmute mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px]">
-                          <span className="text-inkmute tracking-[0.14em] uppercase">
-                            {sec('credId')}
-                          </span>
-                          <span className="text-ink break-all">{c.credentialId}</span>
-                        </div>
-                      ) : null}
-                      {c.skills.length ? (
-                        <ul className="flex flex-wrap gap-1.5">
-                          {c.skills.map((s) => (
-                            <li
-                              key={s}
-                              className="border-line bg-bg2/40 text-inkdim rounded border px-2 py-1 font-mono text-[11px]"
-                            >
-                              {s}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </div>
-                  </li>
+                  <div className="md:col-span-9">
+                    <h3 className="text-ink mb-1 font-serif text-[24px] leading-[1.15] md:text-[28px]">
+                      {t(c.nameKey)}
+                    </h3>
+                    <p className="text-inkdim mb-4 font-mono text-[13px]">
+                      {t(c.issuerKey)}
+                      {c.division ? <span className="text-inkmute"> · {c.division}</span> : null}
+                    </p>
+                    <p className="text-inkdim mb-4 max-w-[600px] text-[14px] leading-relaxed">
+                      {t(c.descKey)}
+                    </p>
+                    {c.credentialId ? (
+                      <div className="text-inkmute mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px]">
+                        <span className="text-inkmute tracking-[0.14em] uppercase">
+                          {sec('credId')}
+                        </span>
+                        <span className="text-ink break-all">{c.credentialId}</span>
+                      </div>
+                    ) : null}
+                    {c.skills.length ? (
+                      <ul className="flex flex-wrap gap-1.5">
+                        {c.skills.map((s) => (
+                          <li
+                            key={s}
+                            className="border-line bg-bg2/40 text-inkdim rounded border px-2 py-1 font-mono text-[11px]"
+                          >
+                            {s}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </div>
                 </Reveal>
               ))}
             </ol>

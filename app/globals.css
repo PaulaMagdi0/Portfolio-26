@@ -59,21 +59,18 @@ body {
 
 /* --- Arabic Typography --- */
 html[lang='ar'] body {
-  font-family:
-    var(--font-arabic-sans), var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-arabic-sans), var(--font-sans), system-ui, sans-serif;
 }
 
 html[lang='ar'] .font-serif,
 html[lang='ar'] h1,
 html[lang='ar'] h2,
 html[lang='ar'] h3 {
-  font-family:
-    var(--font-arabic-serif), var(--font-serif), ui-serif, Georgia, serif;
+  font-family: var(--font-arabic-serif), var(--font-serif), ui-serif, Georgia, serif;
 }
 
 html[lang='ar'] .font-mono {
-  font-family:
-    var(--font-mono), var(--font-arabic-sans), ui-monospace, monospace;
+  font-family: var(--font-mono), var(--font-arabic-sans), ui-monospace, monospace;
 }
 
 ::selection {

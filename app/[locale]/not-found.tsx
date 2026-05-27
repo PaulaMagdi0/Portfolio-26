@@ -12,7 +12,7 @@ export default async function NotFound() {
         {t('eyebrow')}
       </p>
 
-      <h1 className="text-ink relative z-10 mt-6 font-serif leading-none text-[28vw] md:text-[18vw] lg:text-[14vw]">
+      <h1 className="text-ink relative z-10 mt-6 font-serif text-[28vw] leading-none md:text-[18vw] lg:text-[14vw]">
         404
       </h1>
 
