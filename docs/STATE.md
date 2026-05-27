@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-05-28 (v3 sweep done; AR localization 80% done; 3 small files left)
 **Branch:** `feature/nextjs-conversion`
-**Latest commit:** `1d62bc0 feat(i18n): finish TopNav tBrand + LiveClock locale + Hero/Metric digits`
+**Latest commit:** `6feb01c fix(i18n): update Arabic clock location code translation from "كاي" to "قاه"`
 **Working tree:** clean
 **Quality gates:** `pnpm type-check` ✓ clean (last verified after `1d62bc0`)
 
@@ -41,6 +41,7 @@ All 14 screenshot-review tasks landed. See `docs/superpowers/plans/2026-05-27-le
 - **PageLoader** (`e383d6d`) — brand, portfolio, cairo, counter digits all locale-aware
 - **TopNav + SectionHead** (`6f9756a`) — brand via `t('brand.name')`; section number digits via `toLocaleDigits`
 - **TopNav `tBrand` hook + LiveClock + Hero + AnimatedMetric** (`1d62bc0`) — LiveClock uses `ar-EG-u-nu-arab` Intl.DateTimeFormat on AR; Hero resume `data-cursor-label` translated; AnimatedMetric live-counting digits localized
+- **Arabic clock location code** (`6feb01c`) — `ui.clock.locationCode` updated to `"قاه"` (was `"كاي"`)
 
 ### Plans
 - `docs/superpowers/plans/2026-05-27-nextjs-conversion.md` — original 35-task port (complete except Task 35 — legacy/ deletion, still gated)
