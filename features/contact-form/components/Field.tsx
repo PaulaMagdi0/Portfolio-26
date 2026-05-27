@@ -16,20 +16,29 @@ type FieldProps = BaseProps &
   );
 
 export function Field({ id, label, error, textarea, ...rest }: FieldProps) {
-  const labelClass = 'block font-mono text-[10px] tracking-[0.18em] text-inkmute uppercase mb-2';
   const inputClass =
-    'block w-full bg-bg2 border border-line rounded-md px-4 py-3 text-[15px] text-ink placeholder:text-inkmute focus:border-amber focus:outline-none transition-colors';
+    'block w-full border-b border-line bg-transparent pb-2 pt-1 font-serif text-[20px] md:text-[24px] text-ink placeholder:text-inkmute placeholder:font-serif placeholder:font-normal focus:border-amber/70 focus:outline-none transition-colors';
 
   return (
-    <div>
-      <label htmlFor={id} className={labelClass}>
-        {label}
-      </label>
+    <div className="mb-8">
+      <div className="mb-2 flex items-baseline justify-between">
+        <label
+          htmlFor={id}
+          className="text-inkmute font-mono text-[10px] tracking-[0.18em] uppercase"
+        >
+          {label}
+        </label>
+        {error ? (
+          <span id={`${id}-error`} role="alert" className="text-amber font-mono text-[10px]">
+            {error}
+          </span>
+        ) : null}
+      </div>
       {textarea ? (
         <textarea
           id={id}
-          rows={5}
-          className={inputClass}
+          rows={4}
+          className={`${inputClass} resize-none`}
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
           {...(rest as ComponentPropsWithRef<'textarea'>)}
@@ -43,11 +52,6 @@ export function Field({ id, label, error, textarea, ...rest }: FieldProps) {
           {...(rest as ComponentPropsWithRef<'input'>)}
         />
       )}
-      {error ? (
-        <p id={`${id}-error`} className="text-amber mt-1.5 font-mono text-[11px]" role="alert">
-          {error}
-        </p>
-      ) : null}
     </div>
   );
 }

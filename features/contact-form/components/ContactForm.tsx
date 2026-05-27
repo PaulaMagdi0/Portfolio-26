@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
+import { Magnetic } from '@/features/ui-components';
 import { Field } from './Field';
 import { buildContactSchema, type ContactFormValues } from '../types/contact.schema';
 import { buildMailto } from '../utils/buildMailto';
@@ -34,7 +35,7 @@ export function ContactForm() {
     status === 'sending' ? t('formSending') : status === 'sent' ? t('formSent') : t('formSend');
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-6">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <Field
         id="name"
         label={t('formName')}
@@ -60,10 +61,31 @@ export function ContactForm() {
         {...register('message')}
         error={errors.message?.message}
       />
-      <button type="submit" className="btn-base btn-primary w-fit">
-        {submitLabel}
-      </button>
-      <p className="text-inkmute font-mono text-xs">{t('formHelper')}</p>
+      <div className="mt-6 flex flex-wrap items-center gap-4">
+        <Magnetic as="span" strength={0.25}>
+          <button
+            type="submit"
+            disabled={status !== 'idle'}
+            data-cursor-label="send"
+            className="btn-base btn-primary disabled:opacity-60"
+          >
+            {submitLabel}
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
+          </button>
+        </Magnetic>
+        <span className="text-inkmute font-mono text-[12px]">{t('formHelper')}</span>
+      </div>
     </form>
   );
 }
