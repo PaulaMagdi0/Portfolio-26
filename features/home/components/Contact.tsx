@@ -76,8 +76,8 @@ export async function Contact() {
             <p className="text-inkmute mb-3 font-mono text-[10px] tracking-[0.18em] uppercase">
               {sec('phone')}
             </p>
-            <p dir="ltr" className="text-ink font-serif text-[20px] md:text-[24px]">
-              {sec('phoneValue')}
+            <p className="text-ink font-serif text-[20px] md:text-[24px]">
+              <bdi>{sec('phoneValue')}</bdi>
             </p>
           </Reveal>
 

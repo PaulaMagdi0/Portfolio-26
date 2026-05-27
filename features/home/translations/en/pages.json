@@ -170,17 +170,23 @@
     "hccda": {
       "name": "HCCDA — Tech Essentials",
       "issuer": "Huawei",
-      "desc": "Huawei Cloud Developer Associate — fundamentals of cloud architecture, deployment, and core services across the Huawei Cloud ecosystem."
+      "desc": "Huawei Cloud Developer Associate — fundamentals of cloud architecture, deployment, and core services across the Huawei Cloud ecosystem.",
+      "issued": "May 2026",
+      "expires": "May 2029"
     },
     "aws-ccp": {
       "name": "AWS Certified Cloud Practitioner",
       "issuer": "Amazon Web Services",
-      "desc": "Foundational understanding of IT services and their uses in the AWS Cloud — fluency, billing, security, and service awareness."
+      "desc": "Foundational understanding of IT services and their uses in the AWS Cloud — fluency, billing, security, and service awareness.",
+      "issued": "Apr 2026",
+      "expires": "Apr 2029"
     },
     "hcia-ai": {
       "name": "HCIA — AI Certification",
       "issuer": "Huawei",
-      "desc": "Core AI concepts, machine learning and deep learning fundamentals, plus practical model development and deployment."
+      "desc": "Core AI concepts, machine learning and deep learning fundamentals, plus practical model development and deployment.",
+      "issued": "Aug 2020",
+      "expires": "Aug 2023"
     }
   },
   "stack": {

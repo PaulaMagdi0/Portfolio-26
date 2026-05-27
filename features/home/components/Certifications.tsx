@@ -50,8 +50,8 @@ export async function Certifications() {
                       />
                     </Magnetic>
                     <span className="text-amber font-mono text-[11px] tracking-[0.1em]">
-                      {c.issued}
-                      {c.expires ? <> → {c.expires}</> : null}
+                      {t(`home.certs.${c.id}.issued`)}
+                      {c.expires ? <> → {t(`home.certs.${c.id}.expires`)}</> : null}
                     </span>
                   </div>
 
