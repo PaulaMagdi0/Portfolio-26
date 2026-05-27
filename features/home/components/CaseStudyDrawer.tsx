@@ -82,7 +82,25 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
               </button>
             </div>
             <div className="p-8 md:p-12">
-              <h2 className="mb-8 font-serif text-3xl md:text-4xl">{t(project.nameKey)}</h2>
+              <motion.h2
+                key={`${project.id}-h`}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.75, ease: [0.2, 0.7, 0.2, 1], delay: 0.05 }}
+                className="text-ink mb-3 font-serif text-[30px] leading-[1.05] md:text-[44px]"
+              >
+                {t(project.nameKey)}
+              </motion.h2>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, ease: 'easeOut', delay: 0.18 }}
+                className="text-inkdim mb-10 flex items-center gap-3 font-mono text-[12px]"
+              >
+                <span>{t(project.companyKey)}</span>
+                <span className="bg-inkmute h-1 w-1 rounded-full" />
+                <span>{t(project.periodKey)}</span>
+              </motion.div>
               <CSBlock label={t('home.work.caseStudy.role')} delay={0.28}>
                 <p className="text-inkdim">{t(project.caseStudy.roleKey)}</p>
               </CSBlock>

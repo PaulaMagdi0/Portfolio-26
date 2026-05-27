@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { ClipReveal } from '@/features/ui-components';
 import { toLocaleDigits } from '@/lib/digits';
 import type { WorkProject } from '../types';
+import { AnimatedMetric } from './AnimatedMetric';
 
 interface WorkRowProps {
   project: WorkProject;
@@ -178,7 +179,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
               className="flex flex-col gap-1 md:flex-row md:items-baseline md:gap-3"
             >
               <span className="text-ink font-serif text-[24px] leading-none tabular-nums md:text-[28px]">
-                {m.value}
+                <AnimatedMetric value={m.value} />
               </span>
               <span className="text-inkmute font-mono text-[10px] tracking-[0.08em] uppercase md:text-[11px]">
                 {t(m.labelKey)}

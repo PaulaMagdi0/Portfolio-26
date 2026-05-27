@@ -1,34 +1,34 @@
 # Project State / Handoff
 
-**Last updated:** 2026-05-28 (AR localization complete; visual polish done; animation parity audit is next)
+**Last updated:** 2026-05-28 (animation parity audit + ports landed; awaiting visual sign-off and `legacy/` deletion)
 **Branch:** `feature/nextjs-conversion`
-**Latest commit:** `2b434ca fix(resume): update references to 'resume.pdf' to 'Resume.pdf' for consistency`
+**Latest commit:** `c76d959 feat(motion): scroll-progress — add 100ms ease-out smoothing`
 **Working tree:** clean
-**Quality gates (last full run after `6309285`):** lint ✓, type-check ✓, format ✓, vitest 21/21 ✓, playwright 19/19 ✓, build ✓
+**Quality gates (last full run after `c76d959`):** lint ✓, type-check ✓, format ✓, vitest 21/21 ✓, build ✓ (e2e not re-run this session — pure motion-internal changes)
 
 ---
 
 ## Active task for the next session
 
-**Audit legacy animations vs. the current Next.js implementation, then port any missing or drifted motion.**
+**Visual sign-off on the animation ports, then delete `legacy/` and merge.**
 
-Use the plan: `docs/superpowers/plans/2026-05-28-legacy-animation-audit.md`.
+Plans:
+- Audit: `docs/superpowers/plans/2026-05-28-legacy-animation-audit.md`
+- Port batches + triage: `docs/superpowers/plans/2026-05-28-animation-port-batches.md`
+- Audit spec (post-port, all rows now `match`): `docs/superpowers/specs/2026-05-28-animation-audit.md`
 
-Suggested opening message for the next session:
+Side-by-side walk against `legacy/Portfolio.html` (served at `localhost:8001` via `cd legacy && python3 -m http.server 8001`) on `/en` and `/ar`, both themes, at 1440 / 1024 / 768 / 375. Focus areas — these are the ones that just changed:
 
-> Read `docs/STATE.md`, then dispatch an Explore agent to audit
-> `legacy/Portfolio.html` + `legacy/src/*.jsx` for every animation
-> (page loader, hero text reveals, scroll triggers, hover effects,
-> marquee, theme transitions, cursor, menu open/close). Return a gap
-> list: legacy spec vs. current Next.js implementation, flagging
-> anything missing or with different timing/easing. Don't write code
-> yet.
+1. **ClipReveal** (WorkRow swatches): clip-path bottom-edge reveal + scale 1.1→1.
+2. **Reveal**: items now fire on `margin: '-80px'` not `amount: 0.2` — they enter slightly later.
+3. **MaskReveal**: one-line text reveals glide for 1.1s (was 0.9s).
+4. **TopNav**: scroll-state bg/border eases over 500ms (was 300ms).
+5. **ScrollProgress**: top bar now glides over 100ms (was raw RAF snap).
 
-### What ships AFTER the animation pass
-
-1. Visual + motion parity with the legacy build on both `/en` and `/ar`.
-2. Branch is ready for merge to `main`.
-3. `legacy/` can be deleted (`git rm -r legacy/`).
+On sign-off:
+- `pnpm test:e2e --project=chromium` (skipped this session)
+- `git rm -r legacy/` + commit
+- merge `feature/nextjs-conversion` → `main`
 
 ---
 

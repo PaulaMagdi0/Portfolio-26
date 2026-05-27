@@ -102,7 +102,14 @@ export function SplitReveal({
 
       if (mode === 'instant') {
         play();
+        // Safety only matters for instant mode — if something stalls before
+        // play() commits, reveal the text after 1.5s so it's never stuck hidden.
+        safety = window.setTimeout(setVisibleFallback, 1500);
       } else {
+        // Scroll mode: the observer is the trigger. No safety timer — otherwise
+        // a section below the fold would have its chars force-revealed at 1.5s,
+        // and when the user scrolls down later the GSAP tween animates 0→0
+        // (no visible cascade).
         observer = new IntersectionObserver(
           (entries) => {
             if (entries.some((e) => e.isIntersecting) && split) {
@@ -114,8 +121,6 @@ export function SplitReveal({
         );
         observer.observe(el);
       }
-
-      safety = window.setTimeout(setVisibleFallback, 1500);
     };
 
     if (document.fonts && document.fonts.ready) {

@@ -62,7 +62,12 @@ export function PageLoader() {
         setTimeout(() => {
           if (cancelled) return;
           document.documentElement.classList.add('loaded');
-          setDone(true);
+          // The CSS clip-path curtain wipe runs 1.1s once `html.loaded` is set
+          // (see globals.css #page-loader transition). Keep the element mounted
+          // through the transition; unmounting React-side too early kills it.
+          setTimeout(() => {
+            if (!cancelled) setDone(true);
+          }, 1200);
         }, 280);
       }
     };
