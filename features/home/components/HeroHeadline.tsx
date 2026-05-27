@@ -13,7 +13,7 @@ interface HeroHeadlineProps {
  * prefers-reduced-motion.
  */
 export function HeroHeadline({ children }: HeroHeadlineProps) {
-  const ref = useRef<HTMLHeadingElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -47,12 +47,8 @@ export function HeroHeadline({ children }: HeroHeadlineProps) {
   }, []);
 
   return (
-    <h1
-      ref={ref}
-      className="font-serif text-[clamp(56px,9vw,160px)] leading-[0.95] tracking-[-0.02em]"
-      style={{ willChange: 'transform, opacity' }}
-    >
+    <div ref={ref} style={{ willChange: 'transform, opacity' }}>
       {children}
-    </h1>
+    </div>
   );
 }
