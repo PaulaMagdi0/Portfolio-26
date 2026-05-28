@@ -20,6 +20,8 @@ export function buildMetadata({
     SUPPORTED_LOCALES.map((l) => [l, `${SITE_URL}/${l}${path}`]),
   ) as Record<Locale, string>;
 
+  const ogImage = `/og-${locale}.png`;
+
   return {
     title,
     description,
@@ -35,14 +37,14 @@ export function buildMetadata({
       type: 'website',
       siteName: SITE_NAME,
       locale: locale === 'ar' ? 'ar_EG' : 'en_US',
-      images: [{ url: `/${locale}/opengraph-image`, width: 1200, height: 630, alt: SITE_NAME }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: SITE_NAME }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
       site: SITE_TWITTER,
-      images: [`/${locale}/opengraph-image`],
+      images: [ogImage],
     },
     robots: {
       index: true,

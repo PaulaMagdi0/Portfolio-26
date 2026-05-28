@@ -57,7 +57,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           dangerouslySetInnerHTML={{ __html: buildPersonJsonLd() }}
         />
       </head>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <ThemeInitScript />
         <ClientProviders locale={locale} messages={messages}>
           <SkipLink />

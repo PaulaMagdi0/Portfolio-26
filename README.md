@@ -5,7 +5,7 @@ Built with Next.js 16 App Router, statically rendered for both `en` and `ar` loc
 
 ## Stack
 
-- **Next.js 16** (App Router, Turbopack)
+- **Next.js 16** (App Router; webpack dev pinned via `--webpack` until the Turbopack Map-leak in 16.2.x is patched)
 - **React 19**, **TypeScript** (strict)
 - **Tailwind CSS 4** (with `@theme` tokens)
 - **next-intl** — EN / AR with RTL
@@ -55,7 +55,7 @@ features/                # Vertical slices
   localization/          # Locale switcher
 i18n/                    # next-intl config, routing, request loader
 lib/utils.ts             # cn()
-public/                  # Resume.pdf, favicons
+public/                  # Resume.pdf, OG images (og-en.png, og-ar.png)
 e2e/                     # Playwright specs
 ```
 
