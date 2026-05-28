@@ -74,9 +74,9 @@ pnpm dev
 
 ## Environment variables
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Recommended (prod) | Canonical site URL used by SEO metadata, sitemap, and absolute OG image URLs. Defaults to `http://localhost:3000` if unset. |
+| Variable                           | Required                      | Purpose                                                                                                                                                                                                      |
+| ---------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `NEXT_PUBLIC_SITE_URL`             | Recommended (prod)            | Canonical site URL used by SEO metadata, sitemap, and absolute OG image URLs. Defaults to `http://localhost:3000` if unset.                                                                                  |
 | `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Required for the contact form | Web3Forms access key. Generate one free at [web3forms.com](https://web3forms.com/) by entering the inbox that should receive submissions. Without this key the contact form shows an error banner on submit. |
 
 All env vars are validated by a Zod schema in `lib/env/env.schema.ts` at module load.
