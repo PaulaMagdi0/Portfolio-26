@@ -20,6 +20,7 @@ git status
 pnpm install --frozen-lockfile
 pnpm type-check && pnpm lint && pnpm test --run
 ```
+
 Expected: known modified files (`app/[locale]/layout.tsx`, `app/robots.ts`, `app/sitemap.ts`, `e2e/home.spec.ts`); type-check and tests green so we have a known-good baseline before edits.
 
 ---
@@ -29,6 +30,7 @@ Expected: known modified files (`app/[locale]/layout.tsx`, `app/robots.ts`, `app
 ### Task 1: Create `core/security/headers.ts` with CSP + standard headers
 
 **Files:**
+
 - Create: `core/security/headers.ts`
 - Create: `core/security/index.ts`
 
@@ -85,6 +87,7 @@ export { SECURITY_HEADERS, buildContentSecurityPolicy } from './headers';
 ### Task 2: Wire CSP into `next.config.ts` and add the bundle-analyzer comment (#29)
 
 **Files:**
+
 - Modify: `next.config.ts` (replace `headers()` body, annotate analyzer at lines 7–9)
 
 - [ ] **Step 2.1: Update `next.config.ts`**
@@ -118,9 +121,7 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
-    return [
-      { source: '/Portfolio.html', destination: '/', permanent: true },
-    ];
+    return [{ source: '/Portfolio.html', destination: '/', permanent: true }];
   },
 };
 
@@ -133,6 +134,7 @@ export default analyzer(withNextIntl(nextConfig));
 pnpm type-check
 pnpm build
 ```
+
 Expected: success; check terminal/Network tab in `pnpm start` shows `content-security-policy`, `x-content-type-options`, `referrer-policy`, `permissions-policy` headers on `/` and `/en`.
 
 - [ ] **Step 2.3: Commit**
@@ -149,6 +151,7 @@ git commit -m "feat(security): add CSP and standard security headers via core/se
 ### Task 3: Force static rendering on the home page (#1)
 
 **Files:**
+
 - Modify: `app/[locale]/page.tsx`
 
 - [ ] **Step 3.1: Update the page header**
@@ -171,6 +174,7 @@ export function generateStaticParams() {
 ```bash
 pnpm build
 ```
+
 Expected: build summary shows `/en` and `/ar` as `●` (Static) routes.
 
 - [ ] **Step 3.3: Commit**
@@ -185,6 +189,7 @@ git commit -m "perf(app): force-static the home page with explicit generateStati
 **Context:** Next.js 16 expects the root `app/layout.tsx` to render `<html>`/`<body>`. The current code emits them from `app/[locale]/layout.tsx` instead — a next-intl pattern that works but conflicts with App Router conventions and makes `/robots.txt`, `/sitemap.xml`, and the `_not-found` fallback render without a real document shell. We move the shell up; the [locale] layout keeps responsibility for `lang`, `dir`, font classes, and the Person JSON-LD `<head>` injection by becoming the page-wrapper element rather than the document root.
 
 **Files:**
+
 - Modify: `app/layout.tsx`
 - Modify: `app/[locale]/layout.tsx`
 
@@ -292,6 +297,7 @@ curl -s http://localhost:3000/en | grep -E '(<html|<body|application/ld\+json)' 
 curl -s http://localhost:3000/ar | grep -E '(<html|<body|dir=)' | head
 kill %1
 ```
+
 Expected: a single `<html lang="en" dir="ltr" ...>` for `/en` (patched to `ar`/`rtl` by the inline script on `/ar`), a single `<body>`, and the `application/ld+json` Person script present.
 
 - [ ] **Step 4.4: Re-run unit and e2e smoke**
@@ -315,6 +321,7 @@ git commit -m "refactor(app): host <html>/<body> shell at root layout, keep loca
 ### Task 5: Make the mobile menu a proper dialog with focus trap (#5, #6, #19)
 
 **Files:**
+
 - Modify: `features/ui-components/components/TopNav.tsx`
 
 - [ ] **Step 5.1: Replace the file body**
@@ -332,8 +339,7 @@ import { ThemeToggle } from './ThemeToggle';
 const SECTIONS = ['work', 'experience', 'certifications', 'stack', 'contact'] as const;
 type SectionId = (typeof SECTIONS)[number];
 
-const FOCUSABLE_SELECTOR =
-  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export function TopNav() {
   const t = useTranslations('ui.nav');
@@ -469,8 +475,14 @@ export function TopNav() {
               onClick={() => setMenuOpen((v) => !v)}
               className="relative flex h-10 w-10 items-center justify-center rounded-full border border-transparent transition-colors md:hidden"
             >
-              <span aria-hidden className="bg-ink absolute h-0.5 w-5 -translate-y-1.5 rounded-full" />
-              <span aria-hidden className="bg-ink absolute h-0.5 w-5 translate-y-1.5 rounded-full" />
+              <span
+                aria-hidden
+                className="bg-ink absolute h-0.5 w-5 -translate-y-1.5 rounded-full"
+              />
+              <span
+                aria-hidden
+                className="bg-ink absolute h-0.5 w-5 translate-y-1.5 rounded-full"
+              />
             </button>
           </div>
         </div>
@@ -543,6 +555,7 @@ export function TopNav() {
 ### Task 6: Add TopNav behaviour tests
 
 **Files:**
+
 - Create: `features/ui-components/__tests__/components/TopNav.test.tsx`
 
 - [ ] **Step 6.1: Write the test file**
@@ -639,6 +652,7 @@ describe('TopNav mobile menu', () => {
 ### Task 7: Add TopNav accessibility test (axe)
 
 **Files:**
+
 - Create: `features/ui-components/__tests__/components/TopNav.accessibility.test.tsx`
 
 - [ ] **Step 7.1: Write the test**
@@ -685,6 +699,7 @@ describe('TopNav accessibility', () => {
 ```bash
 pnpm test -- features/ui-components/__tests__/components/TopNav --run
 ```
+
 Expected: 7 passing tests across the two files.
 
 - [ ] **Step 7.3: Commit**
@@ -701,6 +716,7 @@ git commit -m "fix(a11y): make mobile nav a dialog with focus trap and toggle be
 ### Task 8: Fix the buildMailto import + harden ContactForm
 
 **Files:**
+
 - Modify: `features/contact-form/utils/buildMailto.ts`
 - Modify: `features/contact-form/components/ContactForm.tsx`
 
@@ -824,6 +840,7 @@ export function ContactForm() {
 ### Task 9: Add ContactForm component tests
 
 **Files:**
+
 - Create: `features/contact-form/__tests__/components/ContactForm.test.tsx`
 
 - [ ] **Step 9.1: Write the test**
@@ -906,6 +923,7 @@ describe('ContactForm', () => {
 ```bash
 pnpm test -- features/contact-form/__tests__/components/ContactForm.test.tsx --run
 ```
+
 Expected: 3 passing.
 
 - [ ] **Step 9.3: Commit**
@@ -922,6 +940,7 @@ git commit -m "fix(contact-form): import via barrel, memoise schema, guard post-
 ### Task 10: Add CSS-primary guard to `useReducedMotion`
 
 **Files:**
+
 - Modify: `core/motion/hooks/useReducedMotion.ts`
 
 - [ ] **Step 10.1: Rewrite the hook**
@@ -955,6 +974,7 @@ export function useReducedMotion(): boolean {
 ### Task 11: Use the hook in Hero3D (#10)
 
 **Files:**
+
 - Modify: `features/hero-3d/components/Hero3D.tsx`
 
 - [ ] **Step 11.1: Swap the inline media query**
@@ -999,6 +1019,7 @@ export function Hero3D() {
 ```bash
 grep -n "useReducedMotion" /Users/apple/Desktop/Portfolio/core/motion/index.ts
 ```
+
 If absent, add to `core/motion/index.ts` under the `// --- Hooks ---` section:
 
 ```ts
@@ -1008,6 +1029,7 @@ export { useReducedMotion } from './hooks/useReducedMotion';
 ### Task 12: Guard the CustomCursor RAF loop (#18)
 
 **Files:**
+
 - Modify: `features/ui-components/components/CustomCursor.tsx`
 
 - [ ] **Step 12.1: Add the reduced-motion bail-out at lines 9–11**
@@ -1043,6 +1065,7 @@ git commit -m "fix(motion): centralise reduced-motion via useReducedMotion and g
 ### Task 13: Rewrite the reduced-motion block in `app/globals.css`
 
 **Files:**
+
 - Modify: `app/globals.css` (line 41, lines 779–798)
 
 - [ ] **Step 13.1: Set `--cursor-blend: normal` for the light theme (#17)**
@@ -1105,6 +1128,7 @@ git commit -m "fix(css): harden reduced-motion (animation: none, keyframe overri
 ### Task 14: Fix the `next/navigation` mock + Link mock JSX
 
 **Files:**
+
 - Modify: `vitest.setup.ts` (or rename to `vitest.setup.tsx` if JSX is required)
 - Maybe modify: `vitest.config.ts` (setupFiles path)
 
@@ -1160,6 +1184,7 @@ The setup file now contains JSX. Rename and point the config at it:
 git mv vitest.setup.ts vitest.setup.tsx
 grep -n "setupFiles" vitest.config.ts
 ```
+
 Update `vitest.config.ts`:
 
 ```ts
@@ -1171,6 +1196,7 @@ setupFiles: ['./vitest.setup.tsx'],
 ```bash
 pnpm test --run
 ```
+
 Expected: full suite green, including pre-existing tests that import `Link` from `@/i18n/routing`.
 
 - [ ] **Step 14.4: Commit**
@@ -1187,6 +1213,7 @@ git commit -m "test(setup): return real JSX from Link mock and mock next/navigat
 ### Task 15: Tighten the `features/ui-components` barrel (#8)
 
 **Files:**
+
 - Modify: `features/ui-components/index.ts`
 
 - [ ] **Step 15.1: Re-export only what exists, in the canonical order**
@@ -1203,6 +1230,7 @@ Rationale (verified during pre-flight): there are no `types/` or `config/` direc
 ### Task 16: Replace wildcard with named exports in `features/home/index.ts` (#21)
 
 **Files:**
+
 - Modify: `features/home/index.ts`
 
 - [ ] **Step 16.1: Confirm component names**
@@ -1246,6 +1274,7 @@ If Step 16.1 shows additional component names (e.g. `CaseStudyDrawer`), include 
 ### Task 17: Verify `buildPersonJsonLd` uses only constants (#22)
 
 **Files:**
+
 - Inspect: `core/seo/utils/buildPersonJsonLd.ts`, `core/seo/config/person.config.ts`
 
 - [ ] **Step 17.1: Confirm no runtime state**
@@ -1255,11 +1284,13 @@ grep -nE "(Date\.|new Date|Math\.|process\.|window\.|document\.)" \
   /Users/apple/Desktop/Portfolio/core/seo/utils/buildPersonJsonLd.ts \
   /Users/apple/Desktop/Portfolio/core/seo/config/person.config.ts
 ```
+
 Expected: empty output (`PERSON_JSON_LD` is a static literal and `buildPersonJsonLd` just `JSON.stringify`s it). If anything appears, replace the dynamic piece with a literal so the JSON-LD payload is byte-stable across renders.
 
 ### Task 18: Type-safe languages map in `buildMetadata` (#24)
 
 **Files:**
+
 - Modify: `core/seo/utils/buildMetadata.ts`
 
 - [ ] **Step 18.1: Replace lines 19–21 with a typed reduce**
@@ -1277,6 +1308,7 @@ const languages = SUPPORTED_LOCALES.reduce<Record<Locale, string>>(
 ### Task 19: Verify sitemap matches `localePrefix: 'always'` (#26)
 
 **Files:**
+
 - Inspect: `app/sitemap.ts`, `i18n/routing.ts`
 
 - [ ] **Step 19.1: Cross-check the URL shape**
@@ -1284,6 +1316,7 @@ const languages = SUPPORTED_LOCALES.reduce<Record<Locale, string>>(
 ```bash
 grep -nE "(localePrefix|SITE_URL|sitemap)" /Users/apple/Desktop/Portfolio/i18n/routing.ts /Users/apple/Desktop/Portfolio/app/sitemap.ts
 ```
+
 Expected: `localePrefix: 'always'` in routing.ts and `${SITE_URL}/${locale}` URLs in sitemap.ts (no double `/`, no trailing slash). If `localePrefix` ever changes to `'as-needed'`, drop the `/en` prefix from the `x-default` and default-locale entries.
 
 ### Task 20: Run the full pipeline + commit barrels/seo
@@ -1296,6 +1329,7 @@ pnpm type-check
 pnpm test --run
 pnpm build
 ```
+
 Expected: all green.
 
 - [ ] **Step 20.2: Commit**
@@ -1322,7 +1356,9 @@ pnpm test:e2e -- --project=chromium
 ```bash
 pnpm build && pnpm start
 ```
+
 Then in a fresh browser tab:
+
 1. Open `http://localhost:3000/en` — confirm CSP header (DevTools → Network → response headers), no console errors.
 2. Resize to mobile width → click hamburger → press Tab repeatedly → focus must cycle inside the dialog → press Escape → focus returns to the hamburger.
 3. Toggle `prefers-reduced-motion` in DevTools → Rendering → confirm hero entrance jumps to final state and CustomCursor doesn't spawn.
@@ -1334,6 +1370,7 @@ Then in a fresh browser tab:
 ```bash
 git status
 ```
+
 Expected: clean tree. If there are stray edits, review and either commit them with a clear scope or revert.
 
 ---
@@ -1341,12 +1378,14 @@ Expected: clean tree. If there are stray edits, review and either commit them wi
 ## Self-Review Notes
 
 **Spec coverage:**
+
 - Critical: #1 (Task 3), #2 (Tasks 1+2), #3+#20 (Task 4), #4 (Task 8.1), #5 (Task 5), #6 (Task 5).
 - High: #8 (Task 15), #9 (Task 10), #10 (Task 11), #11 (Task 8.2), #12 (Task 8.2), #13 (Task 14), #14 (Task 14), #16 (Task 13), #17 (Task 13), #18 (Task 12), #19 (Task 5).
 - Medium: #21 (Task 16), #22 (Task 17), #24 (Task 18), #25 (Task 1 — `frame-ancestors 'self'` is in the CSP), #26 (Task 19), #28 (Task 13), #29 (Task 2.1).
 - New tests: TopNav unit + a11y (Tasks 6, 7), ContactForm validation + mailto (Task 9).
 
 **Risks / known trade-offs:**
+
 - Task 4 changes the canonical document-shell host. If a regression appears (double `<html>`, missing JSON-LD), the rollback is to revert Task 4 only — every other group is independent.
 - CSP uses `'unsafe-inline'` for script/style because the project ships inline `ThemeInitScript` and Person JSON-LD; tightening to nonces is out of scope for this plan.
 - Task 15 deliberately drops the audit-recommended Types/Config sections because those layers don't exist under `features/ui-components/`. If new types/config arrive later, restore the canonical ordering with section comments.
