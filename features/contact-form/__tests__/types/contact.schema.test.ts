@@ -29,4 +29,77 @@ describe('contact schema', () => {
     const result = schema.safeParse({ name: 'Jane', email: 'a@b.co', message: 'short' });
     expect(result.success).toBe(false);
   });
+
+  it('rejects name containing CRLF (header injection guard)', () => {
+    const result = schema.safeParse({
+      name: 'Jane\nBcc: attacker@x.com',
+      email: 'a@b.co',
+      message: 'aaaaaaaaaa',
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it('rejects name containing carriage return', () => {
+    const result = schema.safeParse({
+      name: 'Jane\rDoe',
+      email: 'a@b.co',
+      message: 'aaaaaaaaaa',
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it('accepts optional botcheck honeypot when filled', () => {
+    const result = schema.safeParse({
+      name: 'Jane',
+      email: 'a@b.co',
+      message: 'aaaaaaaaaa',
+      botcheck: 'bot filled this',
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts name at exactly 80 characters', () => {
+    const result = schema.safeParse({
+      name: 'a'.repeat(80),
+      email: 'a@b.co',
+      message: 'aaaaaaaaaa',
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects name longer than 80 characters', () => {
+    const result = schema.safeParse({
+      name: 'a'.repeat(81),
+      email: 'a@b.co',
+      message: 'aaaaaaaaaa',
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it('accepts message at exactly 10 characters', () => {
+    const result = schema.safeParse({
+      name: 'Jane',
+      email: 'a@b.co',
+      message: 'a'.repeat(10),
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts message at exactly 2000 characters', () => {
+    const result = schema.safeParse({
+      name: 'Jane',
+      email: 'a@b.co',
+      message: 'a'.repeat(2000),
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects message longer than 2000 characters', () => {
+    const result = schema.safeParse({
+      name: 'Jane',
+      email: 'a@b.co',
+      message: 'a'.repeat(2001),
+    });
+    expect(result.success).toBe(false);
+  });
 });

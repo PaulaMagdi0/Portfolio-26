@@ -1,25 +1,46 @@
 import { test, expect } from '@playwright/test';
 
-test('contact form validates and produces a mailto navigation', async ({ page }) => {
+const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+
+test('contact form submits via Web3Forms and shows success banner', async ({ page }) => {
+  await page.route(WEB3FORMS_URL, async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ success: true, message: 'Submission received' }),
+    });
+  });
+
   await page.goto('/en');
   await page.getByLabel(/your name/i).fill('Jane Doe');
   await page.getByLabel(/^email$/i).fill('jane@example.com');
   await page.getByLabel(/^message$/i).fill('Hello there, this is a test message.');
-
-  // The form submit handler sets window.location.href to a mailto: URL via rAF.
-  // Watching for that navigation is unreliable (mailto: doesn't fire a request).
-  // Instead, assert that the submit button text changes to the sending/sent state.
   await page.getByRole('button', { name: /send message/i }).click();
-  await expect(page.getByRole('button', { name: /opening mail|message ready/i })).toBeVisible({
-    timeout: 2000,
+
+  await expect(page.getByRole('status')).toBeVisible({ timeout: 5000 });
+});
+
+test('contact form shows error banner when Web3Forms fails', async ({ page }) => {
+  await page.route(WEB3FORMS_URL, async (route) => {
+    await route.fulfill({
+      status: 500,
+      contentType: 'application/json',
+      body: JSON.stringify({ success: false, message: 'Server error' }),
+    });
   });
+
+  await page.goto('/en');
+  await page.getByLabel(/your name/i).fill('Jane Doe');
+  await page.getByLabel(/^email$/i).fill('jane@example.com');
+  await page.getByLabel(/^message$/i).fill('Hello there, this is a test message.');
+  await page.getByRole('button', { name: /send message/i }).click();
+
+  await expect(page.getByRole('alert')).toBeVisible({ timeout: 5000 });
 });
 
 test('contact form shows validation errors for invalid input', async ({ page }) => {
   await page.goto('/en');
-  // Submit empty form
   await page.getByRole('button', { name: /send message/i }).click();
-  // Errors are rendered as <p role="alert">
   const alerts = await page.getByRole('alert').all();
   expect(alerts.length).toBeGreaterThanOrEqual(1);
 });

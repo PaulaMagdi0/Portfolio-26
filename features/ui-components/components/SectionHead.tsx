@@ -27,19 +27,37 @@ export function SectionHead({ num, label, kicker, children }: SectionHeadProps) 
 
     registerGsapPlugins();
 
-    gsap.set(el, { scaleX: 0, transformOrigin: '0% 50%' });
-    const tween = gsap.to(el, {
-      scaleX: 1,
-      duration: 1.1,
-      ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-    });
+    const hasScrollTrigger =
+      typeof ScrollTrigger?.getAll === 'function' &&
+      typeof (ScrollTrigger as { create?: unknown }).create === 'function';
+
+    let tween: gsap.core.Tween | null = null;
+    try {
+      gsap.set(el, { scaleX: 0, transformOrigin: '0% 50%' });
+      tween = gsap.to(el, {
+        scaleX: 1,
+        duration: 1.1,
+        ease: 'power3.out',
+        ...(hasScrollTrigger
+          ? { scrollTrigger: { trigger: el, start: 'top 88%', once: true } }
+          : {}),
+      });
+    } catch (err) {
+      console.warn('[SectionHead] animation failed, falling back to instant reveal', err);
+      el.style.transform = 'scaleX(1)';
+    }
 
     return () => {
-      tween.kill();
-      ScrollTrigger.getAll()
-        .filter((st) => st.trigger === el)
-        .forEach((st) => st.kill());
+      tween?.kill();
+      if (hasScrollTrigger) {
+        try {
+          ScrollTrigger.getAll()
+            .filter((st) => st.trigger === el)
+            .forEach((st) => st.kill());
+        } catch {
+          // Ignore cleanup errors
+        }
+      }
     };
   }, []);
 

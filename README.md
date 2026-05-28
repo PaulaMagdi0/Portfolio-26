@@ -12,7 +12,7 @@ Built with Next.js 16 App Router, statically rendered for both `en` and `ar` loc
 - **next-themes** — light / dark with OS detection, radial-unmask theme switch
 - **framer-motion**, **GSAP** (ScrollTrigger, SplitText), **Lenis** — scroll-driven animations
 - **Three.js** — hero 3D scene (lazy-loaded)
-- **react-hook-form + Zod** — contact form (mailto:)
+- **react-hook-form + Zod** — contact form (POSTs to Web3Forms; visitor stays on the page)
 - **Vitest + jest-axe** — unit and a11y tests
 - **Playwright** — E2E smoke tests
 
@@ -51,10 +51,14 @@ features/                # Vertical slices
   home/                  # All home sections + typed content config
   hero-3d/               # Three.js scene (lazy via next/dynamic)
   ui-components/         # Nav, cursor, scroll progress, page loader, etc.
-  contact-form/          # rhf + zod form (mailto)
+  contact-form/          # rhf + zod form → Web3Forms POST
+    services/            # submitContact() — the Web3Forms client
   localization/          # Locale switcher
 i18n/                    # next-intl config, routing, request loader
-lib/utils.ts             # cn()
+lib/
+  utils.ts               # cn()
+  digits.ts              # locale-aware digit conversion
+  env/env.schema.ts      # Zod-validated environment variables
 public/                  # Resume.pdf, OG images (og-en.png, og-ar.png)
 e2e/                     # Playwright specs
 ```
@@ -63,9 +67,19 @@ e2e/                     # Playwright specs
 
 ```bash
 pnpm install
+cp .env.example .env.local      # then fill in NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
 pnpm dev
 # Open http://localhost:3000 — redirects to /en
 ```
+
+## Environment variables
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Recommended (prod) | Canonical site URL used by SEO metadata, sitemap, and absolute OG image URLs. Defaults to `http://localhost:3000` if unset. |
+| `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Required for the contact form | Web3Forms access key. Generate one free at [web3forms.com](https://web3forms.com/) by entering the inbox that should receive submissions. Without this key the contact form shows an error banner on submit. |
+
+All env vars are validated by a Zod schema in `lib/env/env.schema.ts` at module load.
 
 ## Testing
 
