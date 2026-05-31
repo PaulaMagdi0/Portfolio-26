@@ -59,7 +59,8 @@ lib/
   utils.ts               # cn()
   digits.ts              # locale-aware digit conversion
   env/env.schema.ts      # Zod-validated environment variables
-public/                  # Resume.pdf, OG images (og-en.png, og-ar.png)
+public/                  # resume.pdf, OG images (og-en.png, og-ar.png)
+  work/                  # Optimized .webp screenshots for the work-section cards
 e2e/                     # Playwright specs
 ```
 
