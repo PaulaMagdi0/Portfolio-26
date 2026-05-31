@@ -18,6 +18,9 @@ export const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400'],
   display: 'swap',
+  // Only the LCP serif headline font is preloaded; body/label fonts load via
+  // @font-face with `display: swap`, avoiding "preloaded but not used" warnings.
+  preload: false,
   variable: '--font-inter',
 });
 
@@ -25,6 +28,7 @@ export const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400'],
   display: 'swap',
+  preload: false,
   variable: '--font-jetbrains-mono',
 });
 
