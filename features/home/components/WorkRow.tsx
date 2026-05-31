@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { ClipReveal } from '@/features/ui-components';
@@ -77,6 +78,8 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
   const indexLabel = toLocaleDigits(String(index + 1).padStart(2, '0'), locale);
   const totalLabel = toLocaleDigits(String(total).padStart(2, '0'), locale);
   const [hovered, setHovered] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const bgLayerRef = useRef<HTMLDivElement | null>(null);
   const stripesLayerRef = useRef<SVGSVGElement | null>(null);
@@ -108,6 +111,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
 
   const monogramChar = t(project.nameKey).trim().charAt(0) || project.id.charAt(0).toUpperCase();
   const [color1, color2, color3] = project.swatch;
+  const showImage = Boolean(project.image) && !imgError;
 
   return (
     <li className="work-row group">
@@ -202,36 +206,58 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
                     willChange: 'transform',
                   }}
                 />
-                <svg
-                  ref={stripesLayerRef}
-                  className="absolute inset-[-10%] h-[120%] w-[120%] opacity-[0.07]"
-                  aria-hidden
-                  style={{ willChange: 'transform' }}
-                >
-                  <defs>
-                    <pattern
-                      id={`stripes-${project.id}`}
-                      width="8"
-                      height="8"
-                      patternUnits="userSpaceOnUse"
-                      patternTransform="rotate(45)"
+                {project.image && !imgError ? (
+                  <>
+                    <Image
+                      src={project.image}
+                      alt={`${t(project.nameKey)} — screenshot`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      onLoad={() => setImgLoaded(true)}
+                      onError={() => setImgError(true)}
+                      className={`object-cover object-top transition-opacity duration-700 ease-out ${
+                        imgLoaded ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    />
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <svg
+                      ref={stripesLayerRef}
+                      className="absolute inset-[-10%] h-[120%] w-[120%] opacity-[0.07]"
+                      aria-hidden
+                      style={{ willChange: 'transform' }}
                     >
-                      <rect width="1" height="8" fill="#ededed" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill={`url(#stripes-${project.id})`} />
-                </svg>
-                <div
-                  ref={monoLayerRef}
-                  className="absolute inset-0 flex items-center justify-center"
-                  style={{ willChange: 'transform' }}
-                >
-                  <span className="text-ink/15 font-serif text-[80px] leading-none select-none md:text-[110px]">
-                    {monogramChar}
-                  </span>
-                </div>
+                      <defs>
+                        <pattern
+                          id={`stripes-${project.id}`}
+                          width="8"
+                          height="8"
+                          patternUnits="userSpaceOnUse"
+                          patternTransform="rotate(45)"
+                        >
+                          <rect width="1" height="8" fill="#ededed" />
+                        </pattern>
+                      </defs>
+                      <rect width="100%" height="100%" fill={`url(#stripes-${project.id})`} />
+                    </svg>
+                    <div
+                      ref={monoLayerRef}
+                      className="absolute inset-0 flex items-center justify-center"
+                      style={{ willChange: 'transform' }}
+                    >
+                      <span className="text-ink/15 font-serif text-[80px] leading-none select-none md:text-[110px]">
+                        {monogramChar}
+                      </span>
+                    </div>
+                  </>
+                )}
                 <div className="absolute inset-0 flex items-start justify-between p-3 font-mono text-[9px] tracking-[0.18em] uppercase">
-                  <span className="text-ink/40">{project.id}</span>
+                  <span className={showImage ? 'text-white/80' : 'text-ink/40'}>{project.id}</span>
                   {isLive ? (
                     <span className="bg-bg/40 flex items-center gap-1.5 rounded-sm border border-emerald-400/60 px-1.5 py-0.5 text-emerald-400 backdrop-blur-[2px]">
                       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
@@ -243,7 +269,11 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
                     </span>
                   )}
                 </div>
-                <div className="text-ink/40 absolute inset-0 flex items-end justify-between p-3 font-mono text-[9px] tracking-[0.2em] uppercase">
+                <div
+                  className={`absolute inset-0 flex items-end justify-between p-3 font-mono text-[9px] tracking-[0.2em] uppercase ${
+                    showImage ? 'text-white/75' : 'text-ink/40'
+                  }`}
+                >
                   <span>{project.kind}</span>
                   <span>
                     {indexLabel}/{totalLabel}

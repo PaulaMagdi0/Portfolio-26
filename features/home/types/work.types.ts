@@ -20,6 +20,8 @@ export interface WorkProject {
   blurbKey: string;
   metrics: readonly WorkMetric[];
   stack: readonly string[];
+  /** Optional screenshot in `/public`. When absent, the gradient/monogram card renders. */
+  image?: string;
   swatch: readonly [string, string, string];
   kind: WorkKind;
   url?: string;
