@@ -2,17 +2,52 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Apply the prior portfolio audit's 22 findings (6 critical, 11 high, 7 medium) plus the missing TopNav and ContactForm tests, fixing real a11y / security / type-safety / motion bugs without unrequested polish.
+**Goal:** Apply the prior portfolio audit's findings that are _still open_, plus the missing TopNav tests, fixing real a11y / security / type-safety / motion bugs without unrequested polish.
 
-**Architecture:** Per-feature surgical edits. Group changes by file/concern so each task is independently verifiable: security headers module + CSP wiring, layout/static-rendering hints, TopNav dialog/focus-trap, contact-form correctness, motion + reduced-motion guards, CSS reduced-motion rewrite, test-harness mocks, and barrel/SEO cleanups. New tests follow Vitest + React Testing Library + jest-axe per the repo's testing rules.
+**Architecture:** Per-feature surgical edits. Group changes by file/concern so each task is independently verifiable.
 
 **Tech Stack:** Next.js 16 App Router (React 19, server components default), next-intl 4 i18n (en/ar, RTL), TypeScript 5 strict, Tailwind 4, Vitest + RTL + jest-axe, Playwright e2e, pnpm.
 
 ---
 
+## ⚠️ Re-audit status (verified 2026-06-01 against current code, 44/44 tests green)
+
+The codebase moved on since this plan was written (Web3Forms contact-form migration, motion hook, barrels, SEO, sitemap all landed). A full re-audit of every task was run against the live files. **Most of the original plan is already done.** Status legend:
+
+- 🔴 **TODO** — not implemented; do it as written below.
+- ⚠️ **PARTIAL** — partly there; scope narrowed to only the missing piece.
+- ❌ **OBSOLETE** — written against code that no longer exists; replaced or deleted.
+- 🟡 **OPTIONAL** — functionally fine today; do only if you want the polish/consistency.
+- ✅ **DONE** — verified implemented; no action.
+
+| Task                                           | Status                           | What's left                                                                                                                                 |
+| ---------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1** core/security module                     | 🔴 TODO                          | Create `core/security/headers.ts` + barrel                                                                                                  |
+| **2** wire CSP + headers into `next.config.ts` | ⚠️ PARTIAL                       | Add CSP + `X-Content-Type-Options`; replace 3 inline headers with the module. Analyzer already wired.                                       |
+| **3** force-static home page                   | 🔴 TODO                          | Add `dynamic`/`dynamicParams` exports (`generateStaticParams` already at layout)                                                            |
+| **4** `<html>/<body>` → root layout            | 🟡 DECISION                      | Works today in `[locale]/layout`; the repo's own rules say the root layout should host the shell. Do only if you want convention-alignment. |
+| **5** mobile nav dialog + focus trap           | ⚠️ PARTIAL                       | Add `role="dialog"`, `aria-modal`, focus trap. Scroll-lock / Escape / focus-restore already done.                                           |
+| **6, 7** TopNav tests                          | 🔴 TODO                          | Both test files are missing                                                                                                                 |
+| **8, 9** contact-form (mailto)                 | ❌ OBSOLETE → **revised Task 8** | Form is on Web3Forms; only #11 (memoize schema) + #12 (unmount guard) remain                                                                |
+| **10** `useReducedMotion` hook                 | ✅ DONE                          | —                                                                                                                                           |
+| **11** Hero3D uses the hook                    | 🟡 OPTIONAL                      | Works via inline `matchMedia`; refactor for consistency only                                                                                |
+| **12** CustomCursor reduced-motion guard       | 🔴 TODO                          | One missing early-return line                                                                                                               |
+| **13.1** light-theme `--cursor-blend`          | 🔴 TODO                          | Still `difference`; should be `normal`                                                                                                      |
+| **13.2** reduced-motion CSS hardening          | 🟡 OPTIONAL                      | Already collapses animations + resets split/hero; `animation: none` is marginally stronger                                                  |
+| **14** test-harness mocks                      | 🟡 OPTIONAL                      | All tests pass; add `next/navigation` mock + JSX Link only when a future test needs it                                                      |
+| **15** ui-components barrel                    | ✅ DONE                          | —                                                                                                                                           |
+| **16** named home exports                      | 🟡 OPTIONAL                      | Wildcard re-exports work; named is a style preference                                                                                       |
+| **17** static JSON-LD                          | ✅ DONE                          | —                                                                                                                                           |
+| **18** typed languages map                     | ✅ DONE                          | —                                                                                                                                           |
+| **19** sitemap / localePrefix                  | ✅ DONE                          | —                                                                                                                                           |
+
+**Recommended implementation order (open work only):** Task 1 → 2 → 3 → 5 → 6 → 7 → 8(revised) → 12 → 13.1 → (optional: 4, 11, 13.2, 14, 16).
+
+---
+
 ## Pre-flight
 
-- [ ] **Step 0.1: Confirm clean working tree (apart from prior session edits)**
+- [ ] **Step 0.1: Confirm clean working tree and known-good baseline**
 
 ```bash
 cd /Users/apple/Desktop/Portfolio
@@ -21,13 +56,15 @@ pnpm install --frozen-lockfile
 pnpm type-check && pnpm lint && pnpm test --run
 ```
 
-Expected: known modified files (`app/[locale]/layout.tsx`, `app/robots.ts`, `app/sitemap.ts`, `e2e/home.spec.ts`); type-check and tests green so we have a known-good baseline before edits.
+Expected: clean tree, type-check + lint clean, 44 tests passing — the verified 2026-06-01 baseline.
 
 ---
 
-## Group 1 — Security Headers (Critical #2, #25 + Medium #29)
+## Group 1 — Security Headers (Critical #2, #25 + Medium #29) — 🔴 TODO / ⚠️ PARTIAL
 
-### Task 1: Create `core/security/headers.ts` with CSP + standard headers
+> **Re-audit:** `core/security/` does not exist. `next.config.ts` currently emits only three inline headers (`X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`) — **no CSP and no `X-Content-Type-Options`**. The bundle analyzer (#29) is already wired (`withBundleAnalyzer`, `enabled: ANALYZE==='true'`), so #29 needs no code — at most a clarifying comment. The repo rule `.claude/rules/next-config.md` explicitly requires headers to be "defined in `core/security/headers.ts`", so this task aligns with project convention.
+
+### Task 1: Create `core/security/headers.ts` with CSP + standard headers — 🔴 TODO
 
 **Files:**
 
@@ -41,7 +78,8 @@ Expected: known modified files (`app/[locale]/layout.tsx`, `app/robots.ts`, `app
 // Single source of truth for response security headers, including the CSP.
 // Wired into next.config.ts via headers(). Keep directives in sync with the
 // runtime: inline <script> blocks (ThemeInitScript, Person JSON-LD) and
-// Tailwind's runtime style injection require 'unsafe-inline'.
+// Tailwind's runtime style injection require 'unsafe-inline'. Web3Forms is the
+// only external endpoint the app talks to (contact form POST).
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -53,11 +91,11 @@ const CSP_DIRECTIVES: Record<string, readonly string[]> = {
   'style-src': ["'self'", "'unsafe-inline'"],
   'img-src': ["'self'", 'data:', 'blob:'],
   'font-src': ["'self'", 'data:'],
-  'connect-src': ["'self'"],
+  'connect-src': ["'self'", 'https://api.web3forms.com'],
   'worker-src': ["'self'", 'blob:'],
   'frame-ancestors': ["'self'"],
   'base-uri': ["'self'"],
-  'form-action': ["'self'"],
+  'form-action': ["'self'", 'https://api.web3forms.com'],
   'object-src': ["'none'"],
   'upgrade-insecure-requests': [],
 };
@@ -77,6 +115,8 @@ export const SECURITY_HEADERS: ReadonlyArray<{ key: string; value: string }> = [
 ];
 ```
 
+> **Note (changed from original plan):** `connect-src` and `form-action` now include `https://api.web3forms.com` — the contact form POSTs there. Without it the CSP would block form submission. The original plan predated the Web3Forms migration.
+
 - [ ] **Step 1.2: Add a barrel for `core/security`**
 
 ```ts
@@ -84,13 +124,15 @@ export const SECURITY_HEADERS: ReadonlyArray<{ key: string; value: string }> = [
 export { SECURITY_HEADERS, buildContentSecurityPolicy } from './headers';
 ```
 
-### Task 2: Wire CSP into `next.config.ts` and add the bundle-analyzer comment (#29)
+### Task 2: Wire headers into `next.config.ts` — ⚠️ PARTIAL (replace the 3 inline headers)
 
 **Files:**
 
-- Modify: `next.config.ts` (replace `headers()` body, annotate analyzer at lines 7–9)
+- Modify: `next.config.ts`
 
-- [ ] **Step 2.1: Update `next.config.ts`**
+- [ ] **Step 2.1: Import the module and replace the inline `headers()` array**
+
+Current `headers()` (lines 18–32) returns three hardcoded headers. Replace the whole config with:
 
 ```ts
 import type { NextConfig } from 'next';
@@ -128,16 +170,26 @@ const nextConfig: NextConfig = {
 export default analyzer(withNextIntl(nextConfig));
 ```
 
-- [ ] **Step 2.2: Verify the build still passes**
+- [ ] **Step 2.2: Verify the build + headers**
 
 ```bash
 pnpm type-check
-pnpm build
+pnpm build && pnpm start &
+sleep 5
+curl -sI http://localhost:3000/en | grep -iE 'content-security-policy|x-content-type-options|x-frame-options|referrer-policy|permissions-policy'
+kill %1
 ```
 
-Expected: success; check terminal/Network tab in `pnpm start` shows `content-security-policy`, `x-content-type-options`, `referrer-policy`, `permissions-policy` headers on `/` and `/en`.
+Expected: all five headers present on `/en`, including `content-security-policy` with `connect-src ... https://api.web3forms.com`.
 
-- [ ] **Step 2.3: Commit**
+- [ ] **Step 2.3: Smoke-test the contact form against the new CSP**
+
+```bash
+# With pnpm start running, submit the contact form in the browser and confirm
+# the POST to api.web3forms.com is NOT blocked by CSP (check DevTools console).
+```
+
+- [ ] **Step 2.4: Commit**
 
 ```bash
 git add core/security next.config.ts
@@ -148,25 +200,21 @@ git commit -m "feat(security): add CSP and standard security headers via core/se
 
 ## Group 2 — App Router Static Rendering (Critical #1, #3+#20)
 
-### Task 3: Force static rendering on the home page (#1)
+### Task 3: Force static rendering on the home page (#1) — 🔴 TODO
+
+> **Re-audit:** `app/[locale]/page.tsx` has no `dynamic`/`dynamicParams` exports. `generateStaticParams()` already exists in `app/[locale]/layout.tsx` (covers param generation), so **do not** re-add it to the page — just add the two directives.
 
 **Files:**
 
 - Modify: `app/[locale]/page.tsx`
 
-- [ ] **Step 3.1: Update the page header**
+- [ ] **Step 3.1: Add the static-rendering directives**
 
-Insert above `interface HomePageProps`:
+Insert near the top of the file (after imports, before the component):
 
 ```ts
-import { SUPPORTED_LOCALES } from '@/i18n/config';
-
 export const dynamic = 'force-static';
 export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return SUPPORTED_LOCALES.map((locale) => ({ locale }));
-}
 ```
 
 - [ ] **Step 3.2: Verify static generation**
@@ -181,144 +229,40 @@ Expected: build summary shows `/en` and `/ar` as `●` (Static) routes.
 
 ```bash
 git add app/[locale]/page.tsx
-git commit -m "perf(app): force-static the home page with explicit generateStaticParams"
+git commit -m "perf(app): force-static the home page"
 ```
 
-### Task 4: Move `<html>`/`<body>` shell to the root layout (#3 + #20)
+### Task 4: Move `<html>`/`<body>` shell to the root layout (#3 + #20) — 🟡 DECISION REQUIRED
 
-**Context:** Next.js 16 expects the root `app/layout.tsx` to render `<html>`/`<body>`. The current code emits them from `app/[locale]/layout.tsx` instead — a next-intl pattern that works but conflicts with App Router conventions and makes `/robots.txt`, `/sitemap.xml`, and the `_not-found` fallback render without a real document shell. We move the shell up; the [locale] layout keeps responsibility for `lang`, `dir`, font classes, and the Person JSON-LD `<head>` injection by becoming the page-wrapper element rather than the document root.
+> **Re-audit:** This is **not a bug** today — `app/[locale]/layout.tsx` renders a single well-formed `<html lang dir>`/`<body>` and injects Person JSON-LD; `app/layout.tsx` currently just returns `{children}`. The 44-test suite and e2e pass. The original finding (#3+#20) is a **convention** concern: non-locale entrypoints (`/_not-found`, route handlers) don't get a document shell, and `.claude/rules/next-config.md` describes `app/layout.tsx` as the "Root HTML shell."
+>
+> **Decision:** Implement only if you want to align with that documented convention. It is the highest-risk change in this plan (double-`<html>` / missing-JSON-LD regressions) and is fully independent — skipping it costs nothing functionally today. If you skip it, update `.claude/rules/next-config.md` to document that the `[locale]` layout owns the shell, so code and rules agree.
 
-**Files:**
-
-- Modify: `app/layout.tsx`
-- Modify: `app/[locale]/layout.tsx`
-
-- [ ] **Step 4.1: Rewrite `app/layout.tsx` as the document shell**
-
-```tsx
-// app/layout.tsx
-import type { ReactNode } from 'react';
-import { DEFAULT_LOCALE, LOCALE_DIRECTIONS } from '@/i18n/config';
-import { cairo, instrumentSerif, inter, jetbrainsMono, notoNaskhArabic } from './fonts';
-import './globals.css';
-
-// Root document. Locale-aware lang/dir are patched by the [locale] layout via
-// a beforeInteractive script for the locale-prefixed routes (/en, /ar). For
-// non-locale entrypoints (/sitemap.xml, /robots.txt, /_not-found) we fall back
-// to DEFAULT_LOCALE here.
-export default function RootLayout({ children }: { children: ReactNode }) {
-  const dir = LOCALE_DIRECTIONS[DEFAULT_LOCALE];
-  return (
-    <html
-      lang={DEFAULT_LOCALE}
-      dir={dir}
-      data-scroll-behavior="smooth"
-      suppressHydrationWarning
-      className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} ${cairo.variable} ${notoNaskhArabic.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col" suppressHydrationWarning>
-        {children}
-      </body>
-    </html>
-  );
-}
-```
-
-- [ ] **Step 4.2: Trim `app/[locale]/layout.tsx` to the locale-scoped concerns**
-
-Replace the file with:
-
-```tsx
-import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
-import Script from 'next/script';
-import { notFound } from 'next/navigation';
-import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server';
-import { LOCALE_DIRECTIONS, SUPPORTED_LOCALES, isLocale } from '@/i18n/config';
-import { buildMetadata, buildPersonJsonLd } from '@/core/seo';
-import { SkipLink } from '@/core/accessibility';
-import { ThemeInitScript } from '@/core/theme';
-import { ClientProviders } from './ClientProviders';
-
-export function generateStaticParams() {
-  return SUPPORTED_LOCALES.map((locale) => ({ locale }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  if (!isLocale(locale)) return {};
-  const t = await getTranslations({ locale, namespace: 'home.meta' });
-  return buildMetadata({ locale, title: t('title'), description: t('description') });
-}
-
-interface LocaleLayoutProps {
-  children: ReactNode;
-  params: Promise<{ locale: string }>;
-}
-
-export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
-  const { locale } = await params;
-  if (!isLocale(locale)) notFound();
-  setRequestLocale(locale);
-  const messages = await getMessages();
-  const dir = LOCALE_DIRECTIONS[locale];
-
-  return (
-    <>
-      <Script id="locale-attrs" strategy="beforeInteractive">
-        {`document.documentElement.lang=${JSON.stringify(locale)};document.documentElement.dir=${JSON.stringify(dir)};`}
-      </Script>
-      <Script
-        id="person-jsonld"
-        type="application/ld+json"
-        strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{ __html: buildPersonJsonLd() }}
-      />
-      <ThemeInitScript />
-      <ClientProviders locale={locale} messages={messages}>
-        <SkipLink />
-        {children}
-      </ClientProviders>
-    </>
-  );
-}
-```
-
-- [ ] **Step 4.3: Verify SSR HTML is well-formed and lang/dir are correct**
+If implementing, follow the original two-file rewrite (root hosts `<html>/<body>` with `DEFAULT_LOCALE`; `[locale]` patches `lang`/`dir` via a `beforeInteractive` script and keeps JSON-LD + providers). Then verify:
 
 ```bash
 pnpm build && pnpm start &
 sleep 5
-curl -s http://localhost:3000/en | grep -E '(<html|<body|application/ld\+json)' | head
-curl -s http://localhost:3000/ar | grep -E '(<html|<body|dir=)' | head
+curl -s http://localhost:3000/en | grep -cE '<html'   # must be exactly 1
+curl -s http://localhost:3000/ar | grep -E 'dir="rtl"' | head
 kill %1
+pnpm test --run && pnpm test:e2e -- --project=chromium
 ```
 
-Expected: a single `<html lang="en" dir="ltr" ...>` for `/en` (patched to `ar`/`rtl` by the inline script on `/ar`), a single `<body>`, and the `application/ld+json` Person script present.
-
-- [ ] **Step 4.4: Re-run unit and e2e smoke**
-
-```bash
-pnpm test --run
-pnpm test:e2e -- --project=chromium
-```
-
-- [ ] **Step 4.5: Commit**
+Expected: exactly one `<html>` per page, `/ar` is RTL, JSON-LD present, all tests green. Commit only if clean:
 
 ```bash
 git add app/layout.tsx app/[locale]/layout.tsx
-git commit -m "refactor(app): host <html>/<body> shell at root layout, keep locale concerns in [locale]"
+git commit -m "refactor(app): host <html>/<body> shell at root layout"
 ```
 
 ---
 
 ## Group 3 — TopNav Mobile Dialog (Critical #5, #6 + High #19) and Tests
 
-### Task 5: Make the mobile menu a proper dialog with focus trap (#5, #6, #19)
+### Task 5: Make the mobile menu a proper dialog with focus trap (#5, #6, #19) — ⚠️ PARTIAL
+
+> **Re-audit of current `TopNav.tsx`:** body scroll-lock (`document.body.style.overflow`), Escape-to-close, and focus-restore-to-trigger are **already implemented**. **Missing:** the overlay `<div id="mobile-menu">` has `aria-hidden` but no `role="dialog"` / `aria-modal="true"`, and there is **no Tab focus trap** (focus can escape to the page behind). The full-file replacement below implements all of it correctly; use it to replace the current file (it is a superset of what's there). Translation keys (`openMenu`, `closeMenu`, `primary`, `cairo`, section keys) are already present in `en/ui.json` and `ar/ui.json` — no translation work needed.
 
 **Files:**
 
@@ -552,7 +496,9 @@ export function TopNav() {
 }
 ```
 
-### Task 6: Add TopNav behaviour tests
+> **Before committing:** diff the current file against this version — if the live `TopNav` has structural differences (e.g. a different brand/clock arrangement) introduced since the audit, preserve those and graft in only the dialog semantics (`role`/`aria-modal`/focus trap) rather than blindly overwriting.
+
+### Task 6: Add TopNav behaviour tests — 🔴 TODO
 
 **Files:**
 
@@ -649,7 +595,7 @@ describe('TopNav mobile menu', () => {
 });
 ```
 
-### Task 7: Add TopNav accessibility test (axe)
+### Task 7: Add TopNav accessibility test (axe) — 🔴 TODO
 
 **Files:**
 
@@ -706,346 +652,111 @@ Expected: 7 passing tests across the two files.
 
 ```bash
 git add features/ui-components/components/TopNav.tsx features/ui-components/__tests__/components/TopNav.test.tsx features/ui-components/__tests__/components/TopNav.accessibility.test.tsx
-git commit -m "fix(a11y): make mobile nav a dialog with focus trap and toggle behaviour"
+git commit -m "fix(a11y): make mobile nav a dialog with focus trap + add tests"
 ```
 
 ---
 
-## Group 4 — Contact Form Correctness (Critical #4 + High #11, #12) and Tests
+## Group 4 — Contact Form Correctness — ❌ OBSOLETE as written → revised below
 
-> **⚠️ SUPERSEDED (verified 2026-06-01).** This group was written against a `mailto:` contact form
-> (`features/contact-form/utils/buildMailto.ts` + a `mailto:` navigation in `ContactForm.tsx`).
-> The contact form has since been **migrated to Web3Forms**: `ContactForm.tsx` now imports
-> `submitContact` from `features/contact-form/services/submitContact.ts` and POSTs to the API —
-> there is no `utils/` directory or `buildMailto.ts`. The tests Tasks 8–9 propose to _add_ already
-> exist (`__tests__/components/ContactForm.test.tsx`, `ContactForm.accessibility.test.tsx`,
-> `__tests__/services/submitContact.test.ts`, `__tests__/types/contact.schema.test.ts`).
-> **Do not execute Tasks 8–9 as written.** The underlying concerns (#4 barrel import, #11 memoised
-> schema, #12 post-navigation state guard) should be re-checked against the current Web3Forms
-> implementation if still relevant.
+> **Re-audit:** The original Tasks 8–9 targeted a `mailto:` form (`utils/buildMailto.ts`). That code **no longer exists** — the form was migrated to **Web3Forms** (`services/submitContact.ts`, POSTs to `https://api.web3forms.com/submit`). The component tests, accessibility tests, and service tests **already exist** and pass. Concern **#4 (barrel imports)** is already satisfied — `ContactForm.tsx` imports `Magnetic` from the `@/features/ui-components` barrel and otherwise only from its own feature.
+>
+> Two of the original underlying concerns are still open against the current code and are worth fixing:
+>
+> - **#11** — the Zod schema is rebuilt every render (`ContactForm.tsx:21` `const schema = buildContactSchema(t);`), so react-hook-form rebuilds its resolver each render.
+> - **#12** — `handleFormSubmit` calls `setStatus`/`reset` after the awaited POST with no unmount guard; if the form unmounts mid-flight, React warns about setting state on an unmounted component.
+>
+> **Do NOT execute the original Tasks 8–9.** Use the single revised task below.
 
-### Task 8: Fix the buildMailto import + harden ContactForm
+### Task 8 (revised): Memoize the schema and guard post-submit state (#11, #12) — 🔴 TODO
 
 **Files:**
 
-- Modify: `features/contact-form/utils/buildMailto.ts`
 - Modify: `features/contact-form/components/ContactForm.tsx`
 
-- [ ] **Step 8.1: Import from the feature barrel, not its internals (#4)**
+- [ ] **Step 8.1: Memoize the schema**
 
-Replace line 1 of `features/contact-form/utils/buildMailto.ts`:
-
-```ts
-import { RECIPIENT_EMAIL } from '@/features/home';
-```
-
-- [ ] **Step 8.2: Memoise the schema and guard post-navigation state (#11, #12)**
-
-Replace `features/contact-form/components/ContactForm.tsx` with:
+Add `useMemo` to the React import, then change line 21:
 
 ```tsx
-'use client';
+// import { useEffect, useMemo, useRef, useState } from 'react';
+const schema = useMemo(() => buildContactSchema(t), [t]);
+```
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
-import { Magnetic } from '@/features/ui-components';
-import { Field } from './Field';
-import { buildContactSchema, type ContactFormValues } from '../types/contact.schema';
-import { buildMailto } from '../utils/buildMailto';
+- [ ] **Step 8.2: Add an unmount guard around post-await state updates**
 
-type Status = 'idle' | 'sending' | 'sent';
+Add a mounted ref and guard the `setStatus`/`reset` calls that run after `await onSubmit(...)`:
 
-export function ContactForm() {
-  const t = useTranslations('contact');
-  const tUi = useTranslations('ui');
-  const schema = useMemo(() => buildContactSchema(t), [t]);
-  const [status, setStatus] = useState<Status>('idle');
-  const mountedRef = useRef(true);
+```tsx
+const mountedRef = useRef(true);
 
-  useEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ContactFormValues>({ resolver: zodResolver(schema) });
-
-  const onSubmit = (values: ContactFormValues) => {
-    setStatus('sending');
-    const url = buildMailto(values);
-    requestAnimationFrame(() => {
-      window.location.href = url;
-      window.setTimeout(() => {
-        if (mountedRef.current) setStatus('sent');
-      }, 200);
-    });
+useEffect(() => {
+  mountedRef.current = true;
+  return () => {
+    mountedRef.current = false;
   };
+}, []);
 
-  const submitLabel =
-    status === 'sending' ? t('formSending') : status === 'sent' ? t('formSent') : t('formSend');
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Field
-        id="name"
-        label={t('formName')}
-        placeholder={t('formNamePlaceholder')}
-        autoComplete="name"
-        {...register('name')}
-        error={errors.name?.message}
-      />
-      <Field
-        id="email"
-        type="email"
-        label={t('formEmail')}
-        placeholder={t('formEmailPlaceholder')}
-        autoComplete="email"
-        {...register('email')}
-        error={errors.email?.message}
-      />
-      <Field
-        id="message"
-        textarea
-        label={t('formMessage')}
-        placeholder={t('formMessagePlaceholder')}
-        {...register('message')}
-        error={errors.message?.message}
-      />
-      <div className="mt-6 flex flex-wrap items-center gap-4">
-        <Magnetic as="span" strength={0.25}>
-          <button
-            type="submit"
-            disabled={status !== 'idle'}
-            data-cursor-label={tUi('cursor.send')}
-            className="btn-base btn-primary disabled:opacity-60"
-          >
-            {submitLabel}
-            <svg
-              className="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden
-            >
-              <path d="M7 17 17 7M7 7h10v10" />
-            </svg>
-          </button>
-        </Magnetic>
-        <span className="text-inkmute font-mono text-[12px]">{t('formHelper')}</span>
-      </div>
-    </form>
-  );
-}
+const handleFormSubmit = async (values: ContactFormValues) => {
+  setStatus('sending');
+  try {
+    await onSubmit(values);
+    if (!mountedRef.current) return;
+    reset();
+    setStatus('sent');
+  } catch (err) {
+    if (!mountedRef.current) return;
+    console.error('[ContactForm] submission failed', err);
+    setStatus('error');
+  }
+};
 ```
 
-### Task 9: Add ContactForm component tests
+> Keep everything else in `ContactForm.tsx` (honeypot `botcheck` input, banner refs, `handleFieldChange`, spinner) exactly as-is.
 
-**Files:**
-
-- Create: `features/contact-form/__tests__/components/ContactForm.test.tsx`
-
-- [ ] **Step 9.1: Write the test**
-
-```tsx
-import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { ContactForm } from '@/features/contact-form';
-
-const originalHref = window.location.href;
-
-afterEach(() => {
-  Object.defineProperty(window, 'location', {
-    writable: true,
-    value: { ...window.location, href: originalHref },
-  });
-});
-
-describe('ContactForm', () => {
-  it('shows validation errors for empty fields', async () => {
-    const user = userEvent.setup();
-    render(<ContactForm />);
-    await user.click(screen.getByRole('button', { name: /formSend|Send/i }));
-    expect(await screen.findAllByRole('alert')).not.toHaveLength(0);
-  });
-
-  it('rejects an invalid email', async () => {
-    const user = userEvent.setup();
-    render(<ContactForm />);
-    await user.type(screen.getByLabelText(/formName|Your name/i), 'Jane');
-    await user.type(screen.getByLabelText(/formEmail|Email/i), 'not-an-email');
-    await user.type(
-      screen.getByLabelText(/formMessage|Message/i),
-      'A sufficiently long message body.',
-    );
-    await user.click(screen.getByRole('button', { name: /formSend|Send/i }));
-    const alerts = await screen.findAllByRole('alert');
-    expect(alerts.some((el) => /email/i.test(el.textContent ?? ''))).toBe(true);
-  });
-
-  it('navigates to a mailto: URL on valid submit', async () => {
-    const user = userEvent.setup();
-    const setHref = vi.fn();
-    Object.defineProperty(window, 'location', {
-      writable: true,
-      value: {
-        ...window.location,
-        set href(v: string) {
-          setHref(v);
-        },
-        get href() {
-          return originalHref;
-        },
-      },
-    });
-    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
-      cb(0);
-      return 0;
-    });
-
-    render(<ContactForm />);
-    await user.type(screen.getByLabelText(/formName|Your name/i), 'Jane Doe');
-    await user.type(screen.getByLabelText(/formEmail|Email/i), 'jane@example.com');
-    await user.type(
-      screen.getByLabelText(/formMessage|Message/i),
-      'Hello — interested in chatting about a senior role.',
-    );
-    await user.click(screen.getByRole('button', { name: /formSend|Send/i }));
-
-    expect(setHref).toHaveBeenCalledTimes(1);
-    expect(setHref.mock.calls[0][0]).toMatch(/^mailto:[^?]+\?/);
-    expect(setHref.mock.calls[0][0]).toContain(encodeURIComponent('jane@example.com'));
-  });
-});
-```
-
-- [ ] **Step 9.2: Run the new tests**
+- [ ] **Step 8.3: Run the existing contact-form tests + type-check**
 
 ```bash
-pnpm test -- features/contact-form/__tests__/components/ContactForm.test.tsx --run
+pnpm type-check
+pnpm test -- features/contact-form --run
 ```
 
-Expected: 3 passing.
+Expected: all existing contact-form tests still green.
 
-- [ ] **Step 9.3: Commit**
+- [ ] **Step 8.4: Commit**
 
 ```bash
-git add features/contact-form/utils/buildMailto.ts features/contact-form/components/ContactForm.tsx features/contact-form/__tests__/components/ContactForm.test.tsx
-git commit -m "fix(contact-form): import via barrel, memoise schema, guard post-nav state + add component tests"
+git add features/contact-form/components/ContactForm.tsx
+git commit -m "fix(contact-form): memoise zod schema and guard post-submit state on unmount"
 ```
 
 ---
 
 ## Group 5 — Motion & Cursor Reduced-Motion (High #9, #10, #18)
 
-### Task 10: Add CSS-primary guard to `useReducedMotion`
+> **Re-audit:** Task 10 (the `useReducedMotion` hook with lazy init + `change` subscription) and its `core/motion` barrel export are **DONE**. Only the cursor guard (Task 12) is still open; the Hero3D refactor (Task 11) is optional.
 
-**Files:**
+### Task 11 (optional): Use the hook in Hero3D (#10) — 🟡 OPTIONAL
 
-- Modify: `core/motion/hooks/useReducedMotion.ts`
+> `features/hero-3d/components/Hero3D.tsx` already disables the canvas correctly via an inline `window.matchMedia('(prefers-reduced-motion: reduce)')` check combined with the fine-pointer check — it is **functionally correct**. This task is a consistency refactor only: swap the inline reduced-motion read for `useReducedMotion()` from `@/core/motion` (note: keep the `requestAnimationFrame` defer and the fine-pointer check; only the reduced-motion read changes). Skip unless you want the single-source-of-truth tidiness.
 
-- [ ] **Step 10.1: Rewrite the hook**
+### Task 12: Guard the CustomCursor RAF loop (#18) — 🔴 TODO
 
-```ts
-'use client';
-
-import { useEffect, useState } from 'react';
-
-const QUERY = '(prefers-reduced-motion: reduce)';
-
-export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState<boolean>(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false;
-    return window.matchMedia(QUERY).matches;
-  });
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
-    const mq = window.matchMedia(QUERY);
-    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
-    setReduced(mq.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-
-  return reduced;
-}
-```
-
-### Task 11: Use the hook in Hero3D (#10)
-
-**Files:**
-
-- Modify: `features/hero-3d/components/Hero3D.tsx`
-
-- [ ] **Step 11.1: Swap the inline media query**
-
-```tsx
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useReducedMotion } from '@/core/motion';
-import { Hero3DCanvas } from './Hero3DCanvas';
-
-export function Hero3D() {
-  const reduced = useReducedMotion();
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const raf = requestAnimationFrame(() => setEnabled(finePointer && !reduced));
-    return () => cancelAnimationFrame(raf);
-  }, [reduced]);
-
-  return (
-    <div className="pointer-events-none absolute inset-0">
-      {enabled ? (
-        <Hero3DCanvas />
-      ) : (
-        <svg viewBox="0 0 200 200" className="h-full w-full opacity-25" aria-hidden>
-          <g fill="none" stroke="currentColor" strokeWidth="0.5">
-            <polygon points="100,30 165,70 165,130 100,170 35,130 35,70" />
-            <polygon points="100,55 142,80 142,120 100,145 58,120 58,80" />
-            <circle cx="100" cy="100" r="3" fill="currentColor" />
-          </g>
-        </svg>
-      )}
-    </div>
-  );
-}
-```
-
-- [ ] **Step 11.2: Confirm `useReducedMotion` is exported from `@/core/motion`**
-
-```bash
-grep -n "useReducedMotion" /Users/apple/Desktop/Portfolio/core/motion/index.ts
-```
-
-If absent, add to `core/motion/index.ts` under the `// --- Hooks ---` section:
-
-```ts
-export { useReducedMotion } from './hooks/useReducedMotion';
-```
-
-### Task 12: Guard the CustomCursor RAF loop (#18)
+> **Re-audit of `CustomCursor.tsx`:** the effect bails on non-fine/non-hover pointers (line 11) but **does not** bail on `prefers-reduced-motion: reduce` — the cursor RAF loop runs anyway. Add one line.
 
 **Files:**
 
 - Modify: `features/ui-components/components/CustomCursor.tsx`
 
-- [ ] **Step 12.1: Add the reduced-motion bail-out at lines 9–11**
+- [ ] **Step 12.1: Add the reduced-motion bail-out**
 
-Replace the early returns at the top of the effect:
+Immediately after the existing pointer guard (current line 11), add:
+
+```tsx
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+```
+
+So the top of the effect reads:
 
 ```tsx
 useEffect(() => {
@@ -1059,67 +770,42 @@ useEffect(() => {
 - [ ] **Step 12.2: Run motion-touching tests**
 
 ```bash
-pnpm test -- features/hero-3d core/motion features/ui-components/__tests__/components/ScrollProgress --run
+pnpm test -- features/hero-3d core/motion features/ui-components --run
 ```
 
 - [ ] **Step 12.3: Commit**
 
 ```bash
-git add core/motion/hooks/useReducedMotion.ts features/hero-3d/components/Hero3D.tsx features/ui-components/components/CustomCursor.tsx core/motion/index.ts
-git commit -m "fix(motion): centralise reduced-motion via useReducedMotion and guard cursor RAF"
+git add features/ui-components/components/CustomCursor.tsx
+git commit -m "fix(motion): bail CustomCursor RAF loop under prefers-reduced-motion"
 ```
 
 ---
 
 ## Group 6 — Global CSS Reduced-Motion + Cursor Blend (High #16, #17, Medium #28)
 
-### Task 13: Rewrite the reduced-motion block in `app/globals.css`
+> **Re-audit of `app/globals.css`:** the reduced-motion block already collapses all animations/transitions (`animation-duration: 0.001ms`), resets `.split-char`/`.split-word` transforms, and overrides `animate-[hero-*]` — so #16/#28 are **substantially covered**. The one clear remaining bug is **#17**: the light theme still sets `--cursor-blend: difference` (line 41), which inverts the cursor on light backgrounds.
+
+### Task 13.1: Normalise the light-theme cursor blend (#17) — 🔴 TODO
 
 **Files:**
 
-- Modify: `app/globals.css` (line 41, lines 779–798)
+- Modify: `app/globals.css` (light theme block, ~line 41)
 
-- [ ] **Step 13.1: Set `--cursor-blend: normal` for the light theme (#17)**
+- [ ] **Step 13.1.1:** In the `:root[data-theme='light']` block, change `--cursor-blend: difference;` → `--cursor-blend: normal;`. Leave the dark theme value (`difference`) untouched.
 
-In the `:root[data-theme='light']` block at line 41, change `--cursor-blend: difference;` → `--cursor-blend: normal;`.
+- [ ] **Step 13.1.2: Visual smoke**
 
-- [ ] **Step 13.2: Replace the reduced-motion block at lines 779–798 (#16, #28)**
-
-```css
-/* --- Reduced Motion --- */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition-duration: 0.001ms !important;
-  }
-
-  .split-char,
-  .split-word {
-    transform: none !important;
-  }
-}
-
-/* Hero entrance: explicit override (no substring class selector) */
-@media (prefers-reduced-motion: reduce) {
-  @keyframes hero-rule {
-    from,
-    to {
-      transform: scaleX(1);
-    }
-  }
-  @keyframes hero-fade {
-    from,
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-}
+```bash
+pnpm build && pnpm start
+# Switch theme to light → confirm the custom cursor is no longer inverted.
 ```
 
-- [ ] **Step 13.3: Verify with axe + visual smoke**
+### Task 13.2 (optional): Harden the reduced-motion block (#16, #28) — 🟡 OPTIONAL
+
+> The current block uses `animation-duration: 0.001ms` rather than `animation: none`. This is effectively equivalent for users. If you want the stronger, more explicit form, replace the universal rule's `animation-duration`/`animation-iteration-count` lines with `animation: none !important;` and keep the existing `.split-*` and `animate-[hero-*]` overrides. Low value; optional.
+
+- [ ] **Step 13.3: Verify with axe**
 
 ```bash
 pnpm test -- accessibility --run
@@ -1129,252 +815,55 @@ pnpm test -- accessibility --run
 
 ```bash
 git add app/globals.css
-git commit -m "fix(css): harden reduced-motion (animation: none, keyframe overrides) and normalise light-theme cursor blend"
+git commit -m "fix(css): normalise light-theme cursor blend (and optional reduced-motion hardening)"
 ```
 
 ---
 
-## Group 7 — Test Harness Fixes (High #13, #14)
+## Group 7 — Test Harness Fixes (High #13, #14) — 🟡 OPTIONAL / PREVENTIVE
 
-### Task 14: Fix the `next/navigation` mock + Link mock JSX
-
-**Files:**
-
-- Modify: `vitest.setup.ts` (or rename to `vitest.setup.tsx` if JSX is required)
-- Maybe modify: `vitest.config.ts` (setupFiles path)
-
-- [ ] **Step 14.1: Replace the routing mock and add a `next/navigation` mock**
-
-Replace the existing `vi.mock('@/i18n/routing', ...)` block (line 98+) with:
-
-```tsx
-vi.mock('@/i18n/routing', () => ({
-  Link: ({ children, href, ...rest }: { children: React.ReactNode; href?: string }) => (
-    <a href={typeof href === 'string' ? href : '#'} {...rest}>
-      {children}
-    </a>
-  ),
-  useRouter: () => ({
-    push: vi.fn(),
-    replace: vi.fn(),
-    back: vi.fn(),
-    forward: vi.fn(),
-    refresh: vi.fn(),
-    prefetch: vi.fn(),
-  }),
-  usePathname: () => '/',
-  redirect: vi.fn(),
-  getPathname: () => '/',
-}));
-
-vi.mock('next/navigation', async () => {
-  const actual = await vi.importActual<typeof import('next/navigation')>('next/navigation');
-  return {
-    ...actual,
-    useRouter: () => ({
-      push: vi.fn(),
-      replace: vi.fn(),
-      back: vi.fn(),
-      forward: vi.fn(),
-      refresh: vi.fn(),
-      prefetch: vi.fn(),
-    }),
-    usePathname: () => '/',
-    useSearchParams: () => new URLSearchParams(),
-    redirect: vi.fn(),
-    notFound: vi.fn(),
-  };
-});
-```
-
-- [ ] **Step 14.2: Rename to `.tsx` if needed**
-
-The setup file now contains JSX. Rename and point the config at it:
-
-```bash
-git mv vitest.setup.ts vitest.setup.tsx
-grep -n "setupFiles" vitest.config.ts
-```
-
-Update `vitest.config.ts`:
-
-```ts
-setupFiles: ['./vitest.setup.tsx'],
-```
-
-- [ ] **Step 14.3: Run all tests**
-
-```bash
-pnpm test --run
-```
-
-Expected: full suite green, including pre-existing tests that import `Link` from `@/i18n/routing`.
-
-- [ ] **Step 14.4: Commit**
-
-```bash
-git add vitest.setup.tsx vitest.config.ts
-git commit -m "test(setup): return real JSX from Link mock and mock next/navigation"
-```
+> **Re-audit:** All 44 tests pass with the current `vitest.setup.ts`. The `@/i18n/routing` `Link` mock currently returns a raw `document.createElement('a')` node and there is **no `next/navigation` mock**. Nothing in the suite renders a `<Link>` as a React child today, so it isn't breaking — but the raw-DOM-node return is not valid React rendering and will throw the moment a test renders `<Link>`. Treat this as **preventive**: do it only when you add a test that renders `<Link>` or calls a `next/navigation` router hook. If/when you do, follow the original Task 14 (return real JSX from the Link mock, add a `next/navigation` mock, rename the setup file to `vitest.setup.tsx`, and update `vitest.config.ts`'s `setupFiles` path).
 
 ---
 
-## Group 8 — Barrels, Metadata, Sitemap (High #8 + Medium #21, #22, #24, #26)
+## Group 8 — Barrels, Metadata, Sitemap — ✅ MOSTLY DONE
 
-### Task 15: Tighten the `features/ui-components` barrel (#8)
+> **Re-audit results:**
+>
+> - **#8 / Task 15** — ✅ `features/ui-components/index.ts` is exactly `export * from './components'`; no orphaned `types`/`config` dirs.
+> - **#21 / Task 16** — 🟡 OPTIONAL. `features/home/index.ts` uses sectioned wildcard re-exports (`export type * from './types'`, `export * from './config'`, `export * from './components'`). This works; converting to explicit named exports is a style preference only. Skip unless desired.
+> - **#22 / Task 17** — ✅ `buildPersonJsonLd` just `JSON.stringify`s a static `PERSON_JSON_LD` literal; no runtime state.
+> - **#24 / Task 18** — ✅ `buildMetadata` builds the hreflang map as `Object.fromEntries(...) as Record<Locale, string>`; type-safe.
+> - **#26 / Task 19** — ✅ `localePrefix: 'always'` in `i18n/routing.ts`; `app/sitemap.ts` emits clean `${SITE_URL}/${locale}` URLs.
+>
+> **No action required for Group 8** (Task 16 optional).
 
-**Files:**
+---
 
-- Modify: `features/ui-components/index.ts`
+## Group 9 — Final Verification
 
-- [ ] **Step 15.1: Re-export only what exists, in the canonical order**
+### Task 21: Full pipeline + E2E + manual smoke
 
-Replace the file with:
-
-```ts
-// --- Components ---
-export * from './components';
-```
-
-Rationale (verified during pre-flight): there are no `types/` or `config/` directories under `features/ui-components/` today, so `export type * from './types'` and `export * from './config'` reference modules that aren't there. The Types → Config → Components ordering applies only when those layers exist; here only Components does. If a future change introduces shared types or config, restore the canonical ordering with section comments at that time.
-
-### Task 16: Replace wildcard with named exports in `features/home/index.ts` (#21)
-
-**Files:**
-
-- Modify: `features/home/index.ts`
-
-- [ ] **Step 16.1: Confirm component names**
-
-```bash
-grep -n "^export" /Users/apple/Desktop/Portfolio/features/home/components/index.ts
-```
-
-- [ ] **Step 16.2: Replace the barrel**
-
-```ts
-// --- Types ---
-export type * from './types';
-
-// --- Config ---
-export {
-  WORK,
-  EXPERIENCE,
-  CERTIFICATIONS,
-  STACK,
-  MARQUEE_TOOLS,
-  SOCIALS,
-  RECIPIENT_EMAIL,
-} from './config';
-
-// --- Components ---
-export {
-  Hero,
-  HeroMetaStrip,
-  Work,
-  Experience,
-  Education,
-  Certifications,
-  Stack,
-  Contact,
-} from './components';
-```
-
-If Step 16.1 shows additional component names (e.g. `CaseStudyDrawer`), include them; if any in the list above is missing, remove it. Do not leave a name in the barrel that does not exist in `./components`.
-
-### Task 17: Verify `buildPersonJsonLd` uses only constants (#22)
-
-**Files:**
-
-- Inspect: `core/seo/utils/buildPersonJsonLd.ts`, `core/seo/config/person.config.ts`
-
-- [ ] **Step 17.1: Confirm no runtime state**
-
-```bash
-grep -nE "(Date\.|new Date|Math\.|process\.|window\.|document\.)" \
-  /Users/apple/Desktop/Portfolio/core/seo/utils/buildPersonJsonLd.ts \
-  /Users/apple/Desktop/Portfolio/core/seo/config/person.config.ts
-```
-
-Expected: empty output (`PERSON_JSON_LD` is a static literal and `buildPersonJsonLd` just `JSON.stringify`s it). If anything appears, replace the dynamic piece with a literal so the JSON-LD payload is byte-stable across renders.
-
-### Task 18: Type-safe languages map in `buildMetadata` (#24)
-
-**Files:**
-
-- Modify: `core/seo/utils/buildMetadata.ts`
-
-- [ ] **Step 18.1: Replace lines 19–21 with a typed reduce**
-
-```ts
-const languages = SUPPORTED_LOCALES.reduce<Record<Locale, string>>(
-  (acc, l) => {
-    acc[l] = `${SITE_URL}/${l}${path}`;
-    return acc;
-  },
-  Object.create(null) as Record<Locale, string>,
-);
-```
-
-### Task 19: Verify sitemap matches `localePrefix: 'always'` (#26)
-
-**Files:**
-
-- Inspect: `app/sitemap.ts`, `i18n/routing.ts`
-
-- [ ] **Step 19.1: Cross-check the URL shape**
-
-```bash
-grep -nE "(localePrefix|SITE_URL|sitemap)" /Users/apple/Desktop/Portfolio/i18n/routing.ts /Users/apple/Desktop/Portfolio/app/sitemap.ts
-```
-
-Expected: `localePrefix: 'always'` in routing.ts and `${SITE_URL}/${locale}` URLs in sitemap.ts (no double `/`, no trailing slash). If `localePrefix` ever changes to `'as-needed'`, drop the `/en` prefix from the `x-default` and default-locale entries.
-
-### Task 20: Run the full pipeline + commit barrels/seo
-
-- [ ] **Step 20.1: Final verification**
+- [ ] **Step 21.1: Full pipeline**
 
 ```bash
 pnpm lint
 pnpm type-check
 pnpm test --run
 pnpm build
+pnpm test:e2e -- --project=chromium
 ```
 
 Expected: all green.
 
-- [ ] **Step 20.2: Commit**
+- [ ] **Step 21.2: Manual smoke** (`pnpm build && pnpm start`)
 
-```bash
-git add features/ui-components/index.ts features/home/index.ts core/seo/utils/buildMetadata.ts
-git commit -m "refactor(barrels,seo): tighten exports and type the languages map"
-```
-
----
-
-## Group 9 — Final Verification
-
-### Task 21: E2E + manual smoke
-
-- [ ] **Step 21.1: Run e2e in chromium**
-
-```bash
-pnpm test:e2e -- --project=chromium
-```
-
-- [ ] **Step 21.2: Manually verify in browser**
-
-```bash
-pnpm build && pnpm start
-```
-
-Then in a fresh browser tab:
-
-1. Open `http://localhost:3000/en` — confirm CSP header (DevTools → Network → response headers), no console errors.
-2. Resize to mobile width → click hamburger → press Tab repeatedly → focus must cycle inside the dialog → press Escape → focus returns to the hamburger.
-3. Toggle `prefers-reduced-motion` in DevTools → Rendering → confirm hero entrance jumps to final state and CustomCursor doesn't spawn.
-4. Switch theme to light → confirm cursor is no longer inverted.
-5. `/ar` renders RTL, `<html dir="rtl">` present.
+1. `http://localhost:3000/en` — confirm all five security headers in DevTools → Network, no console errors.
+2. Submit the contact form — POST to `api.web3forms.com` not blocked by CSP.
+3. Mobile width → hamburger → Tab cycles **inside** the dialog → Escape returns focus to the hamburger.
+4. DevTools → Rendering → emulate `prefers-reduced-motion: reduce` → hero entrance jumps to final state, CustomCursor does not spawn.
+5. Switch to light theme → cursor is no longer inverted.
+6. `/ar` renders RTL (`<html dir="rtl">`).
 
 - [ ] **Step 21.3: Tree check**
 
@@ -1382,21 +871,18 @@ Then in a fresh browser tab:
 git status
 ```
 
-Expected: clean tree. If there are stray edits, review and either commit them with a clear scope or revert.
+Expected: clean tree.
 
 ---
 
-## Self-Review Notes
+## Self-Review Notes (updated 2026-06-01)
 
-**Spec coverage:**
+**Open work after re-audit:** Tasks 1, 2, 3, 5, 6, 7, 8 (revised), 12, 13.1. Optional: 4, 11, 13.2, 14, 16.
 
-- Critical: #1 (Task 3), #2 (Tasks 1+2), #3+#20 (Task 4), #4 (Task 8.1), #5 (Task 5), #6 (Task 5).
-- High: #8 (Task 15), #9 (Task 10), #10 (Task 11), #11 (Task 8.2), #12 (Task 8.2), #13 (Task 14), #14 (Task 14), #16 (Task 13), #17 (Task 13), #18 (Task 12), #19 (Task 5).
-- Medium: #21 (Task 16), #22 (Task 17), #24 (Task 18), #25 (Task 1 — `frame-ancestors 'self'` is in the CSP), #26 (Task 19), #28 (Task 13), #29 (Task 2.1).
-- New tests: TopNav unit + a11y (Tasks 6, 7), ContactForm validation + mailto (Task 9).
+**Already done (verified, no action):** 10, 13 (export), 15, 17, 18, 19, plus the entire Web3Forms contact-form migration and its tests, and TopNav scroll-lock/Escape/focus-restore + nav translation keys.
 
-**Risks / known trade-offs:**
+**Risks / trade-offs:**
 
-- Task 4 changes the canonical document-shell host. If a regression appears (double `<html>`, missing JSON-LD), the rollback is to revert Task 4 only — every other group is independent.
-- CSP uses `'unsafe-inline'` for script/style because the project ships inline `ThemeInitScript` and Person JSON-LD; tightening to nonces is out of scope for this plan.
-- Task 15 deliberately drops the audit-recommended Types/Config sections because those layers don't exist under `features/ui-components/`. If new types/config arrive later, restore the canonical ordering with section comments.
+- **Task 4** is the only high-risk item and is now a deliberate decision, not a required fix — the app is well-formed today. Skipping it is safe; if skipped, reconcile `.claude/rules/next-config.md`.
+- **CSP** uses `'unsafe-inline'` for script/style (inline `ThemeInitScript` + Person JSON-LD + Tailwind runtime styles) and explicitly allows `https://api.web3forms.com` in `connect-src`/`form-action`. Tightening to nonces is out of scope.
+- Each group is independent; commit per group so any single change can be reverted in isolation.
