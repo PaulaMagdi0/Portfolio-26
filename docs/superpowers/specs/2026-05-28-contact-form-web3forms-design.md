@@ -34,7 +34,7 @@ submitContact(values)                         [features/contact-form/services/su
     │  POST https://api.web3forms.com/submit
     │  body: { access_key, subject, from_name, replyto, name, email, message, botcheck }
     ▼
-Web3Forms relay  ───►  p.magdy@challengegroup.org
+Web3Forms relay  ───►  paulamagdy665@gmail.com
 ```
 
 The service throws on non-2xx responses or `{ success: false }` bodies. The component catches and transitions to the `error` state.
@@ -194,7 +194,7 @@ If the project's design system prefers token-based colors (`text-ink`, `bg-bg`) 
   "formSent": "Send message",
   "formHelper": "I read every message and reply within a few days.",
   "formSuccess": "Thanks — your message is on its way. I'll reply soon.",
-  "formError": "Something went wrong. Please try again or email me directly at p.magdy@challengegroup.org."
+  "formError": "Something went wrong. Please try again or email me directly at paulamagdy665@gmail.com."
 }
 ```
 
@@ -264,7 +264,7 @@ NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=8542507a-e40f-4cc2-b9a8-e012d69baf5c
 
 The fetch happens in a client component, so the key must be exposed to the browser. This is a deliberate Web3Forms design choice and is safe because:
 
-- The key is scoped to a single inbox — it can only cause email delivery to `p.magdy@challengegroup.org`.
+- The key is scoped to a single inbox — it can only cause email delivery to `paulamagdy665@gmail.com`.
 - It can be regenerated from the Web3Forms dashboard at any time.
 - Web3Forms rate-limits and detects abuse on their side.
 
@@ -292,7 +292,7 @@ No Zod env-schema validation is added in this iteration because the schema would
 
 ## Success criteria
 
-1. Submitting a valid form on the live site results in an email arriving at `p.magdy@challengegroup.org` within ~30 seconds, and the visitor sees the success banner without leaving the page.
+1. Submitting a valid form on the live site results in an email arriving at `paulamagdy665@gmail.com` within ~30 seconds, and the visitor sees the success banner without leaving the page.
 2. Submitting with the honeypot field populated (simulated in tests) is accepted by the UI but dropped by Web3Forms.
 3. Submitting with a missing env var, or while offline, shows the error banner and re-enables the button.
 4. All existing Vitest + jest-axe tests pass; new tests for `submitContact` and updated tests for `ContactForm` pass.
