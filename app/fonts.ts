@@ -11,6 +11,10 @@ export const instrumentSerif = Instrument_Serif({
   weight: ['400'],
   style: ['normal', 'italic'],
   display: 'swap',
+  // No next/font preloads: `display: swap` paints fallback immediately and
+  // adjustFontFallback keeps CLS near-zero, so we avoid "preloaded but not
+  // used" warnings without an LCP cost.
+  preload: false,
   variable: '--font-instrument-serif',
 });
 

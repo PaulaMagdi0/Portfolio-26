@@ -44,6 +44,7 @@
       "deploys": "faster deploys",
       "active": "active users",
       "uptime": "pipeline uptime",
+      "prodinfra": "production infra",
       "admin": "manual admin",
       "efficiency": "processing efficiency",
       "leaderboards": "leaderboards",

@@ -43,7 +43,7 @@ export const WORK: readonly WorkProject[] = [
     metrics: [
       { value: '−30%', labelKey: 'home.work.metric.latency' },
       { value: 'k‑scale', labelKey: 'home.work.metric.active' },
-      { value: '99.9%', labelKey: 'home.work.metric.uptime' },
+      { value: 'AWS', labelKey: 'home.work.metric.prodinfra' },
     ],
     stack: [
       'Laravel',
