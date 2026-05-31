@@ -717,7 +717,7 @@ git commit -m "fix(a11y): make mobile nav a dialog with focus trap and toggle be
 > (`features/contact-form/utils/buildMailto.ts` + a `mailto:` navigation in `ContactForm.tsx`).
 > The contact form has since been **migrated to Web3Forms**: `ContactForm.tsx` now imports
 > `submitContact` from `features/contact-form/services/submitContact.ts` and POSTs to the API —
-> there is no `utils/` directory or `buildMailto.ts`. The tests Tasks 8–9 propose to *add* already
+> there is no `utils/` directory or `buildMailto.ts`. The tests Tasks 8–9 propose to _add_ already
 > exist (`__tests__/components/ContactForm.test.tsx`, `ContactForm.accessibility.test.tsx`,
 > `__tests__/services/submitContact.test.ts`, `__tests__/types/contact.schema.test.ts`).
 > **Do not execute Tasks 8–9 as written.** The underlying concerns (#4 barrel import, #11 memoised
