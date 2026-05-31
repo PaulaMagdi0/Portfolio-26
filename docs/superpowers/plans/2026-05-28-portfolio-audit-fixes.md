@@ -28,7 +28,7 @@ The codebase moved on since this plan was written (Web3Forms contact-form migrat
 | **4** `<html>/<body>` → root layout            | 🟡 DECISION                      | Works today in `[locale]/layout`; the repo's own rules say the root layout should host the shell. Do only if you want convention-alignment. |
 | **5** mobile nav dialog + focus trap           | ⚠️ PARTIAL                       | Add `role="dialog"`, `aria-modal`, focus trap. Scroll-lock / Escape / focus-restore already done.                                           |
 | **6, 7** TopNav tests                          | 🔴 TODO                          | Both test files are missing                                                                                                                 |
-| **8, 9** contact-form (mailto)                 | ❌ OBSOLETE → **revised Task 8** | Form is on Web3Forms; only #11 (memoize schema) + #12 (unmount guard) remain                                                                |
+| **8, 9** contact-form (mailto)                 | ❌ OBSOLETE → **revised Task 8** | Form is on Web3Forms; only #11 (memoize schema) remains — #12 unmount guard dropped (React 19 no-ops it)                                    |
 | **10** `useReducedMotion` hook                 | ✅ DONE                          | —                                                                                                                                           |
 | **11** Hero3D uses the hook                    | 🟡 OPTIONAL                      | Works via inline `matchMedia`; refactor for consistency only                                                                                |
 | **12** CustomCursor reduced-motion guard       | 🔴 TODO                          | One missing early-return line                                                                                                               |
@@ -42,6 +42,39 @@ The codebase moved on since this plan was written (Web3Forms contact-form migrat
 | **19** sitemap / localePrefix                  | ✅ DONE                          | —                                                                                                                                           |
 
 **Recommended implementation order (open work only):** Task 1 → 2 → 3 → 5 → 6 → 7 → 8(revised) → 12 → 13.1 → (optional: 4, 11, 13.2, 14, 16).
+
+### ✅ Reviewer pass (2026-06-01) — incorporated below
+
+Four project reviewers (`architecture-`, `best-practices-`, `typescript-`, `test-reviewer`) reviewed this plan against the live code. Changes folded in:
+
+- **Task 8:** dropped the unmount guard (#12) — React 19 makes setState-after-unmount a silent no-op, and this single-page static form cannot unmount mid-submit. Task 8 is now **only** the schema `useMemo` (#11).
+- **Task 5 (a11y, real bug):** closed dialog must use **`inert`** (not `aria-hidden`) — `aria-hidden="true"` on a container holding focusable children is itself an axe `aria-hidden-focus` violation that would fail the Task-7 axe test.
+- **Task 5 (focus):** restore focus to the trigger **only on Escape / close button**, not in effect cleanup (cleanup fires on nav-link taps too and would steal focus from the target section).
+- **Task 5 (types):** use `const current: Element | null = document.activeElement` instead of the `as HTMLElement` cast.
+- **Task 1:** `buildContentSecurityPolicy` is now module-private (barrel exports only `SECURITY_HEADERS`).
+- **Task 2:** `headers: [...SECURITY_HEADERS]` (the `.map` identity copy was redundant).
+- **Task 4:** the "skip" path now specifies a concrete one-line edit to `.claude/rules/next-config.md`.
+- **Tasks 6/7:** removed the dead `matchMedia` `beforeEach` (TopNav never calls `matchMedia`); added a non-vacuous "dialog is open" assertion before the backdrop-click; Task-7 uses a role query instead of a `querySelector!` non-null assertion. **Write/run these tests only after Task 5 lands** — they assert Task-5 behavior (`role="dialog"`, focus trap) that doesn't exist yet.
+
+### 🔒 Security review (2026-06-01) — final category, complete
+
+All five review categories are now covered: **architecture · best-practices · typescript · test · security**. The security pass evaluated this app's real threat model (static site, no backend/auth/DB; only egress is the Web3Forms POST). **No Critical or High findings.** Verified security-sound (no action):
+
+- **Contact form** — input is length-bounded (name 1–80, message 10–2000, email validated) and the name field's `^[^\r\n]*$` regex blocks CRLF/header-injection; honeypot `botcheck` present; `submitContact` validates the Web3Forms response shape and does **not** reflect the API `message` into the DOM (it goes to `console.error` + a generic translated banner). `features/contact-form/services/submitContact.ts`, `types/contact.schema.ts`.
+- **JSON-LD** — `buildPersonJsonLd` stringifies a static constant; `dangerouslySetInnerHTML` has no user/runtime input → no XSS vector.
+- **Secrets** — `.env.local` is not git-tracked; only `.env.example` (placeholder) is; `.gitignore` covers `.env*`; `lib/env/env.schema.ts` validates via Zod.
+- **Tabnabbing** — all three `target="_blank"` / `window.open` usages carry `rel="noopener noreferrer"` (`Hero.tsx`, `Contact.tsx`, `WorkRow.tsx`).
+- **Open redirect** — the `/Portfolio.html → /` redirect is a static, fixed destination; no user-controlled target.
+
+**New security items folded into the plan:**
+
+| #      | Finding                                                      | Severity        | Where addressed                                                                       |
+| ------ | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------------------------------- |
+| **S1** | No HSTS header                                               | Medium          | Added `Strict-Transport-Security` to `SECURITY_HEADERS` (Task 1)                      |
+| **S2** | Public `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` invites spam/abuse | Low / ops       | New deploy step in Task 2 — enable Web3Forms **domain allowlisting**                  |
+| **S3** | CSP relies on `'unsafe-inline'` for script/style             | Info / optional | Documented in Task 1 + risks; nonce/hash hardening is out of scope (see Task S3 note) |
+
+> **S3 detail:** `'unsafe-inline'` is required today by `ThemeInitScript`, the Person JSON-LD `<script>`, and Tailwind v4's runtime style injection. For a statically-rendered site, tightening `script-src` to per-build **hashes** (not nonces — nonces need per-request rendering) is possible but high-effort and brittle against Tailwind's injected styles. Left as optional hardening; the current CSP is an appropriate baseline for a no-backend portfolio.
 
 ---
 
@@ -100,7 +133,8 @@ const CSP_DIRECTIVES: Record<string, readonly string[]> = {
   'upgrade-insecure-requests': [],
 };
 
-export function buildContentSecurityPolicy(): string {
+// Module-private — SECURITY_HEADERS is the only public surface.
+function buildContentSecurityPolicy(): string {
   return Object.entries(CSP_DIRECTIVES)
     .map(([k, v]) => (v.length ? `${k} ${v.join(' ')}` : k))
     .join('; ');
@@ -112,6 +146,13 @@ export const SECURITY_HEADERS: ReadonlyArray<{ key: string; value: string }> = [
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  // HSTS (security review #S1). Two years + preload. Only meaningful over HTTPS;
+  // harmless on localhost (browsers ignore it on http). Vercel also sets this at
+  // the edge, but emitting it here keeps the policy self-documented.
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload',
+  },
 ];
 ```
 
@@ -121,7 +162,7 @@ export const SECURITY_HEADERS: ReadonlyArray<{ key: string; value: string }> = [
 
 ```ts
 // core/security/index.ts
-export { SECURITY_HEADERS, buildContentSecurityPolicy } from './headers';
+export { SECURITY_HEADERS } from './headers';
 ```
 
 ### Task 2: Wire headers into `next.config.ts` — ⚠️ PARTIAL (replace the 3 inline headers)
@@ -158,7 +199,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/:path*',
-        headers: SECURITY_HEADERS.map(({ key, value }) => ({ key, value })),
+        headers: [...SECURITY_HEADERS],
       },
     ];
   },
@@ -176,11 +217,11 @@ export default analyzer(withNextIntl(nextConfig));
 pnpm type-check
 pnpm build && pnpm start &
 sleep 5
-curl -sI http://localhost:3000/en | grep -iE 'content-security-policy|x-content-type-options|x-frame-options|referrer-policy|permissions-policy'
+curl -sI http://localhost:3000/en | grep -iE 'content-security-policy|x-content-type-options|x-frame-options|referrer-policy|permissions-policy|strict-transport-security'
 kill %1
 ```
 
-Expected: all five headers present on `/en`, including `content-security-policy` with `connect-src ... https://api.web3forms.com`.
+Expected: all six headers present on `/en`, including `content-security-policy` with `connect-src ... https://api.web3forms.com` and `strict-transport-security`.
 
 - [ ] **Step 2.3: Smoke-test the contact form against the new CSP**
 
@@ -189,11 +230,15 @@ Expected: all five headers present on `/en`, including `content-security-policy`
 # the POST to api.web3forms.com is NOT blocked by CSP (check DevTools console).
 ```
 
-- [ ] **Step 2.4: Commit**
+- [ ] **Step 2.4 (security S2, deploy/ops — no code): enable Web3Forms domain allowlisting**
+
+The `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` is intentionally client-visible, so anyone can read it from the bundle and POST with it. To stop the key being abused from other origins, enable **domain whitelisting** in the Web3Forms dashboard (https://web3forms.com/dashboard) and restrict it to the production domain. This is a dashboard setting, not a code change — `submitContact.ts:6` already documents it. Record it on the project's deploy checklist.
+
+- [ ] **Step 2.5: Commit**
 
 ```bash
 git add core/security next.config.ts
-git commit -m "feat(security): add CSP and standard security headers via core/security/headers"
+git commit -m "feat(security): add CSP, HSTS, and standard security headers via core/security/headers"
 ```
 
 ---
@@ -236,7 +281,13 @@ git commit -m "perf(app): force-static the home page"
 
 > **Re-audit:** This is **not a bug** today — `app/[locale]/layout.tsx` renders a single well-formed `<html lang dir>`/`<body>` and injects Person JSON-LD; `app/layout.tsx` currently just returns `{children}`. The 44-test suite and e2e pass. The original finding (#3+#20) is a **convention** concern: non-locale entrypoints (`/_not-found`, route handlers) don't get a document shell, and `.claude/rules/next-config.md` describes `app/layout.tsx` as the "Root HTML shell."
 >
-> **Decision:** Implement only if you want to align with that documented convention. It is the highest-risk change in this plan (double-`<html>` / missing-JSON-LD regressions) and is fully independent — skipping it costs nothing functionally today. If you skip it, update `.claude/rules/next-config.md` to document that the `[locale]` layout owns the shell, so code and rules agree.
+> **Decision:** Implement only if you want to align with that documented convention. It is the highest-risk change in this plan (double-`<html>` / missing-JSON-LD regressions) and is fully independent — skipping it costs nothing functionally today.
+>
+> **Recommended: skip the code change, fix the rule instead.** The current split is intentional — next-intl's `setRequestLocale`/`getMessages`, the font class variables, `ThemeInitScript` (must fire before paint), and the `suppressHydrationWarning` attributes all live at the `[locale]` level. Moving `<html>/<body>` to the root forces `lang`/`dir` to be defaulted/patched via a `beforeInteractive` script (FOUC-of-direction risk for AR) and risks theme/hydration regressions. So the lower-risk resolution is to make the rule match the code: in `.claude/rules/next-config.md`, change the `app/layout.tsx` line ("Root HTML shell. No locale context, no providers.") to:
+>
+> > `app/layout.tsx` — Minimal pass-through layout. `<html>`/`<body>`, `lang`/`dir`, fonts, `ThemeInitScript`, and Person JSON-LD live in `app/[locale]/layout.tsx` because next-intl locale context and font variables must be set at the locale level.
+>
+> Only do the full two-file rewrite below if you have a concrete reason to need a document shell on non-locale routes.
 
 If implementing, follow the original two-file rewrite (root hosts `<html>/<body>` with `DEFAULT_LOCALE`; `[locale]` patches `lang`/`dir` via a `beforeInteractive` script and keeps JSON-LD + providers). Then verify:
 
@@ -328,6 +379,7 @@ export function TopNav() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setMenuOpen(false);
+        triggerRef.current?.focus(); // restore focus to the trigger — Escape only
         return;
       }
       if (e.key !== 'Tab') return;
@@ -335,7 +387,7 @@ export function TopNav() {
       if (!items.length) return;
       const first = items[0];
       const last = items[items.length - 1];
-      const current = document.activeElement as HTMLElement | null;
+      const current: Element | null = document.activeElement;
       if (e.shiftKey && (current === first || !overlay?.contains(current))) {
         e.preventDefault();
         last.focus();
@@ -349,7 +401,10 @@ export function TopNav() {
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
-      triggerRef.current?.focus();
+      // NOTE: do NOT restore focus to the trigger here — cleanup also runs when
+      // a nav link is tapped, and we want focus to follow the anchor to its
+      // target section. Focus restoration is handled explicitly in the Escape
+      // branch above and the close-button onClick below.
     };
   }, [menuOpen]);
 
@@ -438,7 +493,7 @@ export function TopNav() {
         role="dialog"
         aria-modal="true"
         aria-label={t('primary')}
-        aria-hidden={!menuOpen}
+        inert={!menuOpen}
         className={cn(
           'bg-bg fixed inset-0 z-[300] transition-opacity duration-300 md:hidden',
           menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
@@ -450,7 +505,10 @@ export function TopNav() {
         <button
           type="button"
           aria-label={t('closeMenu')}
-          onClick={() => setMenuOpen(false)}
+          onClick={() => {
+            setMenuOpen(false);
+            triggerRef.current?.focus();
+          }}
           className="border-line bg-bg/80 absolute top-3 right-4 z-[1] flex h-10 w-10 items-center justify-center rounded-full border"
         >
           <span aria-hidden className="bg-ink absolute h-0.5 w-5 rotate-45 rounded-full" />
@@ -496,7 +554,9 @@ export function TopNav() {
 }
 ```
 
-> **Before committing:** diff the current file against this version — if the live `TopNav` has structural differences (e.g. a different brand/clock arrangement) introduced since the audit, preserve those and graft in only the dialog semantics (`role`/`aria-modal`/focus trap) rather than blindly overwriting.
+> **Why `inert` and not `aria-hidden` on the closed overlay:** the overlay stays in the DOM (opacity-fade transition), so when closed it still contains focusable links/buttons. `aria-hidden="true"` on a container with focusable descendants is itself an axe `aria-hidden-focus` violation — it would fail the Task-7 axe test. `inert` (React 19 supports it as a boolean prop) removes the subtree from both the focus order and the accessibility tree while preserving the CSS transition. **Verify** the closed-state axe test passes; if your jsdom/axe-core versions don't honor `inert`, fall back to conditionally rendering the overlay's children only when `menuOpen` (accepting the loss of the fade-out).
+>
+> **Before committing:** diff the current file against this version — if the live `TopNav` has structural differences (e.g. a different brand/clock arrangement) introduced since the audit, preserve those and graft in only the dialog semantics (`role`/`aria-modal`/`inert`/focus trap) rather than blindly overwriting.
 
 ### Task 6: Add TopNav behaviour tests — 🔴 TODO
 
@@ -507,25 +567,15 @@ export function TopNav() {
 - [ ] **Step 6.1: Write the test file**
 
 ```tsx
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TopNav } from '@/features/ui-components';
 
-beforeEach(() => {
-  Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: vi.fn().mockImplementation((query: string) => ({
-      matches: query.includes('max-width'),
-      media: query,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    })),
-  });
-});
+// No matchMedia mock needed — TopNav never calls window.matchMedia. The
+// hamburger's `md:hidden` Tailwind class has no effect in jsdom (no CSS engine),
+// so the button is always in the DOM and findable by role. The next-intl mock
+// in vitest.setup.ts makes t('openMenu') return the key string "ui.nav.openMenu".
 
 afterEach(() => {
   document.body.style.overflow = '';
@@ -566,10 +616,12 @@ describe('TopNav mobile menu', () => {
   it('closes when the backdrop is clicked', async () => {
     const user = userEvent.setup();
     render(<TopNav />);
-    await user.click(getHamburger());
+    const trigger = getHamburger();
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true'); // guard against a vacuous pass
     const dialog = screen.getByRole('dialog');
     await user.click(dialog);
-    expect(getHamburger()).toHaveAttribute('aria-expanded', 'false');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('locks body scroll while open and unlocks on close', async () => {
@@ -604,26 +656,15 @@ describe('TopNav mobile menu', () => {
 - [ ] **Step 7.1: Write the test**
 
 ```tsx
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import { axe } from 'jest-axe';
 import userEvent from '@testing-library/user-event';
 import { TopNav } from '@/features/ui-components';
 
-beforeEach(() => {
-  Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: vi.fn().mockImplementation((query: string) => ({
-      matches: query.includes('max-width'),
-      media: query,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    })),
-  });
-});
+// The "closed" case is the one that catches the aria-hidden-focus bug: it only
+// passes if the closed overlay leaves the a11y tree (via `inert`), so the
+// focusable links inside it are not flagged. Do not add an axe-rule suppression.
 
 describe('TopNav accessibility', () => {
   it('has no axe violations when closed', async () => {
@@ -634,7 +675,7 @@ describe('TopNav accessibility', () => {
   it('has no axe violations with the mobile dialog open', async () => {
     const user = userEvent.setup();
     const { container } = render(<TopNav />);
-    await user.click(container.querySelector('button[aria-controls="mobile-menu"]')!);
+    await user.click(screen.getByRole('button', { name: /ui\.nav\.openMenu/i }));
     expect(await axe(container)).toHaveNoViolations();
   });
 });
@@ -661,14 +702,16 @@ git commit -m "fix(a11y): make mobile nav a dialog with focus trap + add tests"
 
 > **Re-audit:** The original Tasks 8–9 targeted a `mailto:` form (`utils/buildMailto.ts`). That code **no longer exists** — the form was migrated to **Web3Forms** (`services/submitContact.ts`, POSTs to `https://api.web3forms.com/submit`). The component tests, accessibility tests, and service tests **already exist** and pass. Concern **#4 (barrel imports)** is already satisfied — `ContactForm.tsx` imports `Magnetic` from the `@/features/ui-components` barrel and otherwise only from its own feature.
 >
-> Two of the original underlying concerns are still open against the current code and are worth fixing:
+> Of the original underlying concerns, only one is worth acting on against the current code:
 >
-> - **#11** — the Zod schema is rebuilt every render (`ContactForm.tsx:21` `const schema = buildContactSchema(t);`), so react-hook-form rebuilds its resolver each render.
-> - **#12** — `handleFormSubmit` calls `setStatus`/`reset` after the awaited POST with no unmount guard; if the form unmounts mid-flight, React warns about setting state on an unmounted component.
+> - **#11 (open)** — the Zod schema is rebuilt every render (`ContactForm.tsx:21` `const schema = buildContactSchema(t);`), so react-hook-form rebuilds its resolver each render. Fix with `useMemo`.
+> - **#12 (dropped after review)** — the proposed unmount guard is unnecessary: React 19 silently no-ops `setState` after unmount, and this single-page static form is never unmounted mid-submit. See the reviewer note in Task 8.
 >
-> **Do NOT execute the original Tasks 8–9.** Use the single revised task below.
+> **Do NOT execute the original Tasks 8–9.** Use the single revised Task 8 below (schema memoization only).
 
-### Task 8 (revised): Memoize the schema and guard post-submit state (#11, #12) — 🔴 TODO
+### Task 8 (revised): Memoize the schema (#11) — 🔴 TODO
+
+> **Reviewer note:** the original "unmount guard" (#12) was **dropped after review.** React 19 (this project) made `setState`-after-unmount a silent no-op — there is no warning to prevent — and this is a single-page, statically-rendered site where the always-mounted `#contact` form cannot unmount mid-submit. A `mountedRef` here would be cargo-culted defensiveness against a scenario that can't occur. (If a real cancellation need ever appears, the useful pattern is an `AbortController` threaded into `submitContact`, not a mounted ref.) So Task 8 is now a single one-line change.
 
 **Files:**
 
@@ -676,58 +719,29 @@ git commit -m "fix(a11y): make mobile nav a dialog with focus trap + add tests"
 
 - [ ] **Step 8.1: Memoize the schema**
 
-Add `useMemo` to the React import, then change line 21:
+Add `useMemo` to the existing React import, then change line 21 from `const schema = buildContactSchema(t);` to:
 
 ```tsx
-// import { useEffect, useMemo, useRef, useState } from 'react';
+// import { useMemo, useEffect, useRef, useState } from 'react';
 const schema = useMemo(() => buildContactSchema(t), [t]);
 ```
 
-- [ ] **Step 8.2: Add an unmount guard around post-await state updates**
+`t` from `useTranslations` is referentially stable within a locale, so this memo effectively runs once per mount and stops react-hook-form from rebuilding its resolver on every render. Type-checks cleanly: `ContactFormValues` is `z.infer<ReturnType<typeof buildContactSchema>>`, the same type the memoized `schema` produces, so `zodResolver(schema)` and `useForm<ContactFormValues>` still unify. Leave everything else in the file (honeypot `botcheck`, banner refs, `handleFieldChange`, spinner, `handleFormSubmit`) exactly as-is.
 
-Add a mounted ref and guard the `setStatus`/`reset` calls that run after `await onSubmit(...)`:
-
-```tsx
-const mountedRef = useRef(true);
-
-useEffect(() => {
-  mountedRef.current = true;
-  return () => {
-    mountedRef.current = false;
-  };
-}, []);
-
-const handleFormSubmit = async (values: ContactFormValues) => {
-  setStatus('sending');
-  try {
-    await onSubmit(values);
-    if (!mountedRef.current) return;
-    reset();
-    setStatus('sent');
-  } catch (err) {
-    if (!mountedRef.current) return;
-    console.error('[ContactForm] submission failed', err);
-    setStatus('error');
-  }
-};
-```
-
-> Keep everything else in `ContactForm.tsx` (honeypot `botcheck` input, banner refs, `handleFieldChange`, spinner) exactly as-is.
-
-- [ ] **Step 8.3: Run the existing contact-form tests + type-check**
+- [ ] **Step 8.2: Run the existing contact-form tests + type-check**
 
 ```bash
 pnpm type-check
 pnpm test -- features/contact-form --run
 ```
 
-Expected: all existing contact-form tests still green.
+Expected: all existing contact-form tests still green (they fully cover success / error / validation / honeypot / in-flight-disabled / banner paths — no new test needed for a memoization that has no observable behavior change).
 
-- [ ] **Step 8.4: Commit**
+- [ ] **Step 8.3: Commit**
 
 ```bash
 git add features/contact-form/components/ContactForm.tsx
-git commit -m "fix(contact-form): memoise zod schema and guard post-submit state on unmount"
+git commit -m "perf(contact-form): memoise zod schema to stop per-render resolver rebuilds"
 ```
 
 ---
@@ -762,10 +776,13 @@ So the top of the effect reads:
 useEffect(() => {
   if (typeof window === 'undefined') return;
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  // One-shot guard — not reactive; matches the pointer-fine check above.
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   // ... rest of the effect unchanged
 }, []);
 ```
+
+> **Reviewer note:** an inline `matchMedia` here is intentional, **not** a DRY violation against `useReducedMotion`. That hook is reactive (drives re-renders for render-output decisions); this effect runs once on mount with a `[]` dep array and only needs a one-shot environmental check — the same shape as the existing pointer-fine guard. Using the hook would force the boolean into the dep array (re-running the whole RAF setup on OS-setting toggles) or read a stale value. Keep it inline.
 
 - [ ] **Step 12.2: Run motion-touching tests**
 
