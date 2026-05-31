@@ -713,6 +713,17 @@ git commit -m "fix(a11y): make mobile nav a dialog with focus trap and toggle be
 
 ## Group 4 — Contact Form Correctness (Critical #4 + High #11, #12) and Tests
 
+> **⚠️ SUPERSEDED (verified 2026-06-01).** This group was written against a `mailto:` contact form
+> (`features/contact-form/utils/buildMailto.ts` + a `mailto:` navigation in `ContactForm.tsx`).
+> The contact form has since been **migrated to Web3Forms**: `ContactForm.tsx` now imports
+> `submitContact` from `features/contact-form/services/submitContact.ts` and POSTs to the API —
+> there is no `utils/` directory or `buildMailto.ts`. The tests Tasks 8–9 propose to *add* already
+> exist (`__tests__/components/ContactForm.test.tsx`, `ContactForm.accessibility.test.tsx`,
+> `__tests__/services/submitContact.test.ts`, `__tests__/types/contact.schema.test.ts`).
+> **Do not execute Tasks 8–9 as written.** The underlying concerns (#4 barrel import, #11 memoised
+> schema, #12 post-navigation state guard) should be re-checked against the current Web3Forms
+> implementation if still relevant.
+
 ### Task 8: Fix the buildMailto import + harden ContactForm
 
 **Files:**

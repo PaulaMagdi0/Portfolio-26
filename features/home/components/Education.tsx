@@ -26,15 +26,23 @@ export async function Education() {
             <p className="text-inkdim mb-6 font-mono text-[14px]">
               {t('school')} <span className="text-inkmute">· {t('location')}</span>
             </p>
-            <div className="border-line max-w-[680px] border-t pt-6">
-              <div className="mb-2 flex items-baseline justify-between">
+            <div className="border-line max-w-[680px] space-y-6 border-t pt-6">
+              <div>
                 <span className="text-inkmute font-mono text-[11px] tracking-[0.18em] uppercase">
-                  {t('gradLabel')}
+                  {t('courseworkLabel')}
                 </span>
-                <span className="text-amber font-mono text-[11px]">{t('grade')}</span>
+                <p className="text-inkdim mt-2 text-[14px] leading-relaxed">{t('coursework')}</p>
               </div>
-              <p className="text-ink mb-1 text-[15px]">{t('gradProject')}</p>
-              <p className="text-inkdim font-mono text-[13px]">{t('gradStack')}</p>
+              <div>
+                <div className="mb-2 flex items-baseline justify-between">
+                  <span className="text-inkmute font-mono text-[11px] tracking-[0.18em] uppercase">
+                    {t('gradLabel')}
+                  </span>
+                  <span className="text-amber font-mono text-[11px]">{t('grade')}</span>
+                </div>
+                <p className="text-ink mb-1 text-[15px]">{t('gradProject')}</p>
+                <p className="text-inkdim font-mono text-[13px]">{t('gradStack')}</p>
+              </div>
             </div>
           </Reveal>
         </div>

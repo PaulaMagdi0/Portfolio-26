@@ -11,6 +11,8 @@ export const STACK: readonly StackGroup[] = [
       'Next.js',
       'TypeScript',
       'JavaScript',
+      'HTML',
+      'CSS',
       'Tailwind CSS',
       'Vitest',
       'React Testing Library',
@@ -53,6 +55,8 @@ export const MARQUEE_TOOLS: readonly MarqueeTool[] = [
   { name: 'Next.js', src: SI('nextdotjs') },
   { name: 'TypeScript', src: SI('typescript') },
   { name: 'JavaScript', src: SI('javascript') },
+  { name: 'HTML', src: SI('html5') },
+  { name: 'CSS', src: SI('css') },
   { name: 'Tailwind CSS', src: SI('tailwindcss') },
   { name: 'Vitest', src: SI('vitest') },
   {
