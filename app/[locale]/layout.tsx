@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { setRequestLocale, getMessages, getTranslations } from 'next-intl/server';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { LOCALE_DIRECTIONS, SUPPORTED_LOCALES, isLocale, type Locale } from '@/i18n/config';
 import { buildMetadata, buildPersonJsonLd } from '@/core/seo';
 import { SkipLink } from '@/core/accessibility';
@@ -63,6 +65,12 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <SkipLink />
           {children}
         </ClientProviders>
+        {/* Vercel Web Analytics + Speed Insights. Self-contained client components
+            (own client boundary, no 'use client'/next-dynamic needed). They report
+            only from Vercel deployments — never localhost — and are served
+            first-party from /_vercel/*, which the app's CSP 'self' already allows. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
