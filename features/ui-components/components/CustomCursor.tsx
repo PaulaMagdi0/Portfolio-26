@@ -9,6 +9,8 @@ export function CustomCursor() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    // One-shot guard — not reactive; matches the pointer-fine check above.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let mx = window.innerWidth / 2;
     let my = window.innerHeight / 2;
