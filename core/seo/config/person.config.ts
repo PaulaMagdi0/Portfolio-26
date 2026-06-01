@@ -6,7 +6,7 @@ export const PERSON_JSON_LD = {
   name: 'Paula Magdy',
   jobTitle: 'Full-Stack Software Engineer',
   description:
-    'Paula Magdy is a full-stack software engineer based in Cairo, Egypt, specializing in scalable web platforms, backend APIs, and cloud infrastructure.',
+    '"Paula Magdy is a full-stack software engineer building and scaling modern software systems using technologies such as PHP, JavaScript, TypeScript, Python, and cloud platforms. My work spans database design, backend APIs, frontend applications, infrastructure, and CI/CD pipelines. I focus on delivering scalable, reliable, and maintainable solutions while taking ownership of the full development lifecycle, from architecture to deployment.',
   url: SITE_URL,
   image: `${SITE_URL}/og-en.png`,
   email: 'mailto:paulamagdy665@gmail.com',
