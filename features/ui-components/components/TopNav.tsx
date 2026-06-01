@@ -20,6 +20,10 @@ export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  // Set when a close should return focus to the trigger (Escape / close button),
+  // not when a nav-link tap closes the menu. Read after the close-render commits.
+  const restoreFocusRef = useRef(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -43,9 +47,27 @@ export function TopNav() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen) {
+      // After a close-render commits, the background is no longer inert, so it is
+      // now safe to return focus to the trigger (only when an explicit close
+      // asked for it — Escape or the close button, not a nav-link tap).
+      if (restoreFocusRef.current) {
+        restoreFocusRef.current = false;
+        triggerRef.current?.focus();
+      }
+      return;
+    }
 
     document.body.style.overflow = 'hidden';
+
+    // Modal containment: remove the rest of the page from the a11y tree and tab
+    // order while the dialog is open. `aria-modal` alone is not honoured by every
+    // screen reader (VoiceOver/NVDA browse mode), so inert the background siblings.
+    const nav = navRef.current;
+    const main = document.getElementById('main');
+    if (nav) nav.inert = true;
+    if (main) main.inert = true;
+
     const overlay = overlayRef.current;
     const focusables = (): HTMLElement[] =>
       overlay ? Array.from(overlay.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)) : [];
@@ -54,8 +76,8 @@ export function TopNav() {
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        restoreFocusRef.current = true; // restore focus to the trigger on close
         setMenuOpen(false);
-        triggerRef.current?.focus(); // restore focus to the trigger — Escape only
         return;
       }
       if (e.key !== 'Tab') return;
@@ -77,16 +99,15 @@ export function TopNav() {
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
-      // NOTE: do NOT restore focus to the trigger here — cleanup also runs when
-      // a nav link is tapped, and we want focus to follow the anchor to its
-      // target section. Focus restoration is handled explicitly in the Escape
-      // branch above and the close-button onClick below.
+      if (nav) nav.inert = false;
+      if (main) main.inert = false;
     };
   }, [menuOpen]);
 
   return (
     <>
       <nav
+        ref={navRef}
         aria-label={t('primary')}
         className={cn(
           'fixed inset-x-0 top-0 z-[60] transition-[background-color,border-color,backdrop-filter] duration-500',
@@ -182,8 +203,8 @@ export function TopNav() {
           type="button"
           aria-label={t('closeMenu')}
           onClick={() => {
+            restoreFocusRef.current = true;
             setMenuOpen(false);
-            triggerRef.current?.focus();
           }}
           className="border-line bg-bg/80 absolute top-3 right-4 z-[1] flex h-10 w-10 items-center justify-center rounded-full border"
         >
