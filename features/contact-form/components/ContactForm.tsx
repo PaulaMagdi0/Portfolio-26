@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
@@ -18,7 +18,7 @@ interface ContactFormProps {
 export function ContactForm({ onSubmit = defaultSubmit }: ContactFormProps = {}) {
   const t = useTranslations('contact');
   const tUi = useTranslations('ui');
-  const schema = buildContactSchema(t);
+  const schema = useMemo(() => buildContactSchema(t), [t]);
   const [status, setStatus] = useState<Status>('idle');
   const bannerRef = useRef<HTMLDivElement | null>(null);
 
