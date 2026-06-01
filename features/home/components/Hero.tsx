@@ -75,7 +75,7 @@ export async function Hero() {
               </Magnetic>
               <Magnetic as="span" strength={0.25}>
                 <a
-                  href="/Resume.pdf"
+                  href="/resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor-label={tCursor('open')}
