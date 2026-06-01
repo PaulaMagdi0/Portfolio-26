@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { LocaleSwitcher } from '@/features/localization';
 import { cn } from '@/lib/utils';
@@ -10,12 +10,16 @@ import { ThemeToggle } from './ThemeToggle';
 const SECTIONS = ['work', 'experience', 'certifications', 'stack', 'contact'] as const;
 type SectionId = (typeof SECTIONS)[number];
 
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export function TopNav() {
   const t = useTranslations('ui.nav');
   const tBrand = useTranslations('ui.brand');
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<SectionId | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -39,18 +43,44 @@ export function TopNav() {
   }, []);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    if (!menuOpen) return;
+
+    document.body.style.overflow = 'hidden';
+    const overlay = overlayRef.current;
+    const focusables = (): HTMLElement[] =>
+      overlay ? Array.from(overlay.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)) : [];
+
+    focusables()[0]?.focus();
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMenuOpen(false);
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        triggerRef.current?.focus(); // restore focus to the trigger — Escape only
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const items = focusables();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const current: Element | null = document.activeElement;
+      if (e.shiftKey && (current === first || !overlay?.contains(current))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && current === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
+
     window.addEventListener('keydown', onKey);
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
+      // NOTE: do NOT restore focus to the trigger here — cleanup also runs when
+      // a nav link is tapped, and we want focus to follow the anchor to its
+      // target section. Focus restoration is handled explicitly in the Escape
+      // branch above and the close-button onClick below.
     };
   }, [menuOpen]);
 
@@ -112,11 +142,12 @@ export function TopNav() {
             <LocaleSwitcher />
             <ThemeToggle />
             <button
+              ref={triggerRef}
               type="button"
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              aria-label={t('openMenu')}
-              onClick={() => setMenuOpen(true)}
+              aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
+              onClick={() => setMenuOpen((v) => !v)}
               className="relative flex h-10 w-10 items-center justify-center rounded-full border border-transparent transition-colors md:hidden"
             >
               <span
@@ -133,8 +164,12 @@ export function TopNav() {
       </nav>
 
       <div
+        ref={overlayRef}
         id="mobile-menu"
-        aria-hidden={!menuOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-label={t('primary')}
+        inert={!menuOpen}
         className={cn(
           'bg-bg fixed inset-0 z-[300] transition-opacity duration-300 md:hidden',
           menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
@@ -146,7 +181,10 @@ export function TopNav() {
         <button
           type="button"
           aria-label={t('closeMenu')}
-          onClick={() => setMenuOpen(false)}
+          onClick={() => {
+            setMenuOpen(false);
+            triggerRef.current?.focus();
+          }}
           className="border-line bg-bg/80 absolute top-3 right-4 z-[1] flex h-10 w-10 items-center justify-center rounded-full border"
         >
           <span aria-hidden className="bg-ink absolute h-0.5 w-5 rotate-45 rounded-full" />
