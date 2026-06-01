@@ -1,13 +1,13 @@
 {
   "meta": {
     "title": "Paula Magdy — Software Engineer",
-    "description": "Full-Stack Software Engineer building and scaling modern software systems using technologies such as PHP, JavaScript, TypeScript, Python, and cloud platforms. My work spans database design, backend APIs, frontend applications, infrastructure, and CI/CD pipelines. I focus on delivering scalable, reliable, and maintainable solutions while taking ownership of the full development lifecycle — from architecture to deployment."
+    "description": "Paula Magdy is a full-stack software engineer in Cairo building and scaling modern web platforms — backend APIs, databases, frontend apps, and CI/CD with TypeScript, Next.js, NestJS, PostgreSQL, and AWS."
   },
   "hero": {
     "portfolio": "PORTFOLIO / 2026",
     "availability": "AVAILABLE FOR FULL-STACK ENGINEERING ROLES",
-    "headline": "Software Engineer",
-    "kicker": "Building systems that teams rely on.",
+    "headline": "Paula Magdy",
+    "kicker": "Full-Stack Software Engineer",
     "descriptionLead": "I architect and ship production-grade web platforms —",
     "descriptionEmph": "resilient backends, clean APIs, and interfaces built for scale.",
     "ctaWork": "View Work",

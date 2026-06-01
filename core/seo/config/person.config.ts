@@ -4,7 +4,9 @@ export const PERSON_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Paula Magdy',
-  jobTitle: 'Software Engineer',
+  jobTitle: 'Full-Stack Software Engineer',
+  description:
+    'Paula Magdy is a full-stack software engineer based in Cairo, Egypt, specializing in scalable web platforms, backend APIs, and cloud infrastructure.',
   url: SITE_URL,
   image: `${SITE_URL}/og-en.png`,
   email: 'mailto:paulamagdy665@gmail.com',
@@ -12,6 +14,14 @@ export const PERSON_JSON_LD = {
     '@type': 'PostalAddress',
     addressLocality: 'Cairo',
     addressCountry: 'EG',
+  },
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'October 6 University',
+  },
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Challenge Group International',
   },
   knowsAbout: [
     'Next.js',
