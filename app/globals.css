@@ -38,7 +38,7 @@
   --grain-opacity: 0.045;
   --grain-blend: multiply;
   --vignette: radial-gradient(120% 80% at 50% -10%, rgba(160, 108, 42, 0.1), transparent 60%);
-  --cursor-blend: difference;
+  --cursor-blend: normal;
   color-scheme: light;
 }
 
@@ -780,8 +780,7 @@ html.lenis body {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
+    animation: none !important;
     transition-duration: 0.001ms !important;
   }
 
