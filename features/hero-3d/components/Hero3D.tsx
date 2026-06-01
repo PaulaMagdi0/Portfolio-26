@@ -1,18 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useReducedMotion } from '@/core/motion';
 import { Hero3DCanvas } from './Hero3DCanvas';
 
 export function Hero3D() {
+  const reduced = useReducedMotion();
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     requestAnimationFrame(() => {
       setEnabled(finePointer && !reduced);
     });
-  }, []);
+  }, [reduced]);
 
   return (
     <div className="pointer-events-none absolute inset-0">
