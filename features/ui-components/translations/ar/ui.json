@@ -18,7 +18,8 @@
     "stack": "التقنيات",
     "contact": "التواصل",
     "openMenu": "فتح القائمة",
-    "closeMenu": "إغلاق القائمة"
+    "closeMenu": "إغلاق القائمة",
+    "mobileMenu": "قائمة التنقل"
   },
   "theme": {
     "switchToLight": "التبديل إلى الوضع الفاتح",

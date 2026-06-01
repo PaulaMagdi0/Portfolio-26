@@ -67,7 +67,7 @@ export function TopNav() {
       if (e.shiftKey && (current === first || !overlay?.contains(current))) {
         e.preventDefault();
         last.focus();
-      } else if (!e.shiftKey && current === last) {
+      } else if (!e.shiftKey && (current === last || !overlay?.contains(current))) {
         e.preventDefault();
         first.focus();
       }
@@ -168,7 +168,7 @@ export function TopNav() {
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
-        aria-label={t('primary')}
+        aria-label={t('mobileMenu')}
         inert={!menuOpen}
         className={cn(
           'bg-bg fixed inset-0 z-[300] transition-opacity duration-300 md:hidden',
