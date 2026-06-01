@@ -13,7 +13,16 @@ const CSP_DIRECTIVES: Record<string, readonly string[]> = {
     ? ["'self'", "'unsafe-inline'"]
     : ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
   'style-src': ["'self'", "'unsafe-inline'"],
-  'img-src': ["'self'", 'data:', 'blob:'],
+  // External icon CDNs used by the Stack marquee (cdn.simpleicons.org) and the
+  // Certifications logos (cdn.jsdelivr.net devicon). Rendered as raw <img>, so
+  // they are governed by img-src, not proxied through next/image.
+  'img-src': [
+    "'self'",
+    'data:',
+    'blob:',
+    'https://cdn.simpleicons.org',
+    'https://cdn.jsdelivr.net',
+  ],
   'font-src': ["'self'", 'data:'],
   'connect-src': ["'self'", 'https://api.web3forms.com'],
   'worker-src': ["'self'", 'blob:'],
