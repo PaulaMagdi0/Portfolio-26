@@ -7,3 +7,7 @@ coverage
 playwright-report
 test-results
 .pnpm-store
+
+# Auto-generated / platform files (unformatted in Vercel build env)
+next-env.d.ts
+vercel.json
