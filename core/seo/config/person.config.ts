@@ -6,7 +6,7 @@ export const PERSON_JSON_LD = {
   name: 'Paula Magdy',
   jobTitle: 'Software Engineer',
   url: SITE_URL,
-  image: `${SITE_URL}/en/opengraph-image`,
+  image: `${SITE_URL}/og-en.png`,
   email: 'mailto:paulamagdy665@gmail.com',
   address: {
     '@type': 'PostalAddress',
