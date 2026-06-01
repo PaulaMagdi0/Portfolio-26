@@ -149,6 +149,14 @@ test.describe.serial('full app verification', () => {
 
   test('8. Contact form happy path: state transitions to sending/sent', async ({ page }) => {
     attachListeners(page, 'contact-valid');
+    // Mock Web3Forms so the verification run never sends a real email.
+    await page.route('https://api.web3forms.com/submit', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true, message: 'Submission received' }),
+      });
+    });
     await page.goto('/en');
     await page.waitForSelector('html.loaded', { timeout: 15_000 }).catch(() => {});
     await page.waitForLoadState('networkidle');
@@ -158,9 +166,9 @@ test.describe.serial('full app verification', () => {
     await page.getByLabel(/^message$/i).fill('Hello there, this is a verification test message.');
     await shot(page, '11-contact-filled');
     await page.getByRole('button', { name: /send message/i }).click();
-    await expect(page.getByRole('button', { name: /opening mail|message ready/i })).toBeVisible({
-      timeout: 3000,
-    });
+    // Web3Forms migration: success now renders a role="status" banner (was a
+    // mailto button). Scope to the form to skip Next's route-announcer alert.
+    await expect(page.locator('form').getByRole('status')).toBeVisible({ timeout: 5000 });
   });
 
   test('9. SEO assets respond and contain expected content', async ({ page, request }) => {
@@ -175,11 +183,11 @@ test.describe.serial('full app verification', () => {
     expect(robots.status()).toBe(200);
     expect(await robots.text()).toContain('Sitemap:');
 
-    const ogEn = await request.get('/en/opengraph-image');
+    const ogEn = await request.get('/og-en.png');
     expect(ogEn.status()).toBe(200);
     expect(ogEn.headers()['content-type']).toContain('image/png');
 
-    const ogAr = await request.get('/ar/opengraph-image');
+    const ogAr = await request.get('/og-ar.png');
     expect(ogAr.status()).toBe(200);
 
     // JSON-LD must be present on /en

@@ -21,7 +21,7 @@ test.describe('home page', () => {
     expect(sitemap.status()).toBe(200);
     const robots = await request.get('/robots.txt');
     expect(robots.status()).toBe(200);
-    const og = await request.get('/en/opengraph-image');
+    const og = await request.get('/og-en.png');
     expect(og.status()).toBe(200);
   });
 });

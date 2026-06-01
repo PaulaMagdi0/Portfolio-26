@@ -12,10 +12,14 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'pnpm dev',
+    // Run E2E against a production build, not the dev server: `pnpm dev` compiles
+    // routes on demand, so parallel specs hitting a cold server time out. A prod
+    // build serves prerendered routes instantly and exercises the real security
+    // headers/CSP. `reuseExistingServer` lets a manually-started server be reused.
+    command: 'pnpm build && pnpm start',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: 240_000,
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

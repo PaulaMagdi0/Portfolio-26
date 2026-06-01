@@ -35,7 +35,9 @@ test('contact form shows error banner when Web3Forms fails', async ({ page }) =>
   await page.getByLabel(/^message$/i).fill('Hello there, this is a test message.');
   await page.getByRole('button', { name: /send message/i }).click();
 
-  await expect(page.getByRole('alert')).toBeVisible({ timeout: 5000 });
+  // Scope to the form's banner — Next.js injects a body-level
+  // <div role="alert" id="__next-route-announcer__"> in production builds.
+  await expect(page.locator('form').getByRole('alert')).toBeVisible({ timeout: 5000 });
 });
 
 test('contact form shows validation errors for invalid input', async ({ page }) => {
