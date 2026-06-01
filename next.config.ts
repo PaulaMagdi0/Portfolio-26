@@ -1,9 +1,11 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import withBundleAnalyzer from '@next/bundle-analyzer';
+import { SECURITY_HEADERS } from './core/security';
 
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
+// Bundle analyzer is a no-op unless ANALYZE=true — safe to keep wrapped in prod.
 const analyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -19,14 +21,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/:path*',
-        headers: [
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
-          },
-        ],
+        headers: [...SECURITY_HEADERS],
       },
     ];
   },
