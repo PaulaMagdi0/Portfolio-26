@@ -19,6 +19,9 @@ import {
   TopNav,
 } from '@/features/ui-components';
 
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
 interface HomePageProps {
   params: Promise<{ locale: string }>;
 }
