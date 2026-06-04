@@ -183,11 +183,11 @@ test.describe.serial('full app verification', () => {
     expect(robots.status()).toBe(200);
     expect(await robots.text()).toContain('Sitemap:');
 
-    const ogEn = await request.get('/og-en.png');
+    const ogEn = await request.get('/og-en-v2.png');
     expect(ogEn.status()).toBe(200);
     expect(ogEn.headers()['content-type']).toContain('image/png');
 
-    const ogAr = await request.get('/og-ar.png');
+    const ogAr = await request.get('/og-ar-v2.png');
     expect(ogAr.status()).toBe(200);
 
     // JSON-LD must be present on /en
