@@ -36,7 +36,7 @@ export async function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden px-6 pt-16 pb-10 md:px-10 md:pt-24">
       <div className="mx-auto max-w-[1200px]">
-        <SectionHead num="06" label={sec('label')} />
+        <SectionHead num="07" label={sec('label')} />
         <Reveal>
           <SplitReveal
             as="h2"

@@ -9,6 +9,7 @@ export type {
   StackGroup,
   MarqueeTool,
   Social,
+  FaqItem,
 } from './types';
 
 // --- Config ---
@@ -20,6 +21,7 @@ export {
   MARQUEE_TOOLS,
   SOCIALS,
   RECIPIENT_EMAIL,
+  FAQ_ITEMS,
 } from './config';
 
 // --- Components ---
@@ -32,6 +34,7 @@ export {
   Education,
   EmailCopyButton,
   Experience,
+  FAQ,
   Hero,
   Hero3DLazy,
   HeroMetaStrip,

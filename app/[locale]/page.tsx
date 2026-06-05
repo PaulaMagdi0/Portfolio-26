@@ -6,6 +6,7 @@ import {
   Contact,
   Education,
   Experience,
+  FAQ,
   Hero,
   HeroMetaStrip,
   Stack,
@@ -46,6 +47,7 @@ export default async function HomePage({ params }: HomePageProps) {
         <Education />
         <Certifications />
         <Stack />
+        <FAQ />
         <Contact />
       </main>
     </>

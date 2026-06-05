@@ -209,6 +209,23 @@
     "cloud": "Cloud & DevOps",
     "languages": "Languages"
   },
+  "faq": {
+    "label": "FAQ",
+    "heading1": "Common",
+    "heading2": "questions.",
+    "q1": "Who is Paula Magdy?",
+    "a1": "Paula Magdy is a full-stack software engineer based in Cairo, Egypt, with 3+ years of experience designing, building, and scaling production web platforms across frontend, backend, cloud, and DevOps.",
+    "q2": "What technologies does Paula Magdy work with?",
+    "a2": "She builds with Next.js, React, and TypeScript on the frontend; Node.js, NestJS, Express, Laravel, and Django on the backend; PostgreSQL, MySQL, MongoDB, and Prisma ORM for data; and AWS, Azure, Docker, and CI/CD for cloud and delivery.",
+    "q3": "What has Paula Magdy built?",
+    "a3": "Most recently she owned end-to-end delivery of the Make it in the Emirates Awards platform for the UAE Ministry of Industry & Advanced Technology — a government-grade system serving 2,000+ concurrent users — along with competition engines, mobile backends, and serverless AI automation at Challenge Group.",
+    "q4": "Where is Paula Magdy based, and is she open to remote work?",
+    "a4": "She is based in Cairo, Egypt, and is open to full-stack engineering roles and consulting engagements, including remote work.",
+    "q5": "What certifications does Paula Magdy hold?",
+    "a5": "She holds the AWS Certified Cloud Practitioner, Huawei HCCDA-Tech Essentials, and Huawei HCIA-AI certifications, alongside a B.Sc. in Computer Science from October 6 University.",
+    "q6": "How can I get in touch with Paula Magdy?",
+    "a6": "You can reach her by email at paulamagdy665@gmail.com or through the contact form on this site — she typically replies within 24 hours."
+  },
   "contact": {
     "label": "CONTACT",
     "heading1": "Let's build",

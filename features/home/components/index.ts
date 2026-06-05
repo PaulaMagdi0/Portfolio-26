@@ -6,6 +6,7 @@ export { CSBlock } from './CSBlock';
 export { Education } from './Education';
 export { EmailCopyButton } from './EmailCopyButton';
 export { Experience } from './Experience';
+export { FAQ } from './FAQ';
 export { Hero } from './Hero';
 export { Hero3DLazy } from './Hero3DLazy';
 export { HeroMetaStrip } from './HeroMetaStrip';
