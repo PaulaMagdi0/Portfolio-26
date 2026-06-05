@@ -56,7 +56,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         <script
           id="person-jsonld"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: buildPersonJsonLd() }}
+          dangerouslySetInnerHTML={{ __html: buildPersonJsonLd(locale) }}
         />
       </head>
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
