@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config';
-import { SITE_NAME, SITE_TWITTER, SITE_URL } from '../config/site.config';
+import { SITE_NAME, SITE_URL } from '../config/site.config';
 
 interface BuildMetadataInput {
   locale: Locale;
@@ -43,7 +43,6 @@ export function buildMetadata({
       card: 'summary_large_image',
       title,
       description,
-      site: SITE_TWITTER,
       images: [ogImage],
     },
     robots: {
