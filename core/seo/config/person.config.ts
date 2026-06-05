@@ -9,6 +9,7 @@ export const PERSON_JSON_LD = {
   '@id': `${SITE_URL}/#person`,
   name: 'Paula Magdy',
   jobTitle: 'Full-Stack Software Engineer',
+  gender: 'Male',
   description:
     'Paula Magdy is a full-stack software engineer with experience designing, building, and scaling modern software systems across web, cloud, and backend platforms. Skilled in JavaScript, TypeScript, Python, PHP, cloud infrastructure, and DevOps practices. Experienced in delivering reliable, maintainable, and scalable solutions throughout the entire software lifecycle—from architecture and development to deployment and optimization.',
   url: SITE_URL,

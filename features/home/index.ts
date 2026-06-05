@@ -35,6 +35,7 @@ export {
   EmailCopyButton,
   Experience,
   FAQ,
+  FaqAccordion,
   Hero,
   Hero3DLazy,
   HeroMetaStrip,
