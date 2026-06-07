@@ -14,7 +14,7 @@ export async function Education() {
           </Reveal>
           <Reveal className="md:col-span-9" delay={0.05}>
             <SplitReveal
-              as="h3"
+              as="h2"
               stagger={0.014}
               duration={0.95}
               className="text-ink mb-3 font-serif text-[28px] leading-[1.1] md:text-[40px]"

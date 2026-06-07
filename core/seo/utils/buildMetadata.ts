@@ -25,6 +25,8 @@ export function buildMetadata({
   return {
     title,
     description,
+    authors: [{ name: SITE_NAME, url: SITE_URL }],
+    creator: SITE_NAME,
     metadataBase: new URL(SITE_URL),
     alternates: {
       canonical: url,
@@ -48,7 +50,15 @@ export function buildMetadata({
     robots: {
       index: true,
       follow: true,
-      googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        // Let search + AI answer engines quote the full text/video preview —
+        // unlimited snippet length is a direct GEO (generative-engine) signal.
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
     },
   };
 }

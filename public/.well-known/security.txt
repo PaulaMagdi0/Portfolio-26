@@ -1,0 +1,5 @@
+# Security contact for paulamagdy.com
+Contact: mailto:paulamagdy665@gmail.com
+Expires: 2027-06-07T00:00:00.000Z
+Preferred-Languages: en, ar
+Canonical: https://paulamagdy.com/.well-known/security.txt

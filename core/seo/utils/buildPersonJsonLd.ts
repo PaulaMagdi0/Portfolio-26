@@ -26,7 +26,18 @@ export function buildPersonJsonLd(locale: Locale): string {
         name: `${SITE_NAME} — Full-Stack Software Engineer`,
         inLanguage: locale,
         dateModified: LAST_UPDATED,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
         mainEntity: { '@id': `${SITE_URL}/#person` },
+      },
+      {
+        // Site-level entity: anchors the domain as a thing and names the Person
+        // as its publisher, strengthening how answer engines model the site.
+        '@type': 'WebSite',
+        '@id': `${SITE_URL}/#website`,
+        url: SITE_URL,
+        name: SITE_NAME,
+        inLanguage: locale,
+        publisher: { '@id': `${SITE_URL}/#person` },
       },
       PERSON_JSON_LD,
     ],

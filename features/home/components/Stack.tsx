@@ -11,6 +11,11 @@ export async function Stack() {
     <section id="stack" className="relative py-16 md:py-24">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         <SectionHead num="05" label={sec('label')} />
+        {/* Semantic section heading — the SectionHead eyebrow is decorative, so
+            this gives the Stack section a real h2 (sr-only to preserve the
+            marquee-led visual design) and keeps the heading outline consistent
+            with every other section. */}
+        <h2 className="sr-only">{sec('label')}</h2>
       </div>
 
       {/* Full-bleed marquee — spans the entire viewport width */}
