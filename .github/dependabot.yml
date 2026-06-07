@@ -10,6 +10,13 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    ignore:
+      # ESLint 10 isn't supported by the Next.js lint stack yet: eslint-plugin-react
+      # (pulled in via eslint-config-next) calls the removed context.getFilename()
+      # API and crashes ("contextOrFilename.getFilename is not a function"). Hold
+      # ESLint at v9 until eslint-config-next ships v10 support.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
     groups:
       # Collapse all non-major bumps into one PR to cut noise; majors stay
       # separate so breaking changes get reviewed individually.
