@@ -1,7 +1,10 @@
 import type { MarqueeTool, StackGroup } from '../types';
 
-const SI = (slug: string) => `https://cdn.simpleicons.org/${slug}`;
-const DEV = (path: string) => `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${path}`;
+// Logos are vendored under public/icons/ (sourced from Simple Icons + Devicon) so
+// the app has zero runtime dependency on external icon CDNs and the CSP needs no
+// CDN allowances. The .marquee-logo filter flattens every logo to mono black/white,
+// so the source color is irrelevant.
+const SI = (slug: string) => `/icons/${slug}.svg`;
 
 export const STACK: readonly StackGroup[] = [
   {
@@ -59,10 +62,7 @@ export const MARQUEE_TOOLS: readonly MarqueeTool[] = [
   { name: 'CSS', src: SI('css') },
   { name: 'Tailwind CSS', src: SI('tailwindcss') },
   { name: 'Vitest', src: SI('vitest') },
-  {
-    name: 'Playwright',
-    src: DEV('playwright/playwright-original.svg'),
-  },
+  { name: 'Playwright', src: '/icons/playwright.svg' },
   { name: 'Node.js', src: SI('nodedotjs') },
   { name: 'NestJS', src: SI('nestjs') },
   { name: 'Express', src: SI('express') },
@@ -75,11 +75,8 @@ export const MARQUEE_TOOLS: readonly MarqueeTool[] = [
   { name: 'MySQL', src: SI('mysql') },
   { name: 'MongoDB', src: SI('mongodb') },
   { name: 'Prisma', src: SI('prisma') },
-  {
-    name: 'AWS',
-    src: DEV('amazonwebservices/amazonwebservices-original-wordmark.svg'),
-  },
-  { name: 'Azure', src: DEV('azure/azure-original.svg') },
+  { name: 'AWS', src: '/icons/aws-wordmark.svg' },
+  { name: 'Azure', src: '/icons/azure.svg' },
   { name: 'Docker', src: SI('docker') },
   { name: 'Kubernetes', src: SI('kubernetes') },
   { name: 'Python', src: SI('python') },

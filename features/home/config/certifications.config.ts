@@ -10,7 +10,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     expires: 'May 2029',
     credentialId: 'HWENDCTEDA542672',
     skills: ['Cloud Architecture', 'Huawei Cloud', 'Cloud Foundations'],
-    logo: 'https://cdn.simpleicons.org/huawei',
+    logo: '/icons/huawei.svg',
     descKey: 'home.certs.hccda.desc',
   },
   {
@@ -21,7 +21,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     expires: 'Apr 2029',
     credentialId: '72b404c5-b893-47a9-a8dc-688a9337ce57',
     skills: ['Cloud Computing', 'Cloud Services', 'AWS Foundations'],
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
+    logo: '/icons/aws-wordmark.svg',
     descKey: 'home.certs.aws-ccp.desc',
   },
   {
@@ -32,7 +32,7 @@ export const CERTIFICATIONS: readonly Certification[] = [
     expires: 'Aug 2023',
     credentialId: '01010200180804649576366',
     skills: ['Python', 'Artificial Intelligence', 'Machine Learning', 'Deep Learning'],
-    logo: 'https://cdn.simpleicons.org/huawei',
+    logo: '/icons/huawei.svg',
     descKey: 'home.certs.hcia-ai.desc',
   },
 ] as const satisfies readonly Certification[];
