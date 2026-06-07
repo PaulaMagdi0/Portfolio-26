@@ -1,0 +1,51 @@
+name: Lighthouse
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    name: Lighthouse CI (SEO · a11y · perf budgets)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm exec next build
+        env:
+          # Canonical/hreflang must resolve to the audited origin so Lighthouse's
+          # SEO audits don't penalise a cross-origin canonical.
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+
+      # Reads lighthouserc.json: starts `pnpm start`, audits /en and /ar, and
+      # asserts the budgets. SEO=100 and a11y>=0.95 are hard failures; perf, LCP,
+      # CLS, TBT, and script weight are warnings (the lazy Three.js hero loads on
+      # the route, so a hard JS-size gate would be noisy — use `pnpm analyze` for
+      # the precise per-chunk view of the <200KB excl. Three.js target).
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          temporaryPublicStorage: true
+          uploadArtifacts: true

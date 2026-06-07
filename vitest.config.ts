@@ -9,7 +9,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
     css: false,
-    exclude: ['node_modules', 'legacy', 'docs', '.next', 'e2e'],
+    exclude: ['node_modules', 'docs', '.next', 'e2e'],
   },
   resolve: {
     alias: {
