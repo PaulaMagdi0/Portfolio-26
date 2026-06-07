@@ -1,0 +1,33 @@
+version: 2
+
+updates:
+  # JavaScript dependencies (pnpm — read via the npm ecosystem, which parses pnpm-lock.yaml).
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    groups:
+      # Collapse all non-major bumps into one PR to cut noise; majors stay
+      # separate so breaking changes get reviewed individually.
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions pinned in the CI + Lighthouse workflows.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
