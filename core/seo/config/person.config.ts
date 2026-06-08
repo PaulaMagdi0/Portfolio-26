@@ -9,9 +9,23 @@ export const PERSON_JSON_LD = {
   '@id': `${SITE_URL}/#person`,
   name: 'Paula Magdy',
   jobTitle: 'Full-Stack Software Engineer',
+  // Structured occupation (with the O*NET-SOC code for Software Developers) so
+  // answer engines classify Paula as a software engineer as a first-class fact —
+  // not merely a title string. This is the attribute that most directly separates
+  // this entity from other people who share the name "Paula Magdy".
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: 'Software Engineer',
+    occupationalCategory: '15-1252.00',
+  },
   gender: 'Male',
   description:
     'Paula Magdy is a full-stack software engineer with experience designing, building, and scaling modern software systems across web, cloud, and backend platforms. Skilled in JavaScript, TypeScript, Python, PHP, cloud infrastructure, and DevOps practices. Experienced in delivering reliable, maintainable, and scalable solutions throughout the entire software lifecycle—from architecture and development to deployment and optimization.',
+  // schema.org's purpose-built field for telling apart same-named entities. A
+  // tight role + employer + location + education phrase gives answer engines a
+  // compact set of distinctive facts to anchor THIS Paula Magdy to.
+  disambiguatingDescription:
+    'Full-stack software engineer based in Cairo, Egypt, working at Challenge Group; graduate of October 6 University.',
   url: SITE_URL,
   image: `${SITE_URL}/og-en-v2.png`,
   email: 'paulamagdy665@gmail.com',
@@ -21,6 +35,9 @@ export const PERSON_JSON_LD = {
     addressLocality: 'Cairo',
     addressCountry: 'EG',
   },
+  // Identity attributes that add distinctive, verifiable facts to the entity.
+  nationality: { '@type': 'Country', name: 'Egypt' },
+  knowsLanguage: ['English', 'Arabic'],
   alumniOf: {
     '@type': 'CollegeOrUniversity',
     name: 'October 6 University',
