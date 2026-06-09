@@ -8,6 +8,19 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Don't propose versions younger than these many days. pnpm 11 enforces a
+    # minimumReleaseAge of 1 day BY DEFAULT, so a frozen-lockfile install (Vercel,
+    # CI) hard-fails with ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION whenever Dependabot
+    # pins a just-published version. Waiting past that window also filters the
+    # "smash-and-grab" supply-chain attacks that get yanked within hours. Cooldown
+    # is skipped for security updates, so CVE patches still land immediately.
+    cooldown:
+      default-days: 7
+      semver-patch-days: 3
+      semver-minor-days: 7
+      semver-major-days: 14
+      include:
+        - "*"
     labels:
       - "dependencies"
     ignore:
@@ -31,6 +44,11 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
+    # A freshly published action tag can be malicious (cf. the 2025
+    # tj-actions/changed-files compromise); wait a few days so bad releases are
+    # detected and pulled before we adopt them.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "ci"
