@@ -24,6 +24,9 @@ export {
   FAQ_ITEMS,
 } from './config';
 
+// --- Utils ---
+export { buildHomeMarkdown } from './utils/buildHomeMarkdown';
+
 // --- Components ---
 export {
   AnimatedMetric,
