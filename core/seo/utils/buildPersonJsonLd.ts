@@ -1,6 +1,6 @@
 import { type Locale } from '@/i18n/config';
 import { PERSON_JSON_LD } from '../config/person.config';
-import { LAST_UPDATED, SITE_NAME, SITE_URL } from '../config/site.config';
+import { LAST_UPDATED_ISO, SITE_NAME, SITE_URL } from '../config/site.config';
 
 /**
  * Build the per-locale home-page JSON-LD: a schema.org @graph pairing a
@@ -25,7 +25,7 @@ export function buildPersonJsonLd(locale: Locale): string {
         url: `${SITE_URL}/${locale}`,
         name: `${SITE_NAME} — Full-Stack Software Engineer`,
         inLanguage: locale,
-        dateModified: LAST_UPDATED,
+        dateModified: LAST_UPDATED_ISO,
         isPartOf: { '@id': `${SITE_URL}/#website` },
         mainEntity: { '@id': `${SITE_URL}/#person` },
       },
