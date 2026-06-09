@@ -11,10 +11,10 @@ export const instrumentSerif = Instrument_Serif({
   weight: ['400'],
   style: ['normal', 'italic'],
   display: 'swap',
-  // No next/font preloads: `display: swap` paints fallback immediately and
-  // adjustFontFallback keeps CLS near-zero, so we avoid "preloaded but not
-  // used" warnings without an LCP cost.
-  preload: false,
+  // Only the LCP headline serif is preloaded — it renders the hero <h1>, the
+  // largest contentful paint. Body/label/Arabic fonts stay preload:false to
+  // avoid "preloaded but not used" warnings.
+  preload: true,
   variable: '--font-instrument-serif',
 });
 

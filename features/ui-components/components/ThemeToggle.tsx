@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
+import { loadGsap } from '@/core/motion';
 import { useTheme } from '@/core/theme';
 import { useTranslations } from 'next-intl';
 
@@ -58,22 +58,32 @@ export function ThemeToggle() {
     `;
     document.body.appendChild(overlay);
 
-    gsap.to(overlay, {
-      clipPath: `circle(${maxR}px at ${cx}px ${cy}px)`,
-      duration: 0.7,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        setTheme(next);
-        requestAnimationFrame(() => {
-          gsap.to(overlay, {
-            opacity: 0,
-            duration: 0.35,
-            ease: 'power2.out',
-            onComplete: () => overlay.remove(),
-          });
+    // GSAP is loaded lazily so it stays out of First Load JS — the theme wipe
+    // only needs it at click time. If the import fails, fall back to an instant
+    // theme switch and remove the overlay.
+    void loadGsap()
+      .then(({ gsap }) => {
+        gsap.to(overlay, {
+          clipPath: `circle(${maxR}px at ${cx}px ${cy}px)`,
+          duration: 0.7,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            setTheme(next);
+            requestAnimationFrame(() => {
+              gsap.to(overlay, {
+                opacity: 0,
+                duration: 0.35,
+                ease: 'power2.out',
+                onComplete: () => overlay.remove(),
+              });
+            });
+          },
         });
-      },
-    });
+      })
+      .catch(() => {
+        setTheme(next);
+        overlay.remove();
+      });
   };
 
   return (

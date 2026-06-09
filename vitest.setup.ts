@@ -95,6 +95,42 @@ vi.mock('gsap', () => {
   };
 });
 
+// The motion stack is now loaded via dynamic import() of the gsap subpaths
+// (see core/motion/utils/gsap.ts → loadGsap). Mock those subpaths so tests use
+// pass-through stubs instead of parsing the real ESM under jsdom.
+const scrollTriggerStub = {
+  create: vi.fn(),
+  refresh: vi.fn(),
+  update: vi.fn(),
+  kill: vi.fn(),
+  getAll: () => [] as Array<{ trigger: unknown; kill: () => void }>,
+};
+
+vi.mock('gsap/ScrollTrigger', () => ({
+  ScrollTrigger: scrollTriggerStub,
+  default: scrollTriggerStub,
+}));
+
+vi.mock('gsap/SplitText', () => {
+  class SplitText {
+    chars: HTMLElement[] = [];
+    words: HTMLElement[] = [];
+    lines: HTMLElement[] = [];
+    revert = vi.fn();
+  }
+  return { SplitText, default: SplitText };
+});
+
+vi.mock('lenis', () => {
+  class Lenis {
+    raf = vi.fn();
+    on = vi.fn();
+    off = vi.fn();
+    destroy = vi.fn();
+  }
+  return { default: Lenis };
+});
+
 vi.mock('@/i18n/routing', () => ({
   Link: ({ children, ...props }: { children: React.ReactNode; href?: string }) => {
     const a = document.createElement('a');

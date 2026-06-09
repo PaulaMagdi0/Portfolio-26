@@ -1,5 +1,6 @@
 // --- Utils ---
-export { gsap, ScrollTrigger, SplitText, registerGsapPlugins } from './utils/gsap';
+export { loadGsap, onIdle } from './utils/gsap';
+export type { Gsap, ScrollTrigger, SplitText, GsapBundle } from './utils/gsap';
 
 // --- Hooks ---
 export { useReducedMotion } from './hooks/useReducedMotion';

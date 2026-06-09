@@ -105,9 +105,13 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
     }
   };
 
-  const ariaLabel = hasLiveLink
-    ? `Visit ${t(project.nameKey)} (opens in new tab)`
-    : `Open ${t(project.nameKey)} case study`;
+  // No author-supplied name (aria-label/labelledby) on the card: an
+  // `aria-label` on this content-rich `role="button"` always trips axe's
+  // `label-content-name-mismatch` because the card's full visible text can't
+  // fit the label. Instead the accessible name is computed from the card's
+  // content, and the action hint ("opens in new tab" / "view case study") is
+  // appended as a visually-hidden child so screen readers still announce it.
+  const actionHint = hasLiveLink ? t('home.work.ariaVisit') : t('home.work.ariaCaseStudy');
 
   const monogramChar = t(project.nameKey).trim().charAt(0) || project.id.charAt(0).toUpperCase();
   const [color1, color2, color3] = project.swatch;
@@ -118,7 +122,6 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
       <article
         role="button"
         tabIndex={0}
-        aria-label={ariaLabel}
         onClick={activate}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -143,6 +146,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
           <div className="mb-3 flex items-baseline gap-3">
             <h3 className="text-ink font-serif text-[28px] leading-[1.1] md:text-[36px]">
               <span className="title-underline">{t(project.nameKey)}</span>
+              <span className="sr-only">{actionHint}</span>
             </h3>
             <motion.span
               aria-hidden

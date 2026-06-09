@@ -15,6 +15,7 @@ import {
 import {
   BgSpotlight,
   CustomCursor,
+  LoaderRevealScript,
   PageLoader,
   ScrollProgress,
   TopNav,
@@ -35,6 +36,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <>
+      <LoaderRevealScript />
       <PageLoader />
       <CustomCursor />
       <BgSpotlight />

@@ -4,6 +4,7 @@ export { BgSpotlight } from './BgSpotlight';
 export { ClipReveal } from './ClipReveal';
 export { CustomCursor } from './CustomCursor';
 export { LiveClock } from './LiveClock';
+export { LoaderRevealScript } from './LoaderRevealScript';
 export { Magnetic } from './Magnetic';
 export { Marquee } from './Marquee';
 export { MaskReveal } from './MaskReveal';

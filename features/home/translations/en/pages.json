@@ -28,6 +28,8 @@
     "label": "SELECTED WORK",
     "intro1": "A short list of platforms I've shipped end-to-end —",
     "introEmph": "from API design and database schemas to AWS infrastructure and CI/CD.",
+    "ariaVisit": " (opens in new tab)",
+    "ariaCaseStudy": " — view case study",
     "caseStudy": {
       "label": "Case study",
       "close": "CLOSE",

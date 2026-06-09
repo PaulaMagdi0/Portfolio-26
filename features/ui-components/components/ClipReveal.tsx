@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
-import { gsap, ScrollTrigger, registerGsapPlugins } from '@/core/motion';
+import { loadGsap } from '@/core/motion';
 
 interface ClipRevealProps {
   children: ReactNode;
@@ -22,22 +22,35 @@ export function ClipReveal({ children, className = '', duration = 1.1 }: ClipRev
     const inner = el.firstElementChild;
     if (!inner) return;
 
-    registerGsapPlugins();
+    let cancelled = false;
+    let cleanup: (() => void) | null = null;
 
-    gsap.set(el, { clipPath: 'inset(0 0 100% 0)' });
-    gsap.set(inner, { scale: 1.1, transformOrigin: 'center center' });
+    // Load GSAP + ScrollTrigger lazily so the motion stack stays out of First
+    // Load JS; the swatch is below the fold, so deferring its reveal trigger
+    // has no LCP cost.
+    void loadGsap().then(({ gsap, ScrollTrigger }) => {
+      if (cancelled || !ref.current) return;
 
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      gsap.set(el, { clipPath: 'inset(0 0 100% 0)' });
+      gsap.set(inner, { scale: 1.1, transformOrigin: 'center center' });
+
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      });
+      tl.to(el, { clipPath: 'inset(0 0 0% 0)', duration, ease: 'power3.out' }, 0);
+      tl.to(inner, { scale: 1, duration: duration * 1.1, ease: 'power3.out' }, 0);
+
+      cleanup = () => {
+        tl.kill();
+        ScrollTrigger.getAll()
+          .filter((st) => st.trigger === el)
+          .forEach((st) => st.kill());
+      };
     });
-    tl.to(el, { clipPath: 'inset(0 0 0% 0)', duration, ease: 'power3.out' }, 0);
-    tl.to(inner, { scale: 1, duration: duration * 1.1, ease: 'power3.out' }, 0);
 
     return () => {
-      tl.kill();
-      ScrollTrigger.getAll()
-        .filter((st) => st.trigger === el)
-        .forEach((st) => st.kill());
+      cancelled = true;
+      cleanup?.();
     };
   }, [duration]);
 
