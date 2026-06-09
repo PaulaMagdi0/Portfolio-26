@@ -32,11 +32,14 @@ export function buildPersonJsonLd(locale: Locale): string {
       {
         // Site-level entity: anchors the domain as a thing and names the Person
         // as its publisher, strengthening how answer engines model the site.
+        // A single, locale-independent entity (one stable @id). inLanguage is
+        // intentionally omitted: the site is bilingual, so a per-locale value here
+        // would make /en and /ar disagree about the same #website node. The
+        // per-locale ProfilePage above carries the language that actually applies.
         '@type': 'WebSite',
         '@id': `${SITE_URL}/#website`,
         url: SITE_URL,
         name: SITE_NAME,
-        inLanguage: locale,
         publisher: { '@id': `${SITE_URL}/#person` },
       },
       PERSON_JSON_LD,
