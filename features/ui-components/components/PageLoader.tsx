@@ -29,17 +29,6 @@ export function PageLoader() {
     let fontsReady = false;
     let cancelled = false;
 
-    // The inline LoaderRevealScript may have already lifted the curtain off the
-    // hydration path (the common case on slow connections). If so, the counter
-    // animation has nothing left to reveal — just unmount after the CSS wipe.
-    if (document.documentElement.classList.contains('loaded')) {
-      const id = window.setTimeout(() => setDone(true), 700);
-      return () => {
-        cancelled = true;
-        window.clearTimeout(id);
-      };
-    }
-
     const apply = () => {
       if (counterRef.current) {
         counterRef.current.textContent = toLocaleDigits(
@@ -56,46 +45,36 @@ export function PageLoader() {
           if (cancelled || !statusRef.current) return;
           statusRef.current.textContent = stages[newStage];
           statusRef.current.style.opacity = '1';
-        }, 120);
+        }, 180);
       }
     };
     apply();
 
     const tick = () => {
       if (cancelled) return;
-      // Climb fast to 100 once fonts are ready; hold near the top otherwise so
-      // the brand counter still reads as "loading" without an artificial floor.
-      const target = fontsReady ? 100 : 90;
-      const step = (target - pct) * 0.16 + 1.2;
+      const target = fontsReady ? 100 : 92;
+      const step = (target - pct) * 0.06 + 0.3;
       pct = Math.min(target, pct + step);
       apply();
       if (pct < 100) {
         rafId = requestAnimationFrame(tick);
       } else {
-        // Fire the curtain wipe immediately — getting `html.loaded` set as soon
-        // as the counter completes is the biggest LCP win, since the opaque
-        // #page-loader occludes the hero headline until the wipe starts.
-        document.documentElement.classList.add('loaded');
-        // Keep the element mounted through the (now-faster) CSS clip-path
-        // transition; unmounting React-side too early kills the wipe.
         setTimeout(() => {
-          if (!cancelled) setDone(true);
-        }, 700);
+          if (cancelled) return;
+          document.documentElement.classList.add('loaded');
+          // The CSS clip-path curtain wipe runs 1.1s once `html.loaded` is set
+          // (see globals.css #page-loader transition). Keep the element mounted
+          // through the transition; unmounting React-side too early kills it.
+          setTimeout(() => {
+            if (!cancelled) setDone(true);
+          }, 1200);
+        }, 280);
       }
     };
     rafId = requestAnimationFrame(tick);
 
-    // Lift the curtain as soon as the headline can paint, NOT when the serif
-    // webfont finishes downloading. The hero <h1> is SSR'd and rendered with
-    // `display: swap`, so it paints immediately in the fallback face and is the
-    // LCP candidate well before the serif arrives. Waiting on the full
-    // `document.fonts.ready` keeps the opaque loader over that already-painted
-    // headline on slow connections (measured ~3s under throttled 4G), which is
-    // exactly what inflates LCP. Cap the wait so the brand moment still shows
-    // briefly but never blocks the LCP paint.
-    const FONT_WAIT_CAP_MS = 700;
     const fontsPromise = document.fonts?.ready ?? Promise.resolve();
-    Promise.race([fontsPromise, new Promise((r) => setTimeout(r, FONT_WAIT_CAP_MS))]).then(() => {
+    Promise.all([fontsPromise, new Promise((r) => setTimeout(r, 900))]).then(() => {
       fontsReady = true;
     });
 
