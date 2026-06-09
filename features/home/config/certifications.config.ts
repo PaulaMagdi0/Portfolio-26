@@ -2,6 +2,17 @@ import type { Certification } from '../types';
 
 export const CERTIFICATIONS: readonly Certification[] = [
   {
+    id: 'aws-saa',
+    nameKey: 'home.certs.aws-saa.name',
+    issuerKey: 'home.certs.aws-saa.issuer',
+    issued: 'Jun 2026',
+    expires: 'Jun 2029',
+    credentialId: '5fa348b1-de2c-4884-957e-ae21e7515b56',
+    skills: ['Cloud Architecture', 'AWS', 'High Availability', 'Cost Optimization'],
+    logo: '/icons/aws-wordmark.svg',
+    descKey: 'home.certs.aws-saa.desc',
+  },
+  {
     id: 'hccda',
     nameKey: 'home.certs.hccda.name',
     issuerKey: 'home.certs.hccda.issuer',
