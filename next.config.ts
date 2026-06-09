@@ -21,7 +21,14 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/:path*',
-        headers: [...SECURITY_HEADERS],
+        headers: [
+          ...SECURITY_HEADERS,
+          // Content Signals (https://contentsignals.org): declares how automated
+          // systems may use this site's content. Served as an HTTP header rather
+          // than a robots.txt directive so robots.txt stays standards-valid —
+          // Lighthouse's SEO audit flags non-standard robots.txt directives.
+          { key: 'Content-Signal', value: 'search=yes, ai-input=yes, ai-train=no' },
+        ],
       },
     ];
   },
