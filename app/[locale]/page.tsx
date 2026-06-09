@@ -18,6 +18,7 @@ import {
   PageLoader,
   ScrollProgress,
   TopNav,
+  WebMcpTools,
 } from '@/features/ui-components';
 
 export const dynamic = 'force-static';
@@ -39,6 +40,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <BgSpotlight />
       <ScrollProgress />
       <TopNav />
+      <WebMcpTools />
       <main id="main" className="relative z-10">
         <Hero />
         <HeroMetaStrip />
