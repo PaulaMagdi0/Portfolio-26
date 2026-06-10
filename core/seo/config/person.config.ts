@@ -67,6 +67,13 @@ export const PERSON_JSON_LD = {
   hasCredential: [
     {
       '@type': 'EducationalOccupationalCredential',
+      name: 'AWS Certified Solutions Architect – Associate',
+      credentialCategory: 'certificate',
+      recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },
+      dateCreated: '2026-06-01',
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
       name: 'AWS Certified Cloud Practitioner',
       credentialCategory: 'certificate',
       recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },

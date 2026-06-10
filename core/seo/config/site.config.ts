@@ -9,7 +9,7 @@ export const SITE_NAME = 'Paula Magdy';
 // ProfilePage dateModified. A build-time `new Date()` would mark the page "fresh"
 // on every deploy, which is a false freshness signal that crawlers (notably
 // Perplexity) gate on. Keep it honest.
-export const LAST_UPDATED = '2026-06-06';
+export const LAST_UPDATED = '2026-06-10';
 
 // Fail the build early if LAST_UPDATED is ever malformed. The strict YYYY-MM-DD
 // shape is enforced (not just date-validity) so a typo like '2026-6-6' is caught
