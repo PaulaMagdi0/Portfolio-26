@@ -119,7 +119,10 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
 
   return (
     <li className="work-row group">
-      <article
+      {/* div, not article: ARIA forbids role="button" on <article> (axe
+          aria-allowed-role), and the button role suppresses article
+          semantics for AT anyway — the <li> provides the list structure. */}
+      <div
         role="button"
         tabIndex={0}
         onClick={activate}
@@ -302,7 +305,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
             ) : null}
           </div>
         </div>
-      </article>
+      </div>
     </li>
   );
 }
