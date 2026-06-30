@@ -81,6 +81,13 @@ export const PERSON_JSON_LD = {
     },
     {
       '@type': 'EducationalOccupationalCredential',
+      name: 'HCCDP-Solution Architectures',
+      credentialCategory: 'certificate',
+      recognizedBy: { '@type': 'Organization', name: 'Huawei' },
+      dateCreated: '2026-06-01',
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
       name: 'HCCDA-Tech Essentials',
       credentialCategory: 'certificate',
       recognizedBy: { '@type': 'Organization', name: 'Huawei' },

@@ -8,7 +8,8 @@ Paula Magdy designs, builds, and scales modern software across web, cloud, and
 backend platforms. Skilled in JavaScript/TypeScript, Python, PHP, cloud
 infrastructure, and DevOps. Works at Challenge Group. Alumnus of October 6
 University. AWS Certified Solutions Architect – Associate and Cloud
-Practitioner; Huawei HCCDA-Tech Essentials and HCIA-AI certified.
+Practitioner; Huawei HCCDP-Solution Architectures, HCCDA-Tech Essentials, and
+HCIA-AI certified.
 
 ## Site
 - Home (English): https://paulamagdy.com/en

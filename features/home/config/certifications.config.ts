@@ -13,6 +13,18 @@ export const CERTIFICATIONS: readonly Certification[] = [
     descKey: 'home.certs.aws-saa.desc',
   },
   {
+    id: 'hccdp',
+    nameKey: 'home.certs.hccdp.name',
+    issuerKey: 'home.certs.hccdp.issuer',
+    division: 'HUAWEI CLOUD',
+    issued: 'Jun 2026',
+    expires: 'Jun 2029',
+    credentialId: 'HWENDCCCDP00180959183',
+    skills: ['Cloud Architecture', 'Huawei Cloud', 'Distributed Systems', 'Cost Optimization'],
+    logo: '/icons/huawei.svg',
+    descKey: 'home.certs.hccdp.desc',
+  },
+  {
     id: 'hccda',
     nameKey: 'home.certs.hccda.name',
     issuerKey: 'home.certs.hccda.issuer',

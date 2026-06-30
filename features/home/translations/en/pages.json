@@ -186,6 +186,13 @@
       "issued": "Jun 2026",
       "expires": "Jun 2029"
     },
+    "hccdp": {
+      "name": "HCCDP-Solution Architectures",
+      "issuer": "Huawei",
+      "desc": "Designing and deploying distributed systems on Huawei Cloud — building resilient, high-performing, secure, and cost-optimized architectures across compute, storage, networking, and databases.",
+      "issued": "Jun 2026",
+      "expires": "Jun 2029"
+    },
     "hccda": {
       "name": "HCCDA-Tech Essentials",
       "issuer": "Huawei",
