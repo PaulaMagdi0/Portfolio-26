@@ -44,7 +44,6 @@ export const STACK: readonly StackGroup[] = [
       'Jest',
       'PHPUnit',
       'Pest',
-      'Redis',
     ],
   },
   {
@@ -53,6 +52,7 @@ export const STACK: readonly StackGroup[] = [
       'PostgreSQL',
       'MySQL',
       'MongoDB',
+      'Redis',
       'Prisma ORM',
       'Eloquent ORM',
       'Query optimization',
