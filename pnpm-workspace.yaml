@@ -8,5 +8,10 @@ allowBuilds:
 
 # Force a patched PostCSS everywhere — clears GHSA-qx2v-qp2m-jg93 (XSS via
 # unescaped </style> in CSS stringify). Next.js bundles a vulnerable 8.4.31.
+#
+# Force a patched Vite (dev/test only, via vitest + @vitejs/plugin-react) —
+# clears GHSA-fx2h-pf6j-xcff (server.fs.deny bypass) and GHSA-v6wh-96g9-6wx3
+# (launch-editor NTLM hash disclosure; 8.1.x drops the launch-editor dep).
 overrides:
   postcss: '>=8.5.10'
+  vite: '>=8.1.2'
