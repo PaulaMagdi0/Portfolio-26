@@ -198,28 +198,28 @@
     "aws-saa": {
       "name": "AWS Certified Solutions Architect – Associate",
       "issuer": "Amazon Web Services (AWS)",
-      "desc": "Designing and deploying distributed systems on AWS — building resilient, high-performing, secure, and cost-optimized architectures across compute, storage, networking, and databases.",
+      "desc": "Validates designing fault-tolerant, scalable, and secure AWS architectures — VPC networking, EC2/Lambda compute, S3 and RDS/DynamoDB data layers, IAM, and multi-AZ high availability and disaster recovery.",
       "issued": "Jun 2026",
       "expires": "Jun 2029"
     },
     "hccdp": {
       "name": "HCCDP-Solution Architectures",
       "issuer": "Huawei",
-      "desc": "Designing and deploying distributed systems on Huawei Cloud — building resilient, high-performing, secure, and cost-optimized architectures across compute, storage, networking, and databases.",
+      "desc": "Professional-tier certification in end-to-end solution design on Huawei Cloud — architecting for high availability, security, and cost efficiency across the platform's compute (ECS), storage (OBS), networking (VPC/ELB), and managed-database services.",
       "issued": "Jun 2026",
       "expires": "Jun 2029"
     },
     "hccda": {
       "name": "HCCDA-Tech Essentials",
       "issuer": "Huawei",
-      "desc": "Huawei Cloud Developer Associate — fundamentals of cloud architecture, deployment, and core services across the Huawei Cloud ecosystem.",
+      "desc": "Associate-level foundation in Huawei Cloud — core compute, storage, and networking services, application deployment, and the platform's developer toolchain.",
       "issued": "May 2026",
       "expires": "May 2029"
     },
     "aws-ccp": {
       "name": "AWS Certified Cloud Practitioner",
       "issuer": "Amazon Web Services (AWS)",
-      "desc": "Foundational understanding of IT services and their uses in the AWS Cloud — fluency, billing, security, and service awareness.",
+      "desc": "Foundational AWS certification spanning cloud concepts and economics, the shared-responsibility security model, pricing and billing, and the platform's core service categories.",
       "issued": "Apr 2026",
       "expires": "Apr 2029"
     },
