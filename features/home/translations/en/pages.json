@@ -8,8 +8,8 @@
     "availability": "AVAILABLE FOR FULL-STACK ENGINEERING ROLES",
     "headline": "Paula Magdy",
     "kicker": "Full-Stack Software Engineer",
-    "descriptionLead": "I design, build, and scale production-grade web platforms from Cairo —",
-    "descriptionEmph": "resilient NestJS backends, clean APIs, and AWS infrastructure built for real traffic.",
+    "descriptionLead": "I design, build, and scale production-grade web platforms —",
+    "descriptionEmph": "resilient backends, clean APIs, and AWS infrastructure built for real traffic.",
     "ctaWork": "View Work",
     "ctaResume": "Resume"
   },
@@ -147,33 +147,32 @@
       "period": "Oct 2025 — Present",
       "role": "Full-Stack Software Engineer",
       "company": "Challenge Group",
-      "location": "Cairo",
-      "b1": "Owned end-to-end technical implementation of the Make it in the Emirates Awards platform (MoIAT) — a government-grade system for the UAE Ministry of Industry & Advanced Technology, supporting 5,000+ concurrent users.",
-      "b2": "Architected PostgreSQL schemas using Prisma ORM with targeted indexing and query-tuning strategies, reducing API latency by 35% under production traffic.",
-      "b3": "Built domain-driven full-stack modules with Next.js (frontend) and NestJS (backend), cutting feature rollout time by 25% through clear architectural separation and reusable abstractions.",
-      "b4": "Designed and implemented AWS infrastructure (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) and established container-first deployment pipelines (Docker → ECR → ECS via CodeBuild / CodePipeline), cutting deployment time from ~20 minutes to under 5.",
-      "b5": "Implemented centralized monitoring and structured logging via AWS CloudWatch, reducing production issue detection time by 40%.",
-      "b6": "Enforced a comprehensive security posture: JWT authentication, RBAC authorization, structured validation, and API hardening aligned with enterprise security standards.",
-      "b7": "Built a full testing pyramid across frontend and backend — unit tests (Vitest), component tests (React Testing Library), and E2E tests (Playwright) — to ensure release stability.",
-      "b8": "Optimized SEO architecture using server-side rendering, a structured metadata strategy, and schema markup."
+      "location": "Cairo, Egypt",
+      "b1": "Full-stack engineer at Challenge Group — an AWS/Huawei Cloud partner delivering production platforms for government and enterprise clients across Egypt, Saudi Arabia, and the UAE.",
+      "b2": "Owned the Make it in the Emirates Awards platform (MoIAT) for the UAE Ministry of Industry & Advanced Technology from schema to deploy — domain-driven Next.js/NestJS modules over a PostgreSQL/Prisma schema serving 5,000+ concurrent users, with targeted indexing and query-tuning that cut API latency ~35% under production load.",
+      "b3": "Built the AWS infrastructure (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) and a container-first Docker → ECR → ECS pipeline (CodeBuild / CodePipeline), reducing deploys from ~20 minutes to under 5.",
+      "b4": "Hardened platforms with JWT authentication, RBAC, structured validation, and API hardening; added CloudWatch monitoring and structured logging, a full test pyramid (Vitest, React Testing Library, Playwright), and SEO via SSR, structured metadata, and schema markup.",
+      "b5": "Built LawMate, an API-first Laravel legal-services platform (Filament admin, Sanctum, a Paymob wallet, and Reverb/Twilio real-time), and the Egyptian Schools League competition engine with real-time leaderboards.",
+      "b6": "Shipped a serverless WhatsApp AI support bot (AWS Lambda, Amazon Lex, Twilio), hardened the Sabeel mobile backend on AWS, and led the Eltanfeethi Azure delivery with Azure API Management and CI/CD."
     },
     "r2": {
       "period": "Nov 2024 — Jun 2025",
       "role": "Full-Stack Engineer",
-      "company": "Information Technology Institute (ITI) · Internship",
-      "location": "Egypt · Hybrid",
-      "b1": "Completed a rigorous, government-sponsored engineering program equivalent to ~1,200 hours of hands-on training in full-stack development, system design, and cloud deployment.",
-      "b2": "Built full-stack applications using React, Node.js, Django, and Flask; implemented secure RESTful APIs with structured authentication flows and role-based access control.",
-      "b3": "Designed relational and NoSQL schemas applying normalization and indexing strategies that improved query performance by 20–30%.",
-      "b4": "Containerized and deployed applications to AWS using Docker within Agile development cycles."
+      "company": "Information Technology Institute (ITI)",
+      "location": "Cairo, Egypt",
+      "b1": "Completed a government-sponsored, intensive software-engineering program (~1,200 hours) spanning full-stack development, system design, and cloud deployment.",
+      "b2": "Built full-stack applications across two backend ecosystems — Node.js/Express and Python (Django, Flask) — with React front-ends, secure REST APIs, structured authentication flows, and role-based access control.",
+      "b3": "Modeled both relational (SQL) and NoSQL databases, applying normalization and indexing to keep queries efficient as datasets grew.",
+      "b4": "Containerized services with Docker and deployed to AWS, applying system-design fundamentals and working in Agile sprints from design through delivery."
     },
     "r3": {
       "period": "Oct 2022 — Oct 2024",
-      "role": "Frontend Developer",
+      "role": "Front-End Developer",
       "company": "Freelance",
-      "location": "Remote",
-      "b1": "Delivered a production-ready e-commerce platform using React and Context API, improving rendering performance and reducing page load times by 20–25%.",
-      "b2": "Deepened expertise in component architecture, state management, and frontend performance optimization while completing supplementary coursework in backend systems, cloud infrastructure, and algorithms in preparation for the ITI fellowship."
+      "location": "Cairo, Egypt",
+      "b1": "Built and shipped a production-ready e-commerce storefront in React — a responsive, cross-device UI wired to REST APIs for the product catalog and cart.",
+      "b2": "Architected a reusable component library with centralized state via React's Context API, removing prop-drilling and keeping catalog and cart state consistent as the product range and traffic grew.",
+      "b3": "Improved rendering performance and cut page-load times through render optimization and efficient asset loading, keeping large product listings smooth as the catalog scaled."
     }
   },
   "education": {

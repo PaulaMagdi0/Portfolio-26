@@ -13,8 +13,6 @@ export const EXPERIENCE: readonly ExperienceRole[] = [
       'home.experience.r1.b4',
       'home.experience.r1.b5',
       'home.experience.r1.b6',
-      'home.experience.r1.b7',
-      'home.experience.r1.b8',
     ],
   },
   {
@@ -34,6 +32,6 @@ export const EXPERIENCE: readonly ExperienceRole[] = [
     roleKey: 'home.experience.r3.role',
     companyKey: 'home.experience.r3.company',
     locationKey: 'home.experience.r3.location',
-    bulletKeys: ['home.experience.r3.b1', 'home.experience.r3.b2'],
+    bulletKeys: ['home.experience.r3.b1', 'home.experience.r3.b2', 'home.experience.r3.b3'],
   },
 ] as const satisfies readonly ExperienceRole[];
