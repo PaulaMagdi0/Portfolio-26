@@ -47,15 +47,4 @@ export const CERTIFICATIONS: readonly Certification[] = [
     logo: '/icons/aws-wordmark.svg',
     descKey: 'home.certs.aws-ccp.desc',
   },
-  {
-    id: 'hcia-ai',
-    nameKey: 'home.certs.hcia-ai.name',
-    issuerKey: 'home.certs.hcia-ai.issuer',
-    issued: 'Aug 2020',
-    expires: 'Aug 2023',
-    credentialId: '01010200180804649576366',
-    skills: ['Python', 'Artificial Intelligence', 'Machine Learning', 'Deep Learning'],
-    logo: '/icons/huawei.svg',
-    descKey: 'home.certs.hcia-ai.desc',
-  },
 ] as const satisfies readonly Certification[];

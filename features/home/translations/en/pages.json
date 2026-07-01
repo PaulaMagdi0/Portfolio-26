@@ -8,8 +8,8 @@
     "availability": "AVAILABLE FOR FULL-STACK ENGINEERING ROLES",
     "headline": "Paula Magdy",
     "kicker": "Full-Stack Software Engineer",
-    "descriptionLead": "I design, build, and scale production-grade web platforms —",
-    "descriptionEmph": "resilient backends, clean APIs, and AWS infrastructure built for real traffic.",
+    "descriptionLead": "I design, build, and scale production-grade platforms end-to-end —",
+    "descriptionEmph": "resilient backends and clean APIs across AWS, Azure & Huawei Cloud, shipped by an AWS Certified Solutions Architect.",
     "ctaWork": "View Work",
     "ctaResume": "Resume"
   },
@@ -47,11 +47,11 @@
       "active": "active users",
       "uptime": "pipeline uptime",
       "prodinfra": "production infra",
-      "admin": "manual admin",
-      "efficiency": "processing efficiency",
+      "admin": "manual spreadsheets",
+      "efficiency": "scoring & ranking",
       "leaderboards": "leaderboards",
-      "automated": "support automated",
-      "coldstart": "cold-start budget*",
+      "automated": "manual triage",
+      "coldstart": "on AWS Lambda",
       "eventarch": "driven arch",
       "infra": "infra + APIM",
       "pipelines": "release pipelines",
@@ -179,7 +179,7 @@
     "label": "EDUCATION",
     "period": "Aug 2018 — Jul 2022",
     "degree1": "B.Sc.",
-    "degree2": "Computer Science",
+    "degree2": "Computer Science & Information Systems",
     "school": "October 6 University",
     "location": "Giza, Egypt",
     "courseworkLabel": "RELEVANT COURSEWORK",
@@ -221,13 +221,6 @@
       "desc": "Foundational AWS certification spanning cloud concepts and economics, the shared-responsibility security model, pricing and billing, and the platform's core service categories.",
       "issued": "Apr 2026",
       "expires": "Apr 2029"
-    },
-    "hcia-ai": {
-      "name": "HCIA - AI Certification",
-      "issuer": "Huawei",
-      "desc": "Core AI concepts, machine learning and deep learning fundamentals, plus practical model development and deployment.",
-      "issued": "Aug 2020",
-      "expires": "Aug 2023"
     }
   },
   "stack": {
@@ -245,7 +238,7 @@
     "heading1": "Common",
     "heading2": "questions.",
     "q1": "Who is Paula Magdy?",
-    "a1": "Paula Magdy is a full-stack software engineer based in Cairo, Egypt, with 3+ years of experience designing, building, and scaling production web platforms across frontend, backend, cloud, and DevOps.",
+    "a1": "Paula Magdy is a full-stack software engineer based in Cairo, Egypt, with 3+ years of experience. An AWS Certified Solutions Architect, he ships production web platforms end-to-end across frontend, backend, cloud, and DevOps — from data modeling and API design through CI/CD, monitoring, and security.",
     "q2": "What technologies does Paula Magdy work with?",
     "a2": "He builds with Next.js, React, and TypeScript on the frontend; Node.js, NestJS, and Express, plus Laravel (PHP) and Django/Flask (Python) on the backend; PostgreSQL, MySQL, MongoDB, Redis, and Prisma ORM for data; and AWS, Azure, Huawei Cloud, Docker, and CI/CD for cloud and delivery.",
     "q3": "What has Paula Magdy built?",

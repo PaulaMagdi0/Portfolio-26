@@ -109,13 +109,6 @@ export const PERSON_JSON_LD = {
       recognizedBy: { '@type': 'Organization', name: 'Huawei' },
       dateCreated: '2026-05-01',
     },
-    {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'HCIA-AI Certification',
-      credentialCategory: 'certificate',
-      recognizedBy: { '@type': 'Organization', name: 'Huawei' },
-      dateCreated: '2020-08-01',
-    },
   ],
   sameAs: [
     'https://github.com/PaulaMagdi0',

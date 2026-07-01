@@ -78,7 +78,7 @@ export const WORK: readonly WorkProject[] = [
     periodKey: 'home.work.sabeel.period',
     blurbKey: 'home.work.sabeel.blurb',
     metrics: [
-      { value: '−30%', labelKey: 'home.work.metric.latency' },
+      { value: 'lower', labelKey: 'home.work.metric.latency' },
       { value: 'k‑scale', labelKey: 'home.work.metric.active' },
       { value: 'AWS', labelKey: 'home.work.metric.prodinfra' },
     ],
@@ -107,8 +107,8 @@ export const WORK: readonly WorkProject[] = [
     periodKey: 'home.work.esl.period',
     blurbKey: 'home.work.esl.blurb',
     metrics: [
-      { value: '−80%', labelKey: 'home.work.metric.admin' },
-      { value: '+50%', labelKey: 'home.work.metric.efficiency' },
+      { value: 'zero', labelKey: 'home.work.metric.admin' },
+      { value: 'auto', labelKey: 'home.work.metric.efficiency' },
       { value: 'realtime', labelKey: 'home.work.metric.leaderboards' },
     ],
     stack: ['Next.js', 'React', 'TypeScript', 'NestJS', 'PostgreSQL', 'Prisma', 'Docker'],
@@ -131,8 +131,8 @@ export const WORK: readonly WorkProject[] = [
     periodKey: 'home.work.wabot.period',
     blurbKey: 'home.work.wabot.blurb',
     metrics: [
-      { value: '60%', labelKey: 'home.work.metric.automated' },
-      { value: '0ms', labelKey: 'home.work.metric.coldstart' },
+      { value: 'zero', labelKey: 'home.work.metric.automated' },
+      { value: 'serverless', labelKey: 'home.work.metric.coldstart' },
       { value: 'event', labelKey: 'home.work.metric.eventarch' },
     ],
     stack: [
