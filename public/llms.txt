@@ -1,15 +1,17 @@
 # Paula Magdy — Full-Stack Software Engineer
 
-> Full-stack software engineer in Cairo, Egypt. Builds and scales production
-> web platforms across multiple modern tech stacks.
+> Full-stack software engineer in Cairo, Egypt. Ships production systems
+> end-to-end across TypeScript, PHP, and Python on AWS, Azure, and Huawei Cloud.
 
 ## About
-Paula Magdy designs, builds, and scales modern software across web, cloud, and
-backend platforms. Skilled in JavaScript/TypeScript, Python, PHP, cloud
-infrastructure, and DevOps. Works at Challenge Group. Alumnus of October 6
-University. AWS Certified Solutions Architect – Associate and Cloud
-Practitioner; Huawei HCCDP-Solution Architectures, HCCDA-Tech Essentials, and
-HCIA-AI certified.
+Paula Magdy ships production systems end-to-end across multiple stacks —
+TypeScript (Next.js/NestJS), PHP (Laravel), and Python (Django/Flask) — on AWS,
+Azure, and Huawei Cloud. An AWS Certified Solutions Architect, he owns delivery
+from data modeling and API architecture through CI/CD, monitoring, and security,
+shipping government-grade and enterprise platforms that serve thousands of
+concurrent users. Works at Challenge Group. Alumnus of October 6 University.
+AWS Certified Solutions Architect – Associate and Cloud Practitioner; Huawei
+HCCDP-Solution Architectures, HCCDA-Tech Essentials, and HCIA-AI certified.
 
 ## Site
 - Home (English): https://paulamagdy.com/en

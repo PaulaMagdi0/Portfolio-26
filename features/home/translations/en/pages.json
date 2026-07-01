@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Paula Magdy — Software Engineer",
-    "description": "Paula Magdy is a full-stack software engineer in Cairo, Egypt who builds and scales production web platforms across multiple modern tech stacks."
+    "description": "Paula Magdy is an AWS-certified full-stack software engineer in Cairo, Egypt, shipping government-grade and enterprise platforms across AWS, Azure, and Huawei Cloud."
   },
   "hero": {
     "portfolio": "PORTFOLIO / 2026",
@@ -55,7 +55,10 @@
       "eventarch": "driven arch",
       "infra": "infra + APIM",
       "pipelines": "release pipelines",
-      "shipped": "shipped"
+      "shipped": "shipped",
+      "backend": "Laravel backend",
+      "wallet": "in-app wallet",
+      "bilingual": "bilingual platform"
     },
     "mie": {
       "name": "Make it in the Emirates — Awards Platform",
@@ -65,9 +68,22 @@
       "badge": "LIVE",
       "caseStudy": {
         "role": "Full-Stack Software Engineer",
-        "problem": "Deliver a government-grade, public-facing awards platform for the UAE Ministry of Industry & Advanced Technology — supporting 2,000+ concurrent users across applicants, jurors, and program operators with the security and uptime expectations of a government deployment.",
+        "problem": "Deliver a government-grade, public-facing awards platform for the UAE Ministry of Industry & Advanced Technology — supporting 5,000+ concurrent users across applicants, jurors, and program operators with the security and uptime expectations of a government deployment.",
         "architecture": "Next.js frontend and NestJS backend over PostgreSQL with Prisma ORM. AWS infrastructure across VPC, EC2, RDS, S3, CloudFront, IAM, and Secrets Manager, with container-first pipelines (Docker → ECR → ECS via CodeBuild / CodePipeline). Vitest + React Testing Library + Playwright coverage, structured logging into CloudWatch, and SEO via server-side rendering and schema markup.",
         "contributions": "Owned end-to-end technical implementation across frontend, API surface, PostgreSQL schema, and AWS infrastructure. · Architected PostgreSQL schemas with Prisma ORM, targeted indexing, and query-tuning that cut API latency by 35% under production traffic. · Built domain-driven modules in Next.js and NestJS, reducing feature rollout time by 25%. · Established container-first deployment pipelines (Docker → ECR → ECS via CodeBuild / CodePipeline), cutting deploys from ~20 minutes to under 5. · Added CloudWatch monitoring and structured logging that reduced issue detection time by 40%. · Hardened the platform with JWT authentication, RBAC, structured validation, and a full Vitest / RTL / Playwright testing pyramid."
+      }
+    },
+    "lawmate": {
+      "name": "LawMate — Legal Services Platform",
+      "company": "Challenge Group",
+      "period": "2026",
+      "blurb": "End-to-end, API-first legal-services platform built with Laravel and Filament — a request-and-bid marketplace connecting clients with lawyers, with an in-app Paymob wallet and real-time chat, voice, and SMS.",
+      "badge": "BACKEND · PRIVATE",
+      "caseStudy": {
+        "role": "Backend Engineer",
+        "problem": "Legal services in the region are fragmented and opaque — clients can't easily find the right lawyer or agree on a price, and firms have no structured backend to receive, bid on, and manage cases. LawMate needed an API-first backend that could run a request-and-bid marketplace with payments, real-time communication, and escalation handling behind a single bilingual platform.",
+        "architecture": "API-first Laravel backend with Sanctum authentication, attribute-based routing, and self-validating DTOs, administered through a role-based Filament (Livewire) panel. MySQL for relational data and Redis for cache and queues. Real-time chat and voice/SMS via Laravel Reverb WebSockets and Twilio, Firebase Cloud Messaging for mobile push, and S3-backed media storage. Paymob powers the in-app wallet, payments, and withdrawals; Pest and PHPUnit cover the domain.",
+        "contributions": "Built the API-first Laravel backend powering a request-and-bid workflow that connects clients with lawyers, plus escalation handling and an in-app wallet with Paymob payments and withdrawals. · Designed self-validating DTOs and attribute-based routing under Sanctum authentication. · Architected the platform for real-time chat and voice/SMS (Laravel Reverb WebSockets, Twilio), FCM mobile push, and S3-backed media storage, with bilingual EN/AR content. · Administered everything through a role-based Filament (Livewire) admin panel and backed the domain with Pest and PHPUnit test coverage."
       }
     },
     "sabeel": {
@@ -132,7 +148,7 @@
       "role": "Full-Stack Software Engineer",
       "company": "Challenge Group",
       "location": "Cairo",
-      "b1": "Owned end-to-end technical implementation of the Make it in the Emirates Awards platform (MoIAT) — a government-grade system for the UAE Ministry of Industry & Advanced Technology, supporting 2,000+ concurrent users.",
+      "b1": "Owned end-to-end technical implementation of the Make it in the Emirates Awards platform (MoIAT) — a government-grade system for the UAE Ministry of Industry & Advanced Technology, supporting 5,000+ concurrent users.",
       "b2": "Architected PostgreSQL schemas using Prisma ORM with targeted indexing and query-tuning strategies, reducing API latency by 35% under production traffic.",
       "b3": "Built domain-driven full-stack modules with Next.js (frontend) and NestJS (backend), cutting feature rollout time by 25% through clear architectural separation and reusable abstractions.",
       "b4": "Designed and implemented AWS infrastructure (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) and established container-first deployment pipelines (Docker → ECR → ECS via CodeBuild / CodePipeline), cutting deployment time from ~20 minutes to under 5.",
@@ -143,7 +159,7 @@
     },
     "r2": {
       "period": "Nov 2024 — Jun 2025",
-      "role": "Open Source Developer",
+      "role": "Full-Stack Engineer",
       "company": "Information Technology Institute (ITI) · Internship",
       "location": "Egypt · Hybrid",
       "b1": "Completed a rigorous, government-sponsored engineering program equivalent to ~1,200 hours of hands-on training in full-stack development, system design, and cloud deployment.",
@@ -232,9 +248,9 @@
     "q1": "Who is Paula Magdy?",
     "a1": "Paula Magdy is a full-stack software engineer based in Cairo, Egypt, with 3+ years of experience designing, building, and scaling production web platforms across frontend, backend, cloud, and DevOps.",
     "q2": "What technologies does Paula Magdy work with?",
-    "a2": "He builds with Next.js, React, and TypeScript on the frontend; Node.js, NestJS, Express, Laravel, and Django on the backend; PostgreSQL, MySQL, MongoDB, and Prisma ORM for data; and AWS, Azure, Docker, and CI/CD for cloud and delivery.",
+    "a2": "He builds with Next.js, React, and TypeScript on the frontend; Node.js, NestJS, Express, Laravel, and Django on the backend; PostgreSQL, MySQL, MongoDB, and Prisma ORM for data; and AWS, Azure, Huawei Cloud, Docker, and CI/CD for cloud and delivery.",
     "q3": "What has Paula Magdy built?",
-    "a3": "Most recently he owned end-to-end delivery of the Make it in the Emirates Awards platform for the UAE Ministry of Industry & Advanced Technology — a government-grade system serving 2,000+ concurrent users — along with competition engines, mobile backends, and serverless AI automation at Challenge Group.",
+    "a3": "Most recently he owned end-to-end delivery of the Make it in the Emirates Awards platform for the UAE Ministry of Industry & Advanced Technology — a government-grade system serving 5,000+ concurrent users — along with a legal-services marketplace, competition engines, mobile backends, and serverless AI automation at Challenge Group.",
     "q4": "Where is Paula Magdy based, and is he open to remote work?",
     "a4": "He is based in Cairo, Egypt, and is open to full-stack engineering roles and consulting engagements, including remote work.",
     "q5": "What certifications does Paula Magdy hold?",

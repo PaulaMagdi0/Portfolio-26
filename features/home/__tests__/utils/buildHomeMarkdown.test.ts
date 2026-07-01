@@ -15,8 +15,9 @@ describe('buildHomeMarkdown', () => {
     expect(en).toContain('## SELECTED WORK');
     expect(en).toContain('### Make it in the Emirates — Awards Platform');
     expect(en).toContain('https://awards.miite.ae/en');
-    expect(en).toContain('2,000+ concurrent users');
+    expect(en).toContain('5,000+ concurrent users');
     expect(en).toContain('NestJS');
+    expect(en).toContain('### LawMate — Legal Services Platform');
   });
 
   it('renders experience, education, and certifications with credential IDs', () => {
