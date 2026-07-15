@@ -1,0 +1,40 @@
+name: Production Canary
+
+# Verifies the deployed production bundle ships a well-formed Web3Forms access
+# key (see scripts/check-live-form-key.mjs). Env values on Vercel are
+# sensitive-type and unreadable, so the live bundle is the only checkable place.
+on:
+  # Fired by Vercel's GitHub integration when a deployment finishes.
+  deployment_status:
+  schedule:
+    - cron: '17 6 * * 1' # weekly, Monday 06:17 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: production-canary
+  cancel-in-progress: false
+
+jobs:
+  live-form-key:
+    name: Deployed Web3Forms key check
+    # For deployment events, only successful Production deploys are relevant.
+    if: >-
+      github.event_name != 'deployment_status' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Script self-test
+        run: node scripts/check-live-form-key.mjs --self-test
+
+      - name: Check deployed bundle
+        run: node scripts/check-live-form-key.mjs
