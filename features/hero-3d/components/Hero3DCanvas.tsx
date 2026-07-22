@@ -6,7 +6,17 @@ import * as THREE from 'three';
 function readColor(name: string): THREE.Color {
   const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   if (!raw) return new THREE.Color('#ededed');
+  // Tailwind v4 emits modern space-separated `rgb(r g b)`, which THREE.Color
+  // cannot parse — it expects comma-separated `rgb(r, g, b)` and otherwise
+  // silently falls back to white (invisible on the light theme). Normalize any
+  // `rgb(...)` value to comma form by pulling out its numeric channels.
   try {
+    if (/^rgba?\(/i.test(raw)) {
+      const nums = raw.match(/[\d.]+/g);
+      if (nums && nums.length >= 3) {
+        return new THREE.Color(`rgb(${nums[0]}, ${nums[1]}, ${nums[2]})`);
+      }
+    }
     return new THREE.Color(raw);
   } catch {
     return new THREE.Color('#ededed');
