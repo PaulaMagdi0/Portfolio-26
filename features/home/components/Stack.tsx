@@ -11,11 +11,6 @@ export async function Stack() {
     <section id="stack" className="relative py-16 md:py-24">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         <SectionHead num="05" label={sec('label')} />
-        {/* Semantic section heading — the SectionHead eyebrow is decorative, so
-            this gives the Stack section a real h2 (sr-only to preserve the
-            marquee-led visual design) and keeps the heading outline consistent
-            with every other section. */}
-        <h2 className="sr-only">{sec('label')}</h2>
       </div>
 
       {/* Full-bleed marquee — spans the entire viewport width */}
@@ -42,12 +37,14 @@ export async function Stack() {
       </div>
 
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
-        {/* Intro paragraph — same per-char SplitReveal cascade as every other
-            section heading (Work, Experience, Contact, …). Rendered as="p" so the
-            sr-only <h2> above stays the section's single real heading. */}
+        {/* Section heading — same per-char SplitReveal cascade as every other
+            section (Work, Experience, Contact, …). This is the Stack section's
+            single real <h2>: SplitText adds an aria-label with the full text,
+            which is valid on a heading but prohibited on a <p> (axe's
+            aria-prohibited-attr rule), so it must not be rendered as a paragraph. */}
         <Reveal>
           <SplitReveal
-            as="p"
+            as="h2"
             stagger={0.018}
             duration={1.0}
             className="text-ink mb-16 max-w-[820px] font-serif text-[28px] leading-[1.15] md:text-[40px]"
