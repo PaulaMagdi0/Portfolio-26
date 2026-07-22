@@ -1,5 +1,6 @@
 // --- Utils ---
 export { loadGsap, onIdle } from './utils/gsap';
+export { markPageReady, whenPageReady } from './utils/pageReady';
 export type { Gsap, ScrollTrigger, SplitText, GsapBundle } from './utils/gsap';
 
 // --- Hooks ---

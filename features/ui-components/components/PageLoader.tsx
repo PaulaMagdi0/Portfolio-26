@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { markPageReady } from '@/core/motion';
 import { toLocaleDigits } from '@/lib/digits';
 
 export function PageLoader() {
@@ -66,7 +67,11 @@ export function PageLoader() {
           // (see globals.css #page-loader transition). Keep the element mounted
           // through the transition; unmounting React-side too early kills it.
           setTimeout(() => {
-            if (!cancelled) setDone(true);
+            if (cancelled) return;
+            // Curtain fully lifted — release the gated entrance animations so the
+            // section you land on cascades in view instead of behind the loader.
+            markPageReady();
+            setDone(true);
           }, 1200);
         }, 280);
       }

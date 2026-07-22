@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import type { ElementType, ReactNode } from 'react';
-import { loadGsap, onIdle, type SplitText as SplitTextType } from '@/core/motion';
+import { loadGsap, onIdle, whenPageReady, type SplitText as SplitTextType } from '@/core/motion';
 
 interface SplitRevealProps {
   children: ReactNode;
@@ -82,6 +82,13 @@ export function SplitReveal({
 
       const play = () => {
         if (!split || cancelled) return;
+        // A real play has begun — cancel the stall-safety so it can't snap the
+        // cascade to its end mid-animation (play() is gated on whenPageReady(),
+        // which may resolve later than a fixed timer would).
+        if (safety !== null) {
+          window.clearTimeout(safety);
+          safety = null;
+        }
         tween = gsap.to(split.chars, {
           yPercent: 0,
           duration,
@@ -108,20 +115,27 @@ export function SplitReveal({
         }
 
         if (mode === 'instant') {
+          // The hero headline (the only instant-mode user) plays immediately —
+          // during the loader — so the hero is fully composed the instant the
+          // curtain lifts, with no post-loader build-in. Only scroll-triggered
+          // section titles wait for the loader (below).
           play();
-          // Safety only matters for instant mode — if something stalls before
-          // play() commits, reveal the text after 1.5s so it's never stuck hidden.
+          // Stall-safety: if something stalls before play() commits, reveal the
+          // text after 1.5s so it's never stuck hidden.
           safety = window.setTimeout(setVisibleFallback, 1500);
         } else {
-          // Scroll mode: the observer is the trigger. No safety timer — otherwise
-          // a section below the fold would have its chars force-revealed at 1.5s,
-          // and when the user scrolls down later the GSAP tween animates 0→0
-          // (no visible cascade).
+          // Scroll mode: gate the cascade on the page loader. Its curtain sits
+          // above everything until the wipe finishes, so playing on scroll would
+          // run hidden. whenPageReady() resolves immediately once the loader is
+          // gone (the common case for below-the-fold sections), so this only
+          // waits for the section you land on at load/reload time.
           observer = new IntersectionObserver(
             (entries) => {
               if (entries.some((e) => e.isIntersecting) && split) {
                 observer?.disconnect();
-                play();
+                void whenPageReady().then(() => {
+                  if (!cancelled) play();
+                });
               }
             },
             { threshold: 0.15 },

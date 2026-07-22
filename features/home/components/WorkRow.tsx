@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
-import { ClipReveal } from '@/features/ui-components';
+import { ClipReveal, Reveal } from '@/features/ui-components';
 import { toLocaleDigits } from '@/lib/digits';
 import type { WorkProject } from '../types';
 import { AnimatedMetric } from './AnimatedMetric';
@@ -118,7 +118,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
   const showImage = Boolean(project.image) && !imgError;
 
   return (
-    <li className="work-row group">
+    <Reveal as="li" className="work-row group">
       {/* div, not article: ARIA forbids role="button" on <article> (axe
           aria-allowed-role), and the button role suppresses article
           semantics for AT anyway — the <li> provides the list structure. */}
@@ -306,6 +306,6 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
           </div>
         </div>
       </div>
-    </li>
+    </Reveal>
   );
 }

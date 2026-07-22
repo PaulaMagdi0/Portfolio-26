@@ -13,7 +13,11 @@ export async function Hero() {
       className="relative flex min-h-screen flex-col overflow-hidden px-6 pt-28 pb-12 md:px-10 md:pt-32 md:pb-16"
     >
       <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col">
-        <Reveal as="div" className="relative z-10 flex flex-wrap items-center gap-x-4 gap-y-3">
+        <Reveal
+          as="div"
+          immediate
+          className="relative z-10 flex flex-wrap items-center gap-x-4 gap-y-3"
+        >
           <span
             aria-hidden
             style={{ transform: 'scaleX(1)' }}

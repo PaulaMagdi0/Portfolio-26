@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { Marquee, Reveal, SectionHead } from '@/features/ui-components';
+import { Marquee, Reveal, SectionHead, SplitReveal } from '@/features/ui-components';
 import { MARQUEE_TOOLS, STACK } from '../config';
 
 export async function Stack() {
@@ -42,12 +42,19 @@ export async function Stack() {
       </div>
 
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
-        {/* Intro paragraph */}
-        <Reveal className="text-ink mb-16 max-w-[820px] font-serif text-[28px] leading-[1.15] md:text-[40px]">
-          <p>
+        {/* Intro paragraph — same per-char SplitReveal cascade as every other
+            section heading (Work, Experience, Contact, …). Rendered as="p" so the
+            sr-only <h2> above stays the section's single real heading. */}
+        <Reveal>
+          <SplitReveal
+            as="p"
+            stagger={0.018}
+            duration={1.0}
+            className="text-ink mb-16 max-w-[820px] font-serif text-[28px] leading-[1.15] md:text-[40px]"
+          >
             {sec('intro1')}
             <em className="text-inkdim font-light italic">{sec('introEmph')}</em>
-          </p>
+          </SplitReveal>
         </Reveal>
 
         {/* Group rows */}
