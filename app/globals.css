@@ -31,11 +31,16 @@
 :root[data-theme='light'] {
   --color-ink: rgb(22 19 16);
   --color-inkdim: rgb(94 87 77);
-  --color-inkmute: rgb(155 147 136);
+  /* Light-mode muted ink. rgb(109 103 92) clears WCAG AA: ~5.0:1 on bg
+     #f4f1ea and ~4.5:1 on the bg2 #ebe6dc locale pill (was rgb(155 147 136),
+     which failed at ~2.7:1 / ~2.4:1). */
+  --color-inkmute: rgb(109 103 92);
   --color-bg: rgb(244 241 234);
   --color-bg2: rgb(235 230 220);
   --color-line: rgb(216 209 195);
-  --color-amber: rgb(160 108 42);
+  /* Darkened for WCAG AA on small mono labels: rgb(143 94 28) is ~4.9:1 on
+     bg #f4f1ea (was rgb(160 108 42) at ~4.0:1, below the 4.5 threshold). */
+  --color-amber: rgb(143 94 28);
   --color-amberhi: rgb(131 86 25);
   --grain-opacity: 0.045;
   --grain-blend: multiply;
