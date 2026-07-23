@@ -6,6 +6,15 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
 
+# Supply-chain hardening: refuse dependency versions published within the last
+# 1440 minutes (24h) so pnpm never locks a just-published package. This mirrors
+# Vercel's minimumReleaseAge deploy policy — the lockfile pnpm resolves is then
+# always accepted by the deploy's supply-chain check, instead of failing with
+# ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION on a fresh transitive bump (as a
+# Dependabot `next` bump did by pulling a same-day postcss / baseline-browser-
+# mapping). Keep this >= the Vercel project's release-age window.
+minimumReleaseAge: 1440
+
 # Force a patched PostCSS everywhere — clears GHSA-qx2v-qp2m-jg93 (XSS via
 # unescaped </style> in CSS stringify). Next.js bundles a vulnerable 8.4.31.
 #
