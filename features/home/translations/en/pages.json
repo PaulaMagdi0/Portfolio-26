@@ -1,16 +1,16 @@
 {
   "meta": {
     "title": "Paula Magdy — Software Engineer",
-    "description": "Paula Magdy is an AWS-certified full-stack software engineer in Cairo, Egypt, shipping government-grade and enterprise platforms across AWS, Azure, and Huawei Cloud."
+    "description": "Paula Magdy is an AWS-certified full-stack software engineer in Cairo, Egypt, with production experience across TypeScript (Next.js/NestJS), PHP (Laravel), and Python (Django/Flask) on AWS, Azure, and Huawei Cloud."
   },
   "hero": {
     "portfolio": "PORTFOLIO / 2026",
     "availability": "AVAILABLE FOR FULL-STACK ENGINEERING ROLES",
     "headline": "Paula Magdy",
     "kicker": "Full-Stack Software Engineer",
-    "descriptionLead": "I design, build, and scale production-grade platforms end-to-end —",
-    "descriptionEmph": "resilient backends and clean APIs across AWS, Azure & Huawei Cloud, shipped by an AWS Certified Solutions Architect.",
-    "ctaWork": "View Work",
+    "descriptionLead": "I build production platforms across TypeScript, PHP, and Python on AWS, Azure & Huawei Cloud —",
+    "descriptionEmph": "contributing across data modeling, API design, CI/CD, monitoring, and security, with measurable gains in API performance and deployment speed.",
+    "ctaWork": "View Experience",
     "ctaResume": "Resume"
   },
   "metaStrip": {
@@ -59,84 +59,6 @@
       "backend": "Laravel backend",
       "wallet": "in-app wallet",
       "bilingual": "bilingual platform"
-    },
-    "mie": {
-      "name": "Make it in the Emirates — Awards Platform",
-      "company": "Challenge Group",
-      "period": "2026",
-      "blurb": "Government platform for the UAE Ministry of Industry & Advanced Technology. End-to-end ownership across frontend, backend, infra, and CI/CD.",
-      "badge": "LIVE",
-      "caseStudy": {
-        "role": "Full-Stack Software Engineer",
-        "problem": "Deliver a government-grade, public-facing awards platform for the UAE Ministry of Industry & Advanced Technology — supporting 5,000+ concurrent users across applicants, jurors, and program operators with the security and uptime expectations of a government deployment.",
-        "architecture": "Next.js frontend and NestJS backend over PostgreSQL with Prisma ORM. AWS infrastructure across VPC, EC2, RDS, S3, CloudFront, IAM, and Secrets Manager, with container-first pipelines (Docker → ECR → ECS via CodeBuild / CodePipeline). Vitest + React Testing Library + Playwright coverage, structured logging into CloudWatch, and SEO via server-side rendering and schema markup.",
-        "contributions": "Owned end-to-end technical implementation across frontend, API surface, PostgreSQL schema, and AWS infrastructure. · Architected PostgreSQL schemas with Prisma ORM, targeted indexing, and query-tuning that cut API latency by 35% under production traffic. · Built domain-driven modules in Next.js and NestJS, reducing feature rollout time by 25%. · Established container-first deployment pipelines (Docker → ECR → ECS via CodeBuild / CodePipeline), cutting deploys from ~20 minutes to under 5. · Added CloudWatch monitoring and structured logging that reduced issue detection time by 40%. · Hardened the platform with JWT authentication, RBAC, structured validation, and a full Vitest / RTL / Playwright testing pyramid."
-      }
-    },
-    "lawmate": {
-      "name": "LawMate — Legal Services Platform",
-      "company": "Challenge Group",
-      "period": "2026",
-      "blurb": "End-to-end, API-first legal-services platform built with Laravel and Filament — a request-and-bid marketplace connecting clients with lawyers, with an in-app Paymob wallet and real-time chat, voice, and SMS.",
-      "badge": "BACKEND · PRIVATE",
-      "caseStudy": {
-        "role": "Backend Engineer",
-        "problem": "Legal services in the region are fragmented and opaque — clients can't easily find the right lawyer or agree on a price, and firms have no structured backend to receive, bid on, and manage cases. LawMate needed an API-first backend that could run a request-and-bid marketplace with payments, real-time communication, and escalation handling behind a single bilingual platform.",
-        "architecture": "API-first Laravel backend with Sanctum authentication, attribute-based routing, and self-validating DTOs, administered through a role-based Filament (Livewire) panel. MySQL for relational data and Redis for cache and queues. Real-time chat and voice/SMS via Laravel Reverb WebSockets and Twilio, Firebase Cloud Messaging for mobile push, and S3-backed media storage. Paymob powers the in-app wallet, payments, and withdrawals; Pest and PHPUnit cover the domain.",
-        "contributions": "Built the API-first Laravel backend powering a request-and-bid workflow that connects clients with lawyers, plus escalation handling and an in-app wallet with Paymob payments and withdrawals. · Designed self-validating DTOs and attribute-based routing under Sanctum authentication. · Architected the platform for real-time chat and voice/SMS (Laravel Reverb WebSockets, Twilio), FCM mobile push, and S3-backed media storage, with bilingual EN/AR content. · Administered everything through a role-based Filament (Livewire) admin panel and backed the domain with Pest and PHPUnit test coverage."
-      }
-    },
-    "sabeel": {
-      "name": "Sabeel — Mobile Backend",
-      "company": "Challenge Group",
-      "period": "2026",
-      "blurb": "Backend powering a high-traffic mobile product. Hardened the API surface, cut latency, and shipped reliable infra on AWS.",
-      "badge": "BACKEND · PRIVATE",
-      "caseStudy": {
-        "role": "Backend Engineer",
-        "problem": "A growing mobile app needed a backend that could handle thousands of concurrent users without latency spikes, plus a deploy pipeline the team could trust.",
-        "architecture": "Laravel API on AWS ECS behind an ALB, MySQL on RDS, static assets through S3 + CloudFront. CI/CD through ECR with CodeBuild / CodePipeline, secrets in Secrets Manager, IAM-scoped access, and CloudWatch monitoring and alerts.",
-        "contributions": "Architected normalized relational data models and optimised complex SQL queries, cutting API latency by 30% while supporting thousands of active mobile users. · Managed the full AWS production infrastructure (EC2, S3, IAM, RDS) — provisioning, deployment, monitoring, and maintenance. · Implemented secure authentication flows, input validation, and backend security best practices across the system. · Set up CloudWatch dashboards and alarms so on-call could spot regressions in minutes."
-      }
-    },
-    "esl": {
-      "name": "Egyptian Schools League — Competition Engine",
-      "company": "Challenge Group",
-      "period": "2025",
-      "blurb": "Modular competition engine with real-time leaderboards. Replaced spreadsheet workflows with a configurable rules engine.",
-      "badge": "LIVE",
-      "caseStudy": {
-        "role": "Full-Stack Engineer",
-        "problem": "Operators were running national school competitions out of spreadsheets — slow scoring, fragile state, and no real-time visibility for participants.",
-        "architecture": "Next.js front-end, NestJS back-end with a modular rules engine, PostgreSQL via Prisma, and a Docker-based deploy. WebSockets for live leaderboard updates.",
-        "contributions": "Engineered a modular competition engine covering team onboarding, scoring logic, and ranking algorithms. · Built the real-time leaderboard pipeline and the operator dashboards that consume it. · Reduced manual administrative workload by 80% and improved processing efficiency by 50% by replacing spreadsheet workflows with structured forms and validation."
-      }
-    },
-    "wabot": {
-      "name": "WhatsApp AI Chatbot Automation",
-      "company": "Challenge Group",
-      "period": "2025",
-      "blurb": "Serverless AI chatbot combining Amazon Lex and Twilio to automate customer-support workflows on WhatsApp.",
-      "badge": "INTERNAL · AUTOMATION",
-      "caseStudy": {
-        "role": "Serverless Engineer",
-        "problem": "Support agents were drowning in repetitive WhatsApp inquiries — order status, hours, common FAQs — and customers waited hours for answers any bot could give in seconds.",
-        "architecture": "Twilio webhook → AWS Lambda (Python) → Amazon Lex for intent + slot filling, with secrets in AWS Secrets Manager and CloudWatch for traceability. Pure event-driven: scales to zero between conversations.",
-        "contributions": "Designed intent + slot taxonomy across the support team's real ticket history. · Wrote the Lambda orchestration that bridges Lex, Twilio, and the internal CRM. · Automated 60% of customer-support workflows and eliminated manual triage for common request types, escalating cleanly to a human when confidence dropped."
-      }
-    },
-    "eltan": {
-      "name": "Eltanfeethi — Azure Delivery",
-      "company": "Challenge Group",
-      "period": "2026",
-      "blurb": "Led Azure infrastructure, release pipelines, and production deployment for a client-facing application.",
-      "badge": "CLOUD · API GATEWAY",
-      "caseStudy": {
-        "role": "Cloud Delivery Lead",
-        "problem": "A client-facing application needed Azure infrastructure stood up, an API gateway in place, and a release process the team could actually trust before going to production.",
-        "architecture": "Azure compute + storage, Azure API Management fronting the service surface, release pipelines through Azure DevOps with environment gates.",
-        "contributions": "Designed the Azure infrastructure layout — subscriptions, network, identity, and policy. · Configured API Management with the routing, throttling, and key-management the platform required. · Built the release pipelines and gates that took the platform from staging into a production rollout."
-      }
     }
   },
   "experience": {
@@ -148,12 +70,16 @@
       "role": "Full-Stack Software Engineer",
       "company": "Challenge Group",
       "location": "Cairo, Egypt",
-      "b1": "Full-stack engineer at Challenge Group — an AWS/Huawei Cloud partner delivering production platforms for government and enterprise clients across Egypt, Saudi Arabia, and the UAE.",
-      "b2": "Owned the Make it in the Emirates Awards platform (MoIAT) for the UAE Ministry of Industry & Advanced Technology from schema to deploy — domain-driven Next.js/NestJS modules over a PostgreSQL/Prisma schema serving 5,000+ concurrent users, with targeted indexing and query-tuning that cut API latency ~35% under production load.",
-      "b3": "Built the AWS infrastructure (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) and a container-first Docker → ECR → ECS pipeline (CodeBuild / CodePipeline), reducing deploys from ~20 minutes to under 5.",
-      "b4": "Hardened platforms with JWT authentication, RBAC, structured validation, and API hardening; added CloudWatch monitoring and structured logging, a full test pyramid (Vitest, React Testing Library, Playwright), and SEO via SSR, structured metadata, and schema markup.",
-      "b5": "Built LawMate, an API-first Laravel legal-services platform (Filament admin, Sanctum, a Paymob wallet, and Reverb/Twilio real-time), and the Egyptian Schools League competition engine with real-time leaderboards.",
-      "b6": "Shipped a serverless WhatsApp AI support bot (AWS Lambda, Amazon Lex, Twilio), hardened the Sabeel mobile backend on AWS, and led the Eltanfeethi Azure delivery with Azure API Management and CI/CD."
+      "b1": "Challenge Group is an AWS/Huawei Cloud partner delivering production platforms for government and enterprise clients across Egypt, KSA, and the UAE. Contributed to multiple production platforms as part of cross-functional Agile delivery teams.",
+      "b2": "Developed backend services for government and enterprise platforms serving 5,000+ concurrent users — domain-driven NestJS modules and Laravel APIs over PostgreSQL/Prisma and MySQL — applying targeted indexing and query tuning that cut API latency by ~35% under production load.",
+      "b3": "Hardened API layers alongside the backend team with Sanctum/JWT authentication, RBAC, attribute-based routing, self-validating DTOs, and structured request validation across multiple products.",
+      "b4": "Implemented transactional product workflows, including a request-and-bid marketplace flow with escalation handling and an in-app wallet supporting Paymob payments and withdrawals.",
+      "b5": "Delivered real-time and messaging capabilities with the feature team: WebSocket chat (Laravel Reverb), voice/SMS via Twilio, FCM push notifications, S3-backed media storage, and bilingual (EN/AR) content.",
+      "b6": "Contributed Next.js/React interfaces — onboarding and results-entry flows, role-based admin panels (Filament/Livewire), and live-updating leaderboards — to a shared, responsive component set maintained across the team.",
+      "b7": "Provisioned and maintained cloud infrastructure with the DevOps team on AWS (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) and Azure (API Management).",
+      "b8": "Helped move the team to container-first CI/CD — Docker → ECR → ECS via CodeBuild/CodePipeline — reducing deployment time from ~20 minutes to under 5.",
+      "b9": "Automated customer-support conversations with a serverless Amazon Lex chatbot on AWS Lambda, integrated with Twilio, cutting manual triage for the support team.",
+      "b10": "Instrumented services with CloudWatch monitoring and structured logging, and maintained automated test coverage with Pest, PHPUnit, Jest, and Vitest."
     },
     "r2": {
       "period": "Nov 2024 — Jun 2025",
@@ -229,24 +155,25 @@
     "introEmph": " chosen for shipping, not for the résumé.",
     "frontend": "Frontend",
     "backend": "Backend",
-    "databases": "Databases",
+    "databases": "Databases & ORMs",
     "cloud": "Cloud & DevOps",
-    "languages": "Languages"
+    "languages": "Languages",
+    "testing": "Testing & Practices"
   },
   "faq": {
     "label": "FAQ",
     "heading1": "Common",
     "heading2": "questions.",
     "q1": "Who is Paula Magdy?",
-    "a1": "Paula Magdy is a full-stack software engineer based in Cairo, Egypt, with 3+ years of experience. An AWS Certified Solutions Architect, he ships production web platforms end-to-end across frontend, backend, cloud, and DevOps — from data modeling and API design through CI/CD, monitoring, and security.",
+    "a1": "Paula Magdy is a full-stack software engineer based in Cairo, Egypt, with 3+ years of experience. An AWS Certified Solutions Architect, he builds production web platforms with cross-functional teams across frontend, backend, cloud, and DevOps — contributing across data modeling, API design, CI/CD, monitoring, and security.",
     "q2": "What technologies does Paula Magdy work with?",
     "a2": "He builds with Next.js, React, and TypeScript on the frontend; Node.js, NestJS, and Express, plus Laravel (PHP) and Django/Flask (Python) on the backend; PostgreSQL, MySQL, MongoDB, Redis, and Prisma ORM for data; and AWS, Azure, Huawei Cloud, Docker, and CI/CD for cloud and delivery.",
     "q3": "What has Paula Magdy built?",
-    "a3": "Most recently he owned end-to-end delivery of the Make it in the Emirates Awards platform for the UAE Ministry of Industry & Advanced Technology — a government-grade system serving 5,000+ concurrent users — along with LawMate (an API-first legal-services platform), competition engines, mobile backends, and serverless AI automation at Challenge Group, an AWS/Huawei Cloud partner serving clients across Egypt, Saudi Arabia, and the UAE.",
+    "a3": "At Challenge Group — an AWS/Huawei Cloud partner serving government and enterprise clients across Egypt, KSA, and the UAE — he has contributed to multiple production platforms as part of cross-functional Agile delivery teams: backend services for platforms serving 5,000+ concurrent users, transactional workflows including a request-and-bid marketplace and an in-app Paymob wallet, real-time chat and messaging, Next.js/React interfaces and role-based admin panels, AWS and Azure infrastructure with container-first CI/CD, and a serverless Amazon Lex support chatbot.",
     "q4": "Where is Paula Magdy based, and is he open to remote work?",
     "a4": "He is based in Cairo, Egypt, and is open to full-stack engineering roles and consulting engagements, including remote work.",
     "q5": "What certifications does Paula Magdy hold?",
-    "a5": "He holds the AWS Certified Solutions Architect – Associate and AWS Certified Cloud Practitioner certifications, plus Huawei's HCCDP-Solution Architectures, HCCDA-Tech Essentials, and HCIA-AI — alongside a B.Sc. in Computer Science from October 6 University.",
+    "a5": "He holds the AWS Certified Solutions Architect – Associate and AWS Certified Cloud Practitioner certifications, plus Huawei's HCCDP-Solution Architectures and HCCDA-Tech Essentials — alongside a B.Sc. in Computer Science and Information Systems from October 6 University.",
     "q6": "How can I get in touch with Paula Magdy?",
     "a6": "You can reach him by email at paulamagdy665@gmail.com or through the contact form on this site — he typically replies within 24 hours."
   },

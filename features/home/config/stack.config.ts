@@ -6,21 +6,22 @@ import type { MarqueeTool, StackGroup } from '../types';
 // so the source color is irrelevant.
 const SI = (slug: string) => `/icons/${slug}.svg`;
 
+// Groups and ordering mirror the SKILLS block of the résumé (public/resume.pdf),
+// so the two stay legible side by side.
 export const STACK: readonly StackGroup[] = [
+  {
+    titleKey: 'home.stack.languages',
+    items: ['TypeScript', 'JavaScript', 'Python', 'PHP', 'SQL', 'C++'],
+  },
   {
     titleKey: 'home.stack.frontend',
     items: [
       'React',
       'Next.js',
-      'TypeScript',
-      'JavaScript',
-      'HTML',
-      'CSS',
       'Tailwind CSS',
-      'Vitest',
-      'React Testing Library',
-      'Playwright',
       'Bootstrap',
+      'CSS',
+      'HTML',
       'Livewire',
       'Filament',
       'Blade',
@@ -32,18 +33,15 @@ export const STACK: readonly StackGroup[] = [
       'Node.js',
       'NestJS',
       'Express',
+      'Laravel',
       'Django',
       'Flask',
-      'Laravel',
-      'WebSockets',
       'REST APIs',
+      'WebSockets',
       'Reverb',
       'Serverless',
       'JWT',
       'RBAC',
-      'Jest',
-      'PHPUnit',
-      'Pest',
     ],
   },
   {
@@ -56,16 +54,24 @@ export const STACK: readonly StackGroup[] = [
       'Prisma ORM',
       'Eloquent ORM',
       'Query optimization',
-      'Indexing',
     ],
   },
   {
     titleKey: 'home.stack.cloud',
-    items: ['AWS', 'Microsoft Azure', 'Huawei Cloud', 'Docker', 'Kubernetes', 'CI/CD'],
+    items: ['AWS', 'Huawei Cloud', 'Microsoft Azure', 'Docker', 'Kubernetes', 'CI/CD'],
   },
   {
-    titleKey: 'home.stack.languages',
-    items: ['TypeScript', 'JavaScript', 'Python', 'PHP', 'C++', 'SQL'],
+    titleKey: 'home.stack.testing',
+    items: [
+      'Vitest',
+      'Jest',
+      'PHPUnit',
+      'Pest',
+      'React Testing Library',
+      'Playwright',
+      'Domain-Driven Design',
+      'Agile/Scrum',
+    ],
   },
 ] as const satisfies readonly StackGroup[];
 

@@ -20,7 +20,7 @@ export const PERSON_JSON_LD = {
   },
   gender: 'Male',
   description:
-    'Paula Magdy is a full-stack software engineer in Cairo, Egypt who ships production systems end-to-end across multiple stacks — TypeScript (Next.js/NestJS), PHP (Laravel), and Python (Django/Flask) — on AWS, Azure, and Huawei Cloud. An AWS Certified Solutions Architect, he owns delivery from data modeling and API architecture through CI/CD, monitoring, and security, shipping government-grade and enterprise platforms that serve thousands of concurrent users.',
+    'Paula Magdy is a full-stack software engineer in Cairo, Egypt with production experience across multiple stacks — TypeScript (Next.js/NestJS), PHP (Laravel), and Python (Django/Flask) — on AWS, Azure, and Huawei Cloud. An AWS Certified Solutions Architect, he contributes across data modeling, API design, CI/CD, monitoring, and security on cross-functional teams delivering government-grade and enterprise platforms that serve thousands of concurrent users.',
   // schema.org's purpose-built field for telling apart same-named entities. A
   // tight role + employer + location + education phrase gives answer engines a
   // compact set of distinctive facts to anchor THIS Paula Magdy to.
@@ -79,6 +79,7 @@ export const PERSON_JSON_LD = {
     'CI/CD pipelines',
     'Software architecture',
     'Domain-Driven Design',
+    'Agile/Scrum',
   ],
   hasCredential: [
     {

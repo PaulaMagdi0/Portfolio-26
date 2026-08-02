@@ -63,7 +63,7 @@ describe('WebMcpTools', () => {
       .execute({});
     expect(result.content[0].type).toBe('text');
     expect(result.content[0].text).toContain('# Paula Magdy');
-    expect(result.content[0].text).toContain('SELECTED WORK');
+    expect(result.content[0].text).toContain('## EXPERIENCE');
   });
 
   it('download_resume opens the resume PDF', () => {

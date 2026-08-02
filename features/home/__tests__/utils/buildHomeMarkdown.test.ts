@@ -11,13 +11,9 @@ describe('buildHomeMarkdown', () => {
     expect(en).toContain('/en');
   });
 
-  it('renders work projects with case study, metrics, and stack', () => {
-    expect(en).toContain('## SELECTED WORK');
-    expect(en).toContain('### Make it in the Emirates — Awards Platform');
-    expect(en).toContain('https://awards.miite.ae/en');
-    expect(en).toContain('5,000+ concurrent users');
-    expect(en).toContain('NestJS');
-    expect(en).toContain('### LawMate — Legal Services Platform');
+  it('omits the work section, mirroring the disabled <Work /> on the page', () => {
+    expect(en).not.toContain('## SELECTED WORK');
+    expect(en).not.toContain('**PROBLEM:**');
   });
 
   it('renders experience, education, and certifications with credential IDs', () => {

@@ -110,28 +110,9 @@ test.describe.serial('full app verification', () => {
     await shot(page, '06-ar-full', true);
   });
 
-  test('6. Work section: case-study drawer opens on private project, Escape closes', async ({
-    page,
-  }) => {
-    attachListeners(page, 'drawer');
-    await page.goto('/en');
-    await page.waitForSelector('html.loaded', { timeout: 15_000 }).catch(() => {});
-    await page.waitForLoadState('networkidle');
-    // Scroll Work into view
-    await page.locator('#work').scrollIntoViewIfNeeded();
-    await shot(page, '07-work-section');
-    // Find the "Sabeel" row (private). Buttons in Work rows; their accessible name
-    // includes the project name translation key value. We try by the actual project name first.
-    const sabeel = page
-      .getByRole('button', { name: /Sabeel/i })
-      .or(page.getByRole('button', { name: /Mobile Backend/i }));
-    await sabeel.first().click();
-    // Drawer is role=dialog
-    await expect(page.getByRole('dialog')).toBeVisible({ timeout: 4000 });
-    await shot(page, '08-drawer-open');
-    await page.keyboard.press('Escape');
-    await expect(page.getByRole('dialog')).toBeHidden({ timeout: 2000 });
-  });
+  // The Work section is disabled (see app/[locale]/page.tsx) and its project data has
+  // been removed, so the former test 6 — which opened a case-study drawer by project
+  // name — no longer has anything to drive. Numbering below is left as-is.
 
   test('7. Contact form validates and shows error alerts', async ({ page }) => {
     attachListeners(page, 'contact-invalid');

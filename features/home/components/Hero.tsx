@@ -57,7 +57,7 @@ export async function Hero() {
 
             <div className="mt-8 flex animate-[hero-fade_0.9s_ease-out_1.2s_forwards] flex-wrap items-center gap-4 opacity-0">
               <Magnetic as="span" strength={0.25}>
-                <a href="#work" className="btn-base btn-primary">
+                <a href="#experience" className="btn-base btn-primary">
                   {t('ctaWork')}
                   <svg
                     className="h-4 w-4"

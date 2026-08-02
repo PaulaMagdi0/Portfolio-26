@@ -2,7 +2,7 @@ import { SITE_URL } from '@/core/seo/config/site.config';
 import type { Locale } from '@/i18n/config';
 import enPages from '../translations/en/pages.json';
 import arPages from '../translations/ar/pages.json';
-import { WORK } from '../config/work.config';
+// import { WORK } from '../config/work.config'; // see the disabled work block below
 import { EXPERIENCE } from '../config/experience.config';
 import { CERTIFICATIONS } from '../config/certifications.config';
 import { STACK } from '../config/stack.config';
@@ -35,13 +35,14 @@ function resolve(messages: Messages, key: string): string {
   return typeof current === 'string' ? current : '';
 }
 
-/** Split a "·"-separated contributions string into individual bullet lines. */
-function toBullets(text: string): string[] {
-  return text
-    .split(/\s*·\s*/)
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
+// Used only by the disabled work block below.
+// /** Split a "·"-separated contributions string into individual bullet lines. */
+// function toBullets(text: string): string[] {
+//   return text
+//     .split(/\s*·\s*/)
+//     .map((item) => item.trim())
+//     .filter(Boolean);
+// }
 
 function join(...parts: (string | undefined)[]): string {
   return parts.filter(Boolean).join(' · ');
@@ -68,7 +69,12 @@ export function buildHomeMarkdown(locale: Locale): string {
     ].join('\n'),
   );
 
-  // --- Selected work ---
+  // --- Selected work (disabled) ---
+  // The Work section is commented out of app/[locale]/page.tsx and the résumé no
+  // longer lists named client projects, so this Markdown mirror omits it too —
+  // otherwise agents would still be told Paula solely owned platforms the résumé
+  // now frames as cross-functional team delivery. Restore alongside <Work />.
+  /*
   const work = WORK.map((p) => {
     const lines = [
       `### ${t(p.nameKey)}`,
@@ -97,6 +103,7 @@ export function buildHomeMarkdown(locale: Locale): string {
     return lines.join('\n');
   }).join('\n\n');
   blocks.push(`## ${m.work.label}\n\n${work}`);
+  */
 
   // --- Experience ---
   const experience = EXPERIENCE.map((role) => {

@@ -10,7 +10,7 @@ import {
   Hero,
   HeroMetaStrip,
   Stack,
-  Work,
+  // Work,
 } from '@/features/home';
 import {
   BgSpotlight,
@@ -44,7 +44,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <main id="main" className="relative z-10">
         <Hero />
         <HeroMetaStrip />
-        <Work />
+        {/* <Work /> */}
         <Experience />
         <Education />
         <Certifications />
