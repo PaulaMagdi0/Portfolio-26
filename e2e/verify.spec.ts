@@ -195,10 +195,20 @@ test.describe.serial('full app verification', () => {
     expect(focused.toLowerCase()).toContain('skip');
   });
 
-  test('11. resume.pdf is downloadable', async ({ request }) => {
+  test('11. resume.pdf is downloadable and titled', async ({ request }) => {
     const res = await request.get('/resume.pdf');
     expect(res.status()).toBe(200);
     expect(res.headers()['content-type']).toContain('pdf');
+
+    // The tab that opens must not be titled "resume.pdf". Safari and "Save as…"
+    // read the filename from Content-Disposition; Chrome/Firefox read the PDF's
+    // own /Title metadata, stored as a UTF-16BE hex string in the Info dict.
+    expect(res.headers()['content-disposition']).toBe(
+      'inline; filename="Paula Magdy - Resume.pdf"',
+    );
+    const hex = /\/Title<FEFF([0-9A-F]+)>/.exec((await res.body()).toString('latin1'));
+    expect(hex).not.toBeNull();
+    expect(Buffer.from(hex![1], 'hex').swap16().toString('utf16le')).toBe('Paula Magdy — Resume');
   });
 });
 

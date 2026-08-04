@@ -30,6 +30,20 @@ const nextConfig: NextConfig = {
           { key: 'Content-Signal', value: 'search=yes, ai-input=yes, ai-train=no' },
         ],
       },
+      {
+        // The resume opens in a new tab. Chrome/Firefox title that tab from the
+        // PDF's own /Title metadata ("Paula Magdy — Resume", embedded in the file);
+        // Safari and every "Save as…" dialog fall back to the filename instead,
+        // so name it here rather than letting them show "resume.pdf". `inline`
+        // keeps it rendering in the tab — it does not force a download.
+        source: '/resume.pdf',
+        headers: [
+          {
+            key: 'Content-Disposition',
+            value: 'inline; filename="Paula Magdy - Resume.pdf"',
+          },
+        ],
+      },
     ];
   },
   async redirects() {
