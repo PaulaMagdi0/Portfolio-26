@@ -65,7 +65,7 @@
       "company": "Challenge Group",
       "period": "2026",
       "blurb": "Public-facing submission and evaluation platform delivered for a government client, serving applicants, reviewers, and program operators. I contributed across the backend, data layer, and AWS delivery pipeline.",
-      "badge": "FULL-STACK · PUBLIC-FACING",
+      "badge": "FULL-STACK · PORTAL",
       "caseStudy": {
         "role": "Full-Stack Software Engineer · cross-functional delivery team",
         "overview": "A government client needed a public-facing platform to run a large-scale public program, with separate flows for applicants, reviewers, and program operators. It had to meet government security and availability requirements at 5,000+ concurrent users.",

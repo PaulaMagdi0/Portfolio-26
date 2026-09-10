@@ -115,7 +115,6 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
 
   const monogramChar = t(project.nameKey).trim().charAt(0) || project.id.charAt(0).toUpperCase();
   const [color1, color2, color3] = project.swatch;
-  const showImage = Boolean(project.image) && !imgError;
 
   return (
     <Reveal as="li" className="work-row group">
@@ -257,30 +256,35 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
                       className="absolute inset-0 flex items-center justify-center"
                       style={{ willChange: 'transform' }}
                     >
-                      <span className="text-ink/15 font-serif text-[80px] leading-none select-none md:text-[110px]">
+                      <span
+                        className="font-serif text-[80px] leading-none select-none md:text-[110px]"
+                        style={{ color: color3, opacity: 0.2 }}
+                      >
                         {monogramChar}
                       </span>
                     </div>
                   </>
                 )}
-                <div className="absolute inset-0 flex items-start justify-between p-3 font-mono text-[9px] tracking-[0.18em] uppercase">
-                  <span className={showImage ? 'text-white/80' : 'text-ink/40'}>{project.id}</span>
+                {/* The swatch gradient is always dark, so overlay text uses fixed light
+                    colours (and the card's own accent) rather than theme tokens, which
+                    would go dark-on-dark in light mode. */}
+                <div className="absolute inset-0 flex items-start justify-between gap-3 p-3 font-mono text-[9px] tracking-[0.18em] text-white/60 uppercase">
+                  <span className="hidden min-w-0 truncate lg:inline">{project.id}</span>
                   {isLive ? (
-                    <span className="bg-bg/40 flex items-center gap-1.5 rounded-sm border border-emerald-400/60 px-1.5 py-0.5 text-emerald-400 backdrop-blur-[2px]">
+                    <span className="ml-auto flex max-w-full shrink-0 items-center gap-1.5 truncate rounded-sm border border-emerald-400/60 bg-black/40 px-1.5 py-0.5 text-[8px] tracking-[0.06em] text-emerald-300 backdrop-blur-[2px] lg:text-[9px] lg:tracking-[0.12em]">
                       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                       {t(project.badgeKey)}
                     </span>
                   ) : (
-                    <span className="text-amber/90 border-amber/40 bg-bg/40 rounded-sm border px-1.5 py-0.5 backdrop-blur-[2px]">
+                    <span
+                      className="ml-auto max-w-full shrink-0 truncate rounded-sm border bg-black/40 px-1.5 py-0.5 text-[8px] tracking-[0.06em] backdrop-blur-[2px] lg:text-[9px] lg:tracking-[0.12em]"
+                      style={{ color: color3, borderColor: `${color3}80` }}
+                    >
                       {t(project.badgeKey)}
                     </span>
                   )}
                 </div>
-                <div
-                  className={`absolute inset-0 flex items-end justify-between p-3 font-mono text-[9px] tracking-[0.2em] uppercase ${
-                    showImage ? 'text-white/75' : 'text-ink/40'
-                  }`}
-                >
+                <div className="absolute inset-0 flex items-end justify-between p-3 font-mono text-[9px] tracking-[0.2em] text-white/60 uppercase">
                   <span>{project.kind}</span>
                   <span>
                     {indexLabel}/{totalLabel}
