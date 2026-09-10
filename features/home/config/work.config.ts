@@ -1,10 +1,193 @@
 import type { WorkProject } from '../types';
 
-// Intentionally empty. The Work section is commented out of app/[locale]/page.tsx,
-// and client project names — along with the government bodies and live government
-// URLs behind them — must not appear anywhere in the shipped output. Hiding the
-// section is not enough on its own: next-intl serializes the whole message dictionary
-// into the prerendered HTML, so the matching `home.work.<project>` entries were
-// removed from both locale files too.
-// The previous entries are in git history if the section is ever restored.
-export const WORK: readonly WorkProject[] = [] as const satisfies readonly WorkProject[];
+// Every entry is deliberately generic: no client, ministry, or programme names, no
+// live URLs, no screenshots. Titles describe the kind of platform; the copy describes
+// what the team's system does and what Paula contributed to it as a team member.
+// Keep it that way — next-intl serialises the whole message dictionary into the
+// prerendered HTML, so anything added under `home.work.*` ships even if a card is hidden.
+//
+// Ordering: newest year first; within a year, the largest-scope contribution first.
+export const WORK: readonly WorkProject[] = [
+  {
+    id: 'evaluation',
+    nameKey: 'home.work.evaluation.name',
+    companyKey: 'home.work.evaluation.company',
+    periodKey: 'home.work.evaluation.period',
+    blurbKey: 'home.work.evaluation.blurb',
+    highlights: [
+      { value: '5,000+', labelKey: 'home.work.highlight.users' },
+      { value: '−35%', labelKey: 'home.work.highlight.latency' },
+      { value: '<5 min', labelKey: 'home.work.highlight.deployTime' },
+    ],
+    stack: [
+      'Next.js',
+      'NestJS',
+      'PostgreSQL',
+      'Prisma ORM',
+      'AWS (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager, ECR, ECS, CodeBuild, CodePipeline, CloudWatch)',
+      'Docker',
+      'TypeScript',
+      'React',
+      'Vitest',
+      'React Testing Library',
+      'Playwright',
+    ],
+    swatch: ['#1a1410', '#3a2a18', '#d4a574'],
+    kind: 'private',
+    badgeKey: 'home.work.evaluation.badge',
+    caseStudy: {
+      roleKey: 'home.work.evaluation.caseStudy.role',
+      overviewKey: 'home.work.evaluation.caseStudy.overview',
+      systemKey: 'home.work.evaluation.caseStudy.system',
+      contributionsKey: 'home.work.evaluation.caseStudy.contributions',
+    },
+  },
+  {
+    id: 'legal',
+    nameKey: 'home.work.legal.name',
+    companyKey: 'home.work.legal.company',
+    periodKey: 'home.work.legal.period',
+    blurbKey: 'home.work.legal.blurb',
+    highlights: [
+      { value: 'Laravel', labelKey: 'home.work.highlight.apiFirst' },
+      { value: 'Paymob', labelKey: 'home.work.highlight.wallet' },
+      { value: 'EN/AR', labelKey: 'home.work.highlight.bilingual' },
+    ],
+    // The row shows the first six chips, so lead with what the blurb sells.
+    stack: [
+      'Laravel',
+      'MySQL',
+      'Redis',
+      'WebSockets (Laravel Reverb)',
+      'Paymob',
+      'Filament (Livewire)',
+      'PHP',
+      'Sanctum',
+      'Twilio',
+      'AWS S3',
+      'Firebase Cloud Messaging',
+      'Pest',
+      'PHPUnit',
+    ],
+    swatch: ['#17100e', '#2e1d18', '#c8996a'],
+    kind: 'private',
+    badgeKey: 'home.work.legal.badge',
+    caseStudy: {
+      roleKey: 'home.work.legal.caseStudy.role',
+      overviewKey: 'home.work.legal.caseStudy.overview',
+      systemKey: 'home.work.legal.caseStudy.system',
+      contributionsKey: 'home.work.legal.caseStudy.contributions',
+    },
+  },
+  {
+    id: 'mobile-api',
+    nameKey: 'home.work.mobileApi.name',
+    companyKey: 'home.work.mobileApi.company',
+    periodKey: 'home.work.mobileApi.period',
+    blurbKey: 'home.work.mobileApi.blurb',
+    highlights: [
+      { value: 'Laravel', labelKey: 'home.work.highlight.restApi' },
+      { value: 'MySQL', labelKey: 'home.work.highlight.rds' },
+      { value: 'CloudWatch', labelKey: 'home.work.highlight.monitoring' },
+    ],
+    stack: [
+      'Laravel',
+      'PHP',
+      'MySQL',
+      'AWS (ECS, ECR, RDS, ALB, VPC, S3, CloudFront, IAM, Secrets Manager, CodeBuild, CodePipeline, CloudWatch)',
+      'Docker',
+      'CI/CD',
+    ],
+    swatch: ['#11171a', '#1c2a32', '#7ea7b8'],
+    kind: 'private',
+    badgeKey: 'home.work.mobileApi.badge',
+    caseStudy: {
+      roleKey: 'home.work.mobileApi.caseStudy.role',
+      overviewKey: 'home.work.mobileApi.caseStudy.overview',
+      systemKey: 'home.work.mobileApi.caseStudy.system',
+      contributionsKey: 'home.work.mobileApi.caseStudy.contributions',
+    },
+  },
+  {
+    id: 'azure-delivery',
+    nameKey: 'home.work.azureDelivery.name',
+    companyKey: 'home.work.azureDelivery.company',
+    periodKey: 'home.work.azureDelivery.period',
+    blurbKey: 'home.work.azureDelivery.blurb',
+    highlights: [
+      { value: 'APIM', labelKey: 'home.work.highlight.gateway' },
+      { value: 'Azure', labelKey: 'home.work.highlight.provisioning' },
+      { value: 'CI/CD', labelKey: 'home.work.highlight.pipelines' },
+    ],
+    stack: ['Microsoft Azure', 'Azure API Management', 'Azure DevOps', 'CI/CD'],
+    swatch: ['#0f1116', '#1a1d2a', '#c1b5d6'],
+    kind: 'private',
+    badgeKey: 'home.work.azureDelivery.badge',
+    caseStudy: {
+      roleKey: 'home.work.azureDelivery.caseStudy.role',
+      overviewKey: 'home.work.azureDelivery.caseStudy.overview',
+      systemKey: 'home.work.azureDelivery.caseStudy.system',
+      contributionsKey: 'home.work.azureDelivery.caseStudy.contributions',
+    },
+  },
+  {
+    id: 'scoring',
+    nameKey: 'home.work.scoring.name',
+    companyKey: 'home.work.scoring.company',
+    periodKey: 'home.work.scoring.period',
+    blurbKey: 'home.work.scoring.blurb',
+    highlights: [
+      { value: 'NestJS', labelKey: 'home.work.highlight.rulesEngine' },
+      { value: 'WebSockets', labelKey: 'home.work.highlight.leaderboards' },
+      { value: 'Prisma', labelKey: 'home.work.highlight.dataLayer' },
+    ],
+    stack: [
+      'Next.js',
+      'NestJS',
+      'PostgreSQL',
+      'Prisma ORM',
+      'WebSockets',
+      'Docker',
+      'React',
+      'TypeScript',
+    ],
+    swatch: ['#10130f', '#1c2a1a', '#a8c190'],
+    kind: 'private',
+    badgeKey: 'home.work.scoring.badge',
+    caseStudy: {
+      roleKey: 'home.work.scoring.caseStudy.role',
+      overviewKey: 'home.work.scoring.caseStudy.overview',
+      systemKey: 'home.work.scoring.caseStudy.system',
+      contributionsKey: 'home.work.scoring.caseStudy.contributions',
+    },
+  },
+  {
+    id: 'support-bot',
+    nameKey: 'home.work.supportBot.name',
+    companyKey: 'home.work.supportBot.company',
+    periodKey: 'home.work.supportBot.period',
+    blurbKey: 'home.work.supportBot.blurb',
+    highlights: [
+      { value: 'Lex', labelKey: 'home.work.highlight.intents' },
+      { value: 'Lambda', labelKey: 'home.work.highlight.orchestration' },
+      { value: 'Twilio', labelKey: 'home.work.highlight.channel' },
+    ],
+    stack: [
+      'Python',
+      'AWS Lambda',
+      'Amazon Lex',
+      'Twilio API',
+      'AWS Secrets Manager',
+      'Amazon CloudWatch',
+    ],
+    swatch: ['#0f1316', '#1a2330', '#88a6d4'],
+    kind: 'private',
+    badgeKey: 'home.work.supportBot.badge',
+    caseStudy: {
+      roleKey: 'home.work.supportBot.caseStudy.role',
+      overviewKey: 'home.work.supportBot.caseStudy.overview',
+      systemKey: 'home.work.supportBot.caseStudy.system',
+      contributionsKey: 'home.work.supportBot.caseStudy.contributions',
+    },
+  },
+] as const satisfies readonly WorkProject[];

@@ -2,7 +2,7 @@ import { SITE_URL } from '@/core/seo/config/site.config';
 import type { Locale } from '@/i18n/config';
 import enPages from '../translations/en/pages.json';
 import arPages from '../translations/ar/pages.json';
-// import { WORK } from '../config/work.config'; // see the disabled work block below
+import { WORK } from '../config/work.config';
 import { EXPERIENCE } from '../config/experience.config';
 import { CERTIFICATIONS } from '../config/certifications.config';
 import { STACK } from '../config/stack.config';
@@ -35,14 +35,13 @@ function resolve(messages: Messages, key: string): string {
   return typeof current === 'string' ? current : '';
 }
 
-// Used only by the disabled work block below.
-// /** Split a "·"-separated contributions string into individual bullet lines. */
-// function toBullets(text: string): string[] {
-//   return text
-//     .split(/\s*·\s*/)
-//     .map((item) => item.trim())
-//     .filter(Boolean);
-// }
+/** Split a "·"-separated contributions string into individual bullet lines. */
+function toBullets(text: string): string[] {
+  return text
+    .split(/\s*·\s*/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
 
 function join(...parts: (string | undefined)[]): string {
   return parts.filter(Boolean).join(' · ');
@@ -69,12 +68,9 @@ export function buildHomeMarkdown(locale: Locale): string {
     ].join('\n'),
   );
 
-  // --- Selected work (disabled) ---
-  // The Work section is commented out of app/[locale]/page.tsx and the résumé no
-  // longer lists named client projects, so this Markdown mirror omits it too —
-  // otherwise agents would still be told Paula solely owned platforms the résumé
-  // now frames as cross-functional team delivery. Restore alongside <Work />.
-  /*
+  // --- Selected work ---
+  // Mirrors <Work />: generic project titles, team-contribution framing, no client
+  // names or live URLs. Anything written to `home.work.*` is served to agents here.
   const work = WORK.map((p) => {
     const lines = [
       `### ${t(p.nameKey)}`,
@@ -83,19 +79,19 @@ export function buildHomeMarkdown(locale: Locale): string {
       `> ${t(p.blurbKey)}`,
       '',
       `- **${m.work.caseStudy.role}:** ${t(p.caseStudy.roleKey)}`,
-      `- **${m.work.caseStudy.problem}:** ${t(p.caseStudy.problemKey)}`,
-      `- **${m.work.caseStudy.architecture}:** ${t(p.caseStudy.architectureKey)}`,
+      `- **${m.work.caseStudy.overview}:** ${t(p.caseStudy.overviewKey)}`,
+      `- **${m.work.caseStudy.system}:** ${t(p.caseStudy.systemKey)}`,
     ];
     const contributions = toBullets(t(p.caseStudy.contributionsKey));
     if (contributions.length) {
       lines.push(`- **${m.work.caseStudy.contributions}:**`);
       lines.push(...contributions.map((c) => `  - ${c}`));
     }
-    if (p.metrics.length) {
-      const metrics = p.metrics
-        .map((metric) => `${metric.value} ${t(metric.labelKey)}`)
+    if (p.highlights.length) {
+      const highlights = p.highlights
+        .map((highlight) => `${highlight.value} ${t(highlight.labelKey)}`)
         .join(' · ');
-      lines.push(`- **Metrics:** ${metrics}`);
+      lines.push(`- **${m.work.caseStudy.highlights}:** ${highlights}`);
     }
     if (p.stack.length) {
       lines.push(`- **${m.work.caseStudy.stack}:** ${p.stack.join(', ')}`);
@@ -103,7 +99,6 @@ export function buildHomeMarkdown(locale: Locale): string {
     return lines.join('\n');
   }).join('\n\n');
   blocks.push(`## ${m.work.label}\n\n${work}`);
-  */
 
   // --- Experience ---
   const experience = EXPERIENCE.map((role) => {

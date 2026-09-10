@@ -11,9 +11,20 @@ describe('buildHomeMarkdown', () => {
     expect(en).toContain('/en');
   });
 
-  it('omits the work section, mirroring the disabled <Work /> on the page', () => {
-    expect(en).not.toContain('## SELECTED WORK');
-    expect(en).not.toContain('**PROBLEM:**');
+  it('renders generic work projects with role, contribution bullets, highlights, and stack', () => {
+    expect(en).toContain('## SELECTED WORK');
+    expect(en).toContain('### Submission & Evaluation Platform');
+    expect(en).toContain('### Legal Services Marketplace Platform');
+    expect(en).toContain('- **MY ROLE:**');
+    expect(en).toContain('- **MY CONTRIBUTION:**');
+    expect(en).toContain('5,000+ concurrent users');
+    expect(en).toContain('NestJS');
+  });
+
+  it('keeps the work section free of live links and ownership claims', () => {
+    const work = en.slice(en.indexOf('## SELECTED WORK'), en.indexOf('## EXPERIENCE'));
+    expect(work).not.toMatch(/https?:\/\//);
+    expect(work).not.toMatch(/end-to-end|\bowned\b|\bled\b/i);
   });
 
   it('renders experience, education, and certifications with credential IDs', () => {

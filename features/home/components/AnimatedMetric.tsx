@@ -8,25 +8,39 @@ interface ParsedMetric {
   prefix: string;
   number: number | null;
   suffix: string;
+  /** The source value used thousands separators ("5,000+"), so the counter keeps them. */
+  grouped: boolean;
 }
 
+const STATIC: Omit<ParsedMetric, 'prefix'> = { number: null, suffix: '', grouped: false };
+
 function parseMetric(v: string): ParsedMetric {
-  const match = v.match(/^([^\d−\-+]*)([−\-+]?\d+(?:\.\d+)?)(.*)$/);
-  if (!match) return { prefix: v, number: null, suffix: '' };
-  const numStr = match[2]!.replace('−', '-');
-  const num = Number.parseFloat(numStr);
+  // Comparator values ("<5 min", ">99%") must not count up from zero: every
+  // intermediate frame ("<0 min", "<3 min") would be a false claim. Render static.
+  if (/^\s*[<>~≈]/.test(v)) return { prefix: v, ...STATIC };
+  const match = v.match(/^([^\d−\-+]*)([−\-+]?\d[\d,]*(?:\.\d+)?)(.*)$/);
+  if (!match) return { prefix: v, ...STATIC };
+  const raw = match[2]!;
+  const num = Number.parseFloat(raw.replace('−', '-').replace(/,/g, ''));
   return {
     prefix: match[1]!,
     number: Number.isFinite(num) ? num : null,
     suffix: match[3]!,
+    grouped: raw.includes(','),
   };
 }
 
 function formatMetric(p: ParsedMetric, current: number): string {
   if (p.number === null) return p.prefix;
   const isNegative = p.number < 0;
-  const decimals = Math.abs(p.number) % 1 !== 0 ? 1 : 0;
-  const displayed = Math.abs(current).toFixed(decimals);
+  const abs = Math.abs(current);
+  let displayed: string;
+  if (p.grouped) {
+    displayed = Math.round(abs).toLocaleString('en-US');
+  } else {
+    const decimals = Math.abs(p.number) % 1 !== 0 ? 1 : 0;
+    displayed = abs.toFixed(decimals);
+  }
   return `${p.prefix}${isNegative ? '−' : ''}${displayed}${p.suffix}`;
 }
 
@@ -79,5 +93,11 @@ export function AnimatedMetric({ value, durationMs = 1600 }: AnimatedMetricProps
     return () => observer.disconnect();
   }, [durationMs, parsed.number, value]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <span ref={ref}>{text}</span>;
+  // dir="ltr": in the RTL locale a leading "<" is a mirrored character and would
+  // render as ">" (inverting "<5 min" into "more than 5 min"). Isolate the value.
+  return (
+    <span ref={ref} dir="ltr">
+      {text}
+    </span>
+  );
 }

@@ -184,7 +184,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-x-6 gap-y-2 self-start md:col-span-3 md:grid-cols-1">
-          {project.metrics.map((m) => (
+          {project.highlights.map((m) => (
             <div
               key={m.labelKey}
               className="flex flex-col gap-1 md:flex-row md:items-baseline md:gap-3"

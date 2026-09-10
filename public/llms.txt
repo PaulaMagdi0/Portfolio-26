@@ -16,7 +16,7 @@ HCCDP-Solution Architectures and HCCDA-Tech Essentials certified.
 ## Site
 - Home (English): https://paulamagdy.com/en
 - Home (Arabic):  https://paulamagdy.com/ar
-- Sections: Hero, Experience, Education, Certifications, Stack, FAQ, Contact
+- Sections: Hero, Work, Experience, Education, Certifications, Stack, FAQ, Contact
 
 ## Links
 - GitHub:   https://github.com/PaulaMagdi0

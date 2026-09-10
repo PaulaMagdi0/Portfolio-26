@@ -1,12 +1,13 @@
-export interface WorkMetric {
+export interface WorkHighlight {
+  /** Short display value — a number ("5,000+", "−35%") or a technology name ("Laravel"). */
   value: string;
   labelKey: string;
 }
 
 export interface WorkCaseStudy {
   roleKey: string;
-  problemKey: string;
-  architectureKey: string;
+  overviewKey: string;
+  systemKey: string;
   contributionsKey: string;
 }
 
@@ -18,7 +19,8 @@ export interface WorkProject {
   companyKey: string;
   periodKey: string;
   blurbKey: string;
-  metrics: readonly WorkMetric[];
+  /** Up to three scannable facts shown on the row and in the drawer. May be empty. */
+  highlights: readonly WorkHighlight[];
   stack: readonly string[];
   /** Optional screenshot in `/public`. When absent, the gradient/monogram card renders. */
   image?: string;

@@ -1,6 +1,6 @@
 // --- Types ---
 export type {
-  WorkMetric,
+  WorkHighlight,
   WorkCaseStudy,
   WorkKind,
   WorkProject,

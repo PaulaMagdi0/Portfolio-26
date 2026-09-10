@@ -104,11 +104,11 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
               <CSBlock label={t('home.work.caseStudy.role')} delay={0.28}>
                 <p className="text-inkdim">{t(project.caseStudy.roleKey)}</p>
               </CSBlock>
-              <CSBlock label={t('home.work.caseStudy.problem')} delay={0.36}>
-                <p className="text-inkdim">{t(project.caseStudy.problemKey)}</p>
+              <CSBlock label={t('home.work.caseStudy.overview')} delay={0.36}>
+                <p className="text-inkdim">{t(project.caseStudy.overviewKey)}</p>
               </CSBlock>
-              <CSBlock label={t('home.work.caseStudy.architecture')} delay={0.44}>
-                <p className="text-inkdim">{t(project.caseStudy.architectureKey)}</p>
+              <CSBlock label={t('home.work.caseStudy.system')} delay={0.44}>
+                <p className="text-inkdim">{t(project.caseStudy.systemKey)}</p>
               </CSBlock>
               <CSBlock label={t('home.work.caseStudy.contributions')} delay={0.52}>
                 <ul className="text-inkdim space-y-3">
@@ -142,29 +142,31 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
                     ))}
                 </ul>
               </CSBlock>
-              <CSBlock label={t('home.work.caseStudy.outcomes')} delay={0.6}>
-                <div className="grid grid-cols-3 gap-4">
-                  {project.metrics.map((m, i) => (
-                    <motion.div
-                      key={m.labelKey}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.55,
-                        delay: 0.68 + i * 0.08,
-                        ease: [0.2, 0.7, 0.2, 1],
-                      }}
-                    >
-                      <span className="text-ink mb-1 block font-serif text-[24px] leading-none tabular-nums md:text-[30px]">
-                        <AnimatedMetric value={m.value} />
-                      </span>
-                      <span className="text-inkmute font-mono text-[10px] tracking-[0.08em] uppercase">
-                        {t(m.labelKey)}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-              </CSBlock>
+              {project.highlights.length > 0 ? (
+                <CSBlock label={t('home.work.caseStudy.highlights')} delay={0.6}>
+                  <div className="grid grid-cols-3 gap-4">
+                    {project.highlights.map((m, i) => (
+                      <motion.div
+                        key={m.labelKey}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.55,
+                          delay: 0.68 + i * 0.08,
+                          ease: [0.2, 0.7, 0.2, 1],
+                        }}
+                      >
+                        <span className="text-ink mb-1 block font-serif text-[24px] leading-none tabular-nums md:text-[30px]">
+                          <AnimatedMetric value={m.value} />
+                        </span>
+                        <span className="text-inkmute font-mono text-[10px] tracking-[0.08em] uppercase">
+                          {t(m.labelKey)}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </CSBlock>
+              ) : null}
               <CSBlock label={t('home.work.caseStudy.stack')} delay={0.7} last>
                 <div className="flex flex-wrap gap-1.5">
                   {project.stack.map((tag, i) => (

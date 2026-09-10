@@ -43,15 +43,15 @@ const project: WorkProject = {
   companyKey: 'home.work.test.company',
   periodKey: 'home.work.test.period',
   blurbKey: 'home.work.test.blurb',
-  metrics: [],
+  highlights: [],
   stack: [],
   swatch: ['#000', '#111', '#222'],
   kind: 'private',
   badgeKey: 'home.work.test.badge',
   caseStudy: {
     roleKey: 'home.work.test.cs.role',
-    problemKey: 'home.work.test.cs.problem',
-    architectureKey: 'home.work.test.cs.architecture',
+    overviewKey: 'home.work.test.cs.overview',
+    systemKey: 'home.work.test.cs.system',
     contributionsKey: 'home.work.test.cs.contributions',
   },
 };

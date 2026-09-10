@@ -110,9 +110,24 @@ test.describe.serial('full app verification', () => {
     await shot(page, '06-ar-full', true);
   });
 
-  // The Work section is disabled (see app/[locale]/page.tsx) and its project data has
-  // been removed, so the former test 6 — which opened a case-study drawer by project
-  // name — no longer has anything to drive. Numbering below is left as-is.
+  test('6. Work section: case-study drawer opens on a project row, Escape closes', async ({
+    page,
+  }) => {
+    attachListeners(page, 'drawer');
+    await page.goto('/en');
+    await page.waitForSelector('html.loaded', { timeout: 15_000 }).catch(() => {});
+    await page.waitForLoadState('networkidle');
+    await page.locator('#work').scrollIntoViewIfNeeded();
+    await shot(page, '07-work-section');
+    // Every project is a private case study (no live links), so the row is a
+    // role="button" whose accessible name includes the generic project title.
+    const row = page.getByRole('button', { name: /Mobile Application Backend/i });
+    await row.first().click();
+    await expect(page.getByRole('dialog')).toBeVisible({ timeout: 4000 });
+    await shot(page, '08-drawer-open');
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('dialog')).toBeHidden({ timeout: 2000 });
+  });
 
   test('7. Contact form validates and shows error alerts', async ({ page }) => {
     attachListeners(page, 'contact-invalid');
