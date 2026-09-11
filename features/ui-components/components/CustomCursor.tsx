@@ -39,6 +39,12 @@ export function CustomCursor() {
       running = true;
       rafId = requestAnimationFrame(tick);
     };
+    // Place the ring/dot once at their initial (centre) position: the loop no longer
+    // runs before the first pointer move, so without this they sit at the origin.
+    if (ringRef.current)
+      ringRef.current.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+    if (dotRef.current)
+      dotRef.current.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;

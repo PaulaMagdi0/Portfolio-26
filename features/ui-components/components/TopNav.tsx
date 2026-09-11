@@ -122,15 +122,15 @@ export function TopNav() {
           scrolled ? 'border-line bg-bg/70 border-b backdrop-blur-md' : 'border-transparent',
         )}
       >
-        <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6 md:px-10">
+        <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-8 px-6 md:px-10 xl:max-w-[1360px] 2xl:max-w-[1480px]">
           <a href="#top" className="flex items-baseline gap-3">
             <span className="text-ink font-serif text-[20px]">{tBrand('name')}</span>
-            <span className="text-inkmute hidden font-mono text-[12px] md:inline">
+            <span className="text-inkmute hidden font-mono text-[12px] xl:inline">
               — {t('cairo')}
             </span>
           </a>
 
-          <ul className="hidden items-center gap-7 md:flex">
+          <ul className="hidden items-center gap-6 lg:flex xl:gap-8 2xl:gap-10">
             {SECTIONS.map((id, i) => {
               const isActive = active === id;
               return (
@@ -144,7 +144,7 @@ export function TopNav() {
                   >
                     <span
                       className={cn(
-                        'font-mono text-[10px]',
+                        'hidden font-mono text-[10px] xl:inline',
                         isActive ? 'text-amber' : 'text-inkmute',
                       )}
                     >
@@ -164,8 +164,8 @@ export function TopNav() {
             })}
           </ul>
 
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:inline">
+          <div className="flex items-center gap-3 lg:gap-4 xl:gap-5">
+            <span className="hidden xl:inline">
               <LiveClock />
             </span>
             <LocaleSwitcher />
@@ -177,7 +177,7 @@ export function TopNav() {
               aria-controls="mobile-menu"
               aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
               onClick={() => setMenuOpen((v) => !v)}
-              className="relative flex h-10 w-10 items-center justify-center rounded-full border border-transparent transition-colors md:hidden"
+              className="relative flex h-10 w-10 items-center justify-center rounded-full border border-transparent transition-colors lg:hidden"
             >
               <span
                 aria-hidden
@@ -200,7 +200,7 @@ export function TopNav() {
         aria-label={t('mobileMenu')}
         inert={!menuOpen}
         className={cn(
-          'bg-bg fixed inset-0 z-[300] transition-opacity duration-300 md:hidden',
+          'bg-bg fixed inset-0 z-[300] transition-opacity duration-300 lg:hidden',
           menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
         onClick={(e) => {
