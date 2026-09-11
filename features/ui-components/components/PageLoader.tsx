@@ -69,11 +69,19 @@ export function PageLoader() {
     };
     apply();
 
-    const tick = () => {
+    // Time-based, not frame-based: the old easing needed ~65 frames to reach 100%,
+    // which under a throttled CPU (Lighthouse mobile, low-end phones) stretched the
+    // curtain — and therefore the hero's LCP — to 3s+. Now it reaches 92% by
+    // PROGRESS_MS regardless of frame rate and completes as soon as fonts are in.
+    const PROGRESS_MS = 900;
+    const startedAt = performance.now();
+    const tick = (now: number) => {
       if (cancelled) return;
       const target = fontsReady ? 100 : 92;
-      const step = (target - pct) * 0.06 + 0.3;
-      pct = Math.min(target, pct + step);
+      const t = Math.min(1, (now - startedAt) / PROGRESS_MS);
+      const eased = 1 - Math.pow(1 - t, 3);
+      pct = Math.max(pct, Math.min(target, eased * 100));
+      if (fontsReady && pct < 100) pct = Math.min(100, pct + 4);
       apply();
       if (pct < 100) {
         rafId = requestAnimationFrame(tick);
