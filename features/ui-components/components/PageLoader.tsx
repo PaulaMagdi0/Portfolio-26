@@ -86,19 +86,25 @@ export function PageLoader() {
           } catch {
             /* sessionStorage unavailable */
           }
-          // The CSS clip-path curtain wipe runs 1.1s once `html.loaded` is set
+          // The CSS clip-path curtain wipe runs 0.8s once `html.loaded` is set
           // (see globals.css #page-loader transition). Keep the element mounted
           // through the transition; unmounting React-side too early kills it.
           setTimeout(() => {
             if (!cancelled) setDone(true);
-          }, 1200);
-        }, 280);
+          }, 900);
+        }, 150);
       }
     };
     rafId = requestAnimationFrame(tick);
 
-    const fontsPromise = document.fonts?.ready ?? Promise.resolve();
-    Promise.all([fontsPromise, new Promise((r) => setTimeout(r, 600))]).then(() => {
+    // Wait for fonts so the reveal doesn't flash fallback glyphs, but cap the wait:
+    // the curtain hides the hero (the LCP element) for as long as it is up, and the
+    // Arabic locale ships ~200 KB of fonts that should not hold it hostage.
+    const fontsPromise = Promise.race([
+      document.fonts?.ready ?? Promise.resolve(),
+      new Promise((r) => setTimeout(r, 800)),
+    ]);
+    Promise.all([fontsPromise, new Promise((r) => setTimeout(r, 500))]).then(() => {
       fontsReady = true;
     });
 
