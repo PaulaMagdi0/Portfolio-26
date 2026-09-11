@@ -81,6 +81,10 @@ jobs:
         run: pnpm exec playwright test --project=chromium
         env:
           NEXT_PUBLIC_SITE_URL: https://paulamagdy.com
+          # The success-path specs route-mock api.web3forms.com, but the client bundle
+          # still needs a non-empty key inlined at build time or the form short-circuits
+          # to its error banner before any request is made. Placeholder, never sent.
+          NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY: e2e-placeholder-key
 
       - name: Upload Playwright report on failure
         if: failure()
