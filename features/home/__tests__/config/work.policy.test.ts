@@ -37,6 +37,9 @@ const EN_FORBIDDEN =
   /end[- ]to[- ]end|\bowned\b|\bownership\b|\bsole\b|\bI led\b|\bled the\b|single-handed|ministry|https?:\/\/|\.gov\b|\.ae\b|\.eg\b/i;
 const AR_FORBIDDEN = /الألف إلى الياء|ملكية|قيادة|قائد|قدتُ|وزارة|بالكامل|https?:\/\//;
 
+// Delivered independently (per the résumé): the one card allowed to omit team framing.
+const SOLO_PROJECTS = new Set(['azure-delivery']);
+
 // Metrics that were deliberately dropped because nothing on the current site
 // corroborates them. Only ~35% and the ~20 min → <5 deploy figure are sanctioned.
 const DROPPED_METRICS = /\b(25|30|40|50|60|80)\s?%|(٢٥|٣٠|٤٠|٥٠|٦٠|٨٠)\s?٪/;
@@ -143,6 +146,7 @@ describe('Work copy policy', () => {
 
   it('frames every project as team work in both locales', () => {
     for (const project of WORK) {
+      if (SOLO_PROJECTS.has(project.id)) continue;
       const enText = [
         project.blurbKey,
         project.caseStudy.roleKey,

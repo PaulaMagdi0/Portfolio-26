@@ -129,13 +129,13 @@
       "name": "Azure Infrastructure & API Gateway",
       "company": "Challenge Group",
       "period": "2026",
-      "blurb": "Azure infrastructure, API gateway, and release pipelines for a client-facing application. I worked on infrastructure provisioning and API Management configuration with the DevOps team.",
+      "blurb": "Azure infrastructure, API gateway, and release pipelines for a client-facing application. I independently provisioned the Azure infrastructure, configured API Management as the API gateway, and set up the release pipelines.",
       "badge": "CLOUD · DEVOPS",
       "caseStudy": {
-        "role": "Cloud & DevOps Engineer · DevOps team",
+        "role": "Cloud & DevOps Engineer · independent delivery",
         "overview": "A client-facing application needed Azure infrastructure in place, an API gateway fronting its services, and a release process the team could trust before going to production.",
         "system": "Azure compute and storage, Azure API Management fronting the service surface, and release pipelines through Azure DevOps with environment gates.",
-        "contributions": "Contributed to the Azure infrastructure layout — subscriptions, networking, identity, and policy — with the DevOps team. · Configured Azure API Management: routing, throttling, and key management for the platform's APIs. · Contributed to the release pipelines and environment gates that moved the application from staging to production."
+        "contributions": "Provisioned the Azure infrastructure layout — subscriptions, networking, identity, and policy. · Configured Azure API Management: routing, throttling, and key management for the platform's APIs. · Set up the release pipelines and environment gates that moved the application from staging to production."
       }
     }
   },
@@ -144,23 +144,23 @@
     "heading1": "Roles",
     "heading2": "& tenure.",
     "r1": {
-      "period": "Oct 2025 — Present",
+      "period": "Jun 2025 — Present",
       "role": "Full-Stack Software Engineer",
       "company": "Challenge Group",
       "location": "Cairo, Egypt",
       "b1": "Challenge Group is an AWS/Huawei Cloud partner delivering production platforms for government and enterprise clients across Egypt, KSA, and the UAE. Contributed to multiple production platforms as part of cross-functional Agile delivery teams.",
       "b2": "Developed backend services for government and enterprise platforms serving 5,000+ concurrent users — domain-driven NestJS modules and Laravel APIs over PostgreSQL/Prisma and MySQL — applying targeted indexing and query tuning that cut API latency by ~35% under production load.",
-      "b3": "Hardened API layers alongside the backend team with Sanctum/JWT authentication, RBAC, attribute-based routing, self-validating DTOs, and structured request validation across multiple products.",
-      "b4": "Implemented transactional product workflows, including a request-and-bid marketplace flow with escalation handling and an in-app wallet supporting Paymob payments and withdrawals.",
-      "b5": "Delivered real-time and messaging capabilities with the feature team: WebSocket chat (Laravel Reverb), voice/SMS via Twilio, FCM push notifications, S3-backed media storage, and bilingual (EN/AR) content.",
-      "b6": "Contributed Next.js/React interfaces — onboarding and results-entry flows, role-based admin panels (Filament/Livewire), and live-updating leaderboards — to a shared, responsive component set maintained across the team.",
-      "b7": "Provisioned and maintained cloud infrastructure with the DevOps team on AWS (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) and Azure (API Management).",
-      "b8": "Helped move the team to container-first CI/CD — Docker → ECR → ECS via CodeBuild/CodePipeline — reducing deployment time from ~20 minutes to under 5.",
-      "b9": "Automated customer-support conversations with a serverless Amazon Lex chatbot on AWS Lambda, integrated with Twilio, cutting manual triage for the support team.",
-      "b10": "Instrumented services with CloudWatch monitoring and structured logging, and maintained automated test coverage with Pest, PHPUnit, Jest, and Vitest."
+      "b3": "Moved deployments to container-first CI/CD — Docker → ECR → ECS via CodeBuild/CodePipeline — cutting deployment time from ~20 minutes to under 5.",
+      "b4": "Built the request-and-bid marketplace flow with escalation handling and an in-app wallet on Paymob, letting users pay and withdraw funds without leaving the platform.",
+      "b5": "Delivered real-time and messaging features — WebSocket chat (Laravel Reverb), voice/SMS via Twilio, FCM push notifications, and S3-backed media storage — giving users live chat, calls, and alerts in Arabic and English.",
+      "b6": "Hardened API layers across multiple products with Sanctum/JWT authentication, RBAC, attribute-based routing, and self-validating DTOs, rejecting unauthorized and malformed requests before they reached business logic.",
+      "b7": "Provisioned and maintained AWS infrastructure (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) for 5+ production environments, and independently designed and ran the Azure API Management layer.",
+      "b8": "Instrumented services with CloudWatch monitoring and structured logging, and maintained automated test coverage (Pest, PHPUnit, Jest, Vitest) that runs in CI to catch regressions before release.",
+      "b9": "Built Next.js/React interfaces — onboarding and results-entry flows, role-based admin panels (Filament/Livewire), and live-updating leaderboards — on a shared, responsive component set reused across products.",
+      "b10": "Independently designed, built, and shipped a serverless Amazon Lex chatbot on AWS Lambda, integrated with Twilio, automating customer-support conversations and cutting the manual triage load on the support team."
     },
     "r2": {
-      "period": "Nov 2024 — Jun 2025",
+      "period": "Oct 2024 — Jun 2025",
       "role": "Full-Stack Engineer",
       "company": "Information Technology Institute (ITI)",
       "location": "Cairo, Egypt",
@@ -170,7 +170,7 @@
       "b4": "Containerized services with Docker and deployed to AWS, applying system-design fundamentals and working in Agile sprints from design through delivery."
     },
     "r3": {
-      "period": "Oct 2022 — Oct 2024",
+      "period": "Oct 2023 — Oct 2024",
       "role": "Front-End Developer",
       "company": "Freelance",
       "location": "Cairo, Egypt",
