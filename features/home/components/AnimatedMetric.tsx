@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useLocale } from 'next-intl';
-import { toLocaleDigits } from '@/lib/digits';
 
 interface ParsedMetric {
   prefix: string;
@@ -51,20 +49,17 @@ interface AnimatedMetricProps {
 
 export function AnimatedMetric({ value, durationMs = 1600 }: AnimatedMetricProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const locale = useLocale();
   const parsed = parseMetric(value);
   const [text, setText] = useState(parsed.number === null ? value : formatMetric(parsed, 0));
 
   useEffect(() => {
     if (parsed.number === null) {
-      requestAnimationFrame(() => setText(toLocaleDigits(value, locale)));
+      requestAnimationFrame(() => setText(value));
       return;
     }
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) {
-      requestAnimationFrame(() =>
-        setText(toLocaleDigits(formatMetric(parsed, parsed.number!), locale)),
-      );
+      requestAnimationFrame(() => setText(formatMetric(parsed, parsed.number!)));
       return;
     }
 
@@ -80,7 +75,7 @@ export function AnimatedMetric({ value, durationMs = 1600 }: AnimatedMetricProps
           // ease-out cubic
           const eased = 1 - Math.pow(1 - t, 3);
           const current = parsed.number! * eased;
-          setText(toLocaleDigits(formatMetric(parsed, current), locale));
+          setText(formatMetric(parsed, current));
           if (t < 1) rafId = requestAnimationFrame(tick);
         };
         rafId = requestAnimationFrame(tick);
@@ -92,6 +87,9 @@ export function AnimatedMetric({ value, durationMs = 1600 }: AnimatedMetricProps
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [durationMs, parsed.number, value]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Values keep Western digits in every locale: the Arabic prose around them
+  // (labels, case-study text, Experience bullets) uses Western digits too.
 
   // dir="ltr": in the RTL locale a leading "<" is a mirrored character and would
   // render as ">" (inverting "<5 min" into "more than 5 min"). Isolate the value.

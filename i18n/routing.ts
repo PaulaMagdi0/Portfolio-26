@@ -6,6 +6,9 @@ export const routing = defineRouting({
   locales: SUPPORTED_LOCALES,
   defaultLocale: DEFAULT_LOCALE,
   localePrefix: 'always',
+  // generateMetadata already emits canonical + hreflang <link> tags with x-default → /en.
+  // next-intl's default Link header pointed x-default at '/', contradicting them.
+  alternateLinks: false,
 });
 
 export const { Link, redirect, usePathname, useRouter, getPathname } = createNavigation(routing);

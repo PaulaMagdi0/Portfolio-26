@@ -1,6 +1,10 @@
 {
-  "a11y": { "skipToContent": "Skip to content" },
-  "availability": { "label": "Available for full-stack engineering roles" },
+  "a11y": {
+    "skipToContent": "Skip to content"
+  },
+  "availability": {
+    "label": "Available for full-stack engineering roles"
+  },
   "loader": {
     "initializing": "INITIALIZING",
     "loadingAssets": "LOADING ASSETS",
@@ -14,6 +18,7 @@
     "cairo": "Cairo, EG",
     "work": "Work",
     "experience": "Experience",
+    "education": "Education",
     "certifications": "Certifications",
     "stack": "Stack",
     "faq": "FAQ",

@@ -1,19 +1,24 @@
 {
-  "a11y": { "skipToContent": "تخطّي إلى المحتوى" },
-  "availability": { "label": "متاحة لأدوار هندسة برمجيات متكاملة" },
+  "a11y": {
+    "skipToContent": "تخطّي إلى المحتوى"
+  },
+  "availability": {
+    "label": "متاح لأدوار هندسة برمجيات متكاملة"
+  },
   "loader": {
     "initializing": "جارٍ التهيئة",
     "loadingAssets": "تحميل الأصول",
     "loadingFonts": "تحميل الخطوط",
     "compositing": "التركيب",
     "almostReady": "اقتربنا",
-    "portfolio": "معرض الأعمال · ٢٠٢٦"
+    "portfolio": "معرض الأعمال · 2026"
   },
   "nav": {
     "primary": "التنقل الرئيسي",
     "cairo": "القاهرة، مصر",
     "work": "الأعمال",
-    "experience": "الخبرات",
+    "experience": "الخبرة",
+    "education": "التعليم",
     "certifications": "الشهادات",
     "stack": "التقنيات",
     "faq": "الأسئلة الشائعة",
@@ -27,7 +32,7 @@
     "switchToDark": "التبديل إلى الوضع الداكن"
   },
   "notFound": {
-    "eyebrow": "خطأ ٤٠٤",
+    "eyebrow": "خطأ 404",
     "description": "الصفحة التي تبحث عنها لم تعد موجودة أو تم نقلها.",
     "cta": "العودة للرئيسية"
   },

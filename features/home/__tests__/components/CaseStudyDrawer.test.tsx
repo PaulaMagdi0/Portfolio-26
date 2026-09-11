@@ -46,7 +46,6 @@ const project: WorkProject = {
   highlights: [],
   stack: [],
   swatch: ['#000', '#111', '#222'],
-  kind: 'private',
   badgeKey: 'home.work.test.badge',
   caseStudy: {
     roleKey: 'home.work.test.cs.role',
@@ -65,6 +64,27 @@ describe('CaseStudyDrawer', () => {
   it('renders dialog when a project is provided', () => {
     render(<CaseStudyDrawer project={project} onClose={vi.fn()} />);
     expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('moves focus to the close button when opened', () => {
+    render(<CaseStudyDrawer project={project} onClose={vi.fn()} />);
+    expect(screen.getByRole('button', { name: 'home.work.caseStudy.close' })).toHaveFocus();
+  });
+
+  it('labels the dialog with the project title', () => {
+    render(<CaseStudyDrawer project={project} onClose={vi.fn()} />);
+    expect(screen.getByRole('dialog', { name: 'home.work.test.name' })).toBeInTheDocument();
+  });
+
+  it('returns focus to the opener when closed', () => {
+    const opener = document.createElement('button');
+    document.body.appendChild(opener);
+    const { rerender } = render(
+      <CaseStudyDrawer project={project} onClose={vi.fn()} returnFocusTo={opener} />,
+    );
+    rerender(<CaseStudyDrawer project={null} onClose={vi.fn()} returnFocusTo={opener} />);
+    expect(opener).toHaveFocus();
+    opener.remove();
   });
 
   it('calls onClose when escape is pressed', async () => {

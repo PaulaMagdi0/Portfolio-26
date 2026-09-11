@@ -13,6 +13,10 @@ concurrent users. Works at Challenge Group. Alumnus of October 6 University.
 AWS Certified Solutions Architect – Associate and Cloud Practitioner; Huawei
 HCCDP-Solution Architectures and HCCDA-Tech Essentials certified.
 
+## Availability
+Open to full-stack engineering roles and consulting engagements, including remote
+work (based in Cairo, UTC+2). Typically replies within 24 hours.
+
 ## Site
 - Home (English): https://paulamagdy.com/en
 - Home (Arabic):  https://paulamagdy.com/ar
@@ -22,7 +26,10 @@ HCCDP-Solution Architectures and HCCDA-Tech Essentials certified.
 - GitHub:   https://github.com/PaulaMagdi0
 - LinkedIn: https://www.linkedin.com/in/paula-magdy/
 - LeetCode: https://leetcode.com/u/4pAckTIlBP/
+- HackerRank: https://www.hackerrank.com/profile/paulamagdy665
 - Resume:   https://paulamagdy.com/resume.pdf
 
 ## Contact
 Email: paulamagdy665@gmail.com
+
+Last updated: 2026-09-11

@@ -38,7 +38,7 @@ const EN_FORBIDDEN =
 const AR_FORBIDDEN = /الألف إلى الياء|ملكية|قيادة|قائد|قدتُ|وزارة|بالكامل|https?:\/\//;
 
 // Delivered independently (per the résumé): the one card allowed to omit team framing.
-const SOLO_PROJECTS = new Set(['azure-delivery']);
+const SOLO_PROJECTS = new Set(['azure-delivery', 'support-bot']);
 
 // Metrics that were deliberately dropped because nothing on the current site
 // corroborates them. Only ~35% and the ~20 min → <5 deploy figure are sanctioned.
@@ -63,12 +63,16 @@ const REMOVED_NAMES = [
 ].map(decode);
 
 describe('WORK config policy', () => {
-  it('lists only private case studies with no live links or screenshots', () => {
+  it('has at least one project and no external links anywhere in the config', () => {
     expect(WORK.length).toBeGreaterThan(0);
     for (const project of WORK) {
-      expect(project.kind).toBe('private');
-      expect(project.url).toBeUndefined();
-      expect(project.image).toBeUndefined();
+      for (const value of [
+        project.id,
+        ...project.stack,
+        ...project.highlights.map((h) => h.value),
+      ]) {
+        expect(value).not.toMatch(/https?:\/\//);
+      }
     }
   });
 
@@ -107,7 +111,6 @@ describe('WORK config policy', () => {
       'label',
       'intro1',
       'introEmph',
-      'ariaVisit',
       'ariaCaseStudy',
       'caseStudy',
       'highlight',

@@ -2,11 +2,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
 import { WebMcpTools } from '@/features/ui-components/components/WebMcpTools';
 
+type McpResult = { content: { type: string; text: string }[] };
+
 interface Tool {
   name: string;
   description: string;
   inputSchema: Record<string, unknown>;
-  execute: (args: Record<string, unknown>) => { content: { type: string; text: string }[] };
+  execute: (args: Record<string, unknown>) => McpResult | Promise<McpResult>;
 }
 
 function mockModelContext() {
@@ -54,11 +56,11 @@ describe('WebMcpTools', () => {
     }
   });
 
-  it('get_portfolio returns the full Markdown profile', () => {
+  it('get_portfolio returns the full Markdown profile', async () => {
     const provideContext = mockModelContext();
     render(<WebMcpTools />);
 
-    const result = registeredTools(provideContext)
+    const result = await registeredTools(provideContext)
       .find((t) => t.name === 'get_portfolio')!
       .execute({});
     expect(result.content[0].type).toBe('text');
@@ -77,11 +79,11 @@ describe('WebMcpTools', () => {
     expect(window.open).toHaveBeenCalledWith('/resume.pdf', '_blank', 'noopener,noreferrer');
   });
 
-  it('navigate_to_section rejects unknown sections', () => {
+  it('navigate_to_section rejects unknown sections', async () => {
     const provideContext = mockModelContext();
     render(<WebMcpTools />);
 
-    const result = registeredTools(provideContext)
+    const result = await registeredTools(provideContext)
       .find((t) => t.name === 'navigate_to_section')!
       .execute({ section: 'bogus' });
     expect(result.content[0].text).toContain('Unknown section');

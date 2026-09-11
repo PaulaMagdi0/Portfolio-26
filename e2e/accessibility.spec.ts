@@ -36,6 +36,9 @@ test.describe('accessibility (axe-core)', () => {
           await sleep(150);
         }
         window.scrollTo(0, 0);
+        // Lenis eases programmatic scrolls, so wait until the page has actually
+        // settled at the top; otherwise axe scans the mid-scroll (faded) hero.
+        for (let i = 0; i < 40 && window.scrollY > 0; i++) await sleep(100);
         await sleep(250);
       });
 

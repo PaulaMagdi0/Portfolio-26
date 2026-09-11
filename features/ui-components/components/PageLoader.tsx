@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { toLocaleDigits } from '@/lib/digits';
 
+// Set once the curtain has finished; the inline theme script reads it on the next
+// navigation in this session and pre-applies `html.loaded` so the loader never
+// covers the hero again (see core/theme/utils/themeInitScript.ts).
+const PL_SEEN_KEY = 'pl-seen';
+
 export function PageLoader() {
   const t = useTranslations('ui.loader');
   const tBrand = useTranslations('ui.brand');
@@ -15,6 +20,20 @@ export function PageLoader() {
   const fillRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(PL_SEEN_KEY) === '1';
+    } catch {
+      /* sessionStorage unavailable */
+    }
+    if (seen) {
+      // The inline theme script already applied `html.loaded`, so the curtain is
+      // hidden by CSS; unmount it on the next frame.
+      document.documentElement.classList.add('loaded');
+      const raf = requestAnimationFrame(() => setDone(true));
+      return () => cancelAnimationFrame(raf);
+    }
+
     const stages = [
       t('initializing'),
       t('loadingAssets'),
@@ -62,6 +81,11 @@ export function PageLoader() {
         setTimeout(() => {
           if (cancelled) return;
           document.documentElement.classList.add('loaded');
+          try {
+            sessionStorage.setItem(PL_SEEN_KEY, '1');
+          } catch {
+            /* sessionStorage unavailable */
+          }
           // The CSS clip-path curtain wipe runs 1.1s once `html.loaded` is set
           // (see globals.css #page-loader transition). Keep the element mounted
           // through the transition; unmounting React-side too early kills it.
@@ -74,7 +98,7 @@ export function PageLoader() {
     rafId = requestAnimationFrame(tick);
 
     const fontsPromise = document.fonts?.ready ?? Promise.resolve();
-    Promise.all([fontsPromise, new Promise((r) => setTimeout(r, 900))]).then(() => {
+    Promise.all([fontsPromise, new Promise((r) => setTimeout(r, 600))]).then(() => {
       fontsReady = true;
     });
 

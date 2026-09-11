@@ -50,3 +50,44 @@ jobs:
         env:
           # Match production canonical/OG/hreflang URLs at build time.
           NEXT_PUBLIC_SITE_URL: https://paulamagdy.com
+
+  e2e:
+    name: E2E · Chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # Playwright builds and serves the production app itself (see playwright.config.ts),
+      # so this exercises prerendered routes, the drawer, the contact form (route-mocked),
+      # theme/locale persistence, and the runtime axe scan on both locales.
+      - name: Playwright (Chromium)
+        run: pnpm exec playwright test --project=chromium
+        env:
+          NEXT_PUBLIC_SITE_URL: https://paulamagdy.com
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7

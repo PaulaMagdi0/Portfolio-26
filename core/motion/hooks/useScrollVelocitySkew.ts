@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { loadGsap, onIdle } from '../utils/gsap';
+import { loadGsap } from '../utils/gsap';
 
 /**
  * Drives subtle scroll-velocity skewY on every `[data-skew]` element.
@@ -13,18 +13,28 @@ export function useScrollVelocitySkew(enabled: boolean = true) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let cancelled = false;
+    let started = false;
     let cleanup: (() => void) | null = null;
 
-    // Defer GSAP off the hydration path — the skew effect is decorative and can
-    // upgrade in on the next idle slot without affecting LCP/TBT.
-    const cancelIdle = onIdle(() => {
+    // GSAP (and this ticker) load only after the first real scroll: the effect is
+    // decorative and invisible until the page moves, so nothing about it belongs
+    // on the load-time main thread.
+    const start = () => {
+      if (started || cancelled) return;
+      started = true;
+      window.removeEventListener('scroll', start);
+
       void loadGsap().then(({ gsap }) => {
         if (cancelled) return;
 
         let lastY = window.scrollY;
         let lastT = performance.now();
+        let lastValue = '';
         let skew = 0;
         const MAX_SKEW = 2.5;
+        // The targets are static cards; querying the DOM on every frame was the
+        // most expensive line of the old loop.
+        const els = Array.from(document.querySelectorAll<HTMLElement>('[data-skew]'));
 
         const tick = () => {
           const y = window.scrollY;
@@ -36,23 +46,27 @@ export function useScrollVelocitySkew(enabled: boolean = true) {
           target = Math.max(-MAX_SKEW, Math.min(MAX_SKEW, target));
           skew += (target - skew) * 0.18;
           if (Math.abs(dy) < 0.3) skew *= 0.85;
-          const els = document.querySelectorAll<HTMLElement>('[data-skew]');
-          const value = `skewY(${skew.toFixed(3)}deg)`;
+          lastY = y;
+          lastT = t;
+          // At rest, write `none` once and then stop touching the DOM.
+          const value = Math.abs(skew) < 0.005 ? 'none' : `skewY(${skew.toFixed(3)}deg)`;
+          if (value === lastValue) return;
+          lastValue = value;
           for (let i = 0; i < els.length; i++) {
             els[i]!.style.transform = value;
           }
-          lastY = y;
-          lastT = t;
         };
 
         gsap.ticker.add(tick);
         cleanup = () => gsap.ticker.remove(tick);
       });
-    });
+    };
+
+    window.addEventListener('scroll', start, { passive: true });
 
     return () => {
       cancelled = true;
-      cancelIdle();
+      window.removeEventListener('scroll', start);
       cleanup?.();
     };
   }, [enabled]);

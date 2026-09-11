@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useId, useRef, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import type { WorkProject } from '../types';
@@ -10,31 +11,94 @@ import { CSBlock } from './CSBlock';
 interface CaseStudyDrawerProps {
   project: WorkProject | null;
   onClose: () => void;
+  /** Element that opened the drawer; receives focus again on close. */
+  returnFocusTo?: HTMLElement | null;
 }
 
-export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+// Portal target: <body> on the client, nothing during SSR. useSyncExternalStore
+// gives the server snapshot (null) on hydration and the client one right after,
+// without a setState-in-effect round trip.
+const subscribeNoop = () => () => {};
+const getBody = () => document.body;
+const getServerBody = () => null;
+
+export function CaseStudyDrawer({ project, onClose, returnFocusTo = null }: CaseStudyDrawerProps) {
   const t = useTranslations();
+  const titleId = useId();
+  const asideRef = useRef<HTMLElement | null>(null);
+  const closeRef = useRef<HTMLButtonElement | null>(null);
+  // The drawer is rendered into <body> so the rest of the page (including <main>,
+  // which contains the Work section) can be made inert while it is open.
+  const container = useSyncExternalStore<HTMLElement | null>(subscribeNoop, getBody, getServerBody);
 
   useEffect(() => {
     if (!project) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
     const original = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+
+    // Modal containment, same approach as TopNav's mobile menu: `aria-modal` alone is
+    // not honoured by every screen reader, so remove everything else from the a11y
+    // tree and tab order while the drawer is open.
+    const others = Array.from(document.body.children).filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement &&
+        el.tagName !== 'SCRIPT' &&
+        !el.hasAttribute('data-drawer-part'),
+    );
+    others.forEach((el) => {
+      el.inert = true;
+    });
+
+    closeRef.current?.focus();
+
+    const focusables = (): HTMLElement[] =>
+      asideRef.current
+        ? Array.from(asideRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
+        : [];
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const items = focusables();
+      if (!items.length) return;
+      const first = items[0]!;
+      const last = items[items.length - 1]!;
+      const current = document.activeElement;
+      const inside = asideRef.current?.contains(current) ?? false;
+      if (e.shiftKey && (current === first || !inside)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (current === last || !inside)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', onKey);
+
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = original;
+      others.forEach((el) => {
+        el.inert = false;
+      });
+      returnFocusTo?.focus();
     };
-  }, [project, onClose]);
+  }, [project, onClose, returnFocusTo]);
 
-  return (
+  if (!container) return null;
+
+  return createPortal(
     <AnimatePresence>
       {project ? (
         <>
           <motion.div
             key="backdrop"
+            data-drawer-part
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -45,9 +109,11 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
           />
           <motion.aside
             key="drawer"
+            ref={asideRef}
+            data-drawer-part
             role="dialog"
             aria-modal
-            aria-label={t('home.work.caseStudy.label')}
+            aria-labelledby={titleId}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -61,6 +127,7 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
                 <span className="text-inkmute"> · {t(project.badgeKey)}</span>
               </span>
               <button
+                ref={closeRef}
                 type="button"
                 aria-label={t('home.work.caseStudy.close')}
                 data-cursor-label="close"
@@ -84,6 +151,7 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
             <div className="p-8 md:p-12">
               <motion.h2
                 key={`${project.id}-h`}
+                id={titleId}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, ease: [0.2, 0.7, 0.2, 1], delay: 0.05 }}
@@ -190,6 +258,7 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
           </motion.aside>
         </>
       ) : null}
-    </AnimatePresence>
+    </AnimatePresence>,
+    container,
   );
 }

@@ -2,7 +2,6 @@
 export type {
   WorkHighlight,
   WorkCaseStudy,
-  WorkKind,
   WorkProject,
   ExperienceRole,
   Certification,

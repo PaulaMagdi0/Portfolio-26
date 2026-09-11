@@ -9,8 +9,9 @@ interface HeroHeadlineProps {
 
 /**
  * Wraps the hero headline with a scroll-driven parallax: slides up to 80px
- * and fades to 0.35 opacity by 600px of scroll. Disabled under
- * prefers-reduced-motion.
+ * and fades to 0.6 opacity by 600px of scroll. The floor keeps the headline
+ * above WCAG's 3:1 large-text contrast at every scroll position (0.35 dipped to
+ * ~2.2:1 while it was still on screen). Disabled under prefers-reduced-motion.
  */
 export function HeroHeadline({ children }: HeroHeadlineProps) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -27,7 +28,7 @@ export function HeroHeadline({ children }: HeroHeadlineProps) {
       pending = false;
       const scroll = window.scrollY;
       const y = Math.min(80, scroll * 0.13);
-      const opacity = Math.max(0.35, 1 - scroll / 600);
+      const opacity = Math.max(0.6, 1 - scroll / 600);
       el.style.transform = `translate3d(0, ${y}px, 0)`;
       el.style.opacity = `${opacity}`;
     };

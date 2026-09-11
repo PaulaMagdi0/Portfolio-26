@@ -6,8 +6,8 @@ export const EXPERIENCE: readonly ExperienceRole[] = [
     roleKey: 'home.experience.r1.role',
     companyKey: 'home.experience.r1.company',
     locationKey: 'home.experience.r1.location',
+    summaryKey: 'home.experience.r1.summary',
     bulletKeys: [
-      'home.experience.r1.b1',
       'home.experience.r1.b2',
       'home.experience.r1.b3',
       'home.experience.r1.b4',

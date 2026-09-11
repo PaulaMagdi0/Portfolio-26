@@ -3,9 +3,10 @@
 import { useEffect } from 'react';
 import { useLocale } from 'next-intl';
 import { isLocale } from '@/i18n/config';
-// Direct imports (not the @/features/home barrel) keep this client bundle free of
+// Direct import (not the @/features/home barrel) keeps this client bundle free of
 // the home React components the barrel re-exports — the home route has a strict JS budget.
-import { buildHomeMarkdown } from '@/features/home/utils/buildHomeMarkdown';
+// The Markdown builder (which bundles BOTH locale dictionaries) is imported lazily
+// inside the tool, so it never ships unless a WebMCP-capable agent calls it.
 import { RECIPIENT_EMAIL } from '@/features/home/config/socials.config';
 
 // WebMCP (navigator.modelContext) exposes the portfolio's real, in-page actions to
@@ -64,7 +65,10 @@ export function WebMcpTools() {
         description:
           "Get Paula Magdy's full portfolio as Markdown — profile, selected work/projects, experience, education, certifications, tech stack, and contact details.",
         inputSchema: { type: 'object', properties: {}, additionalProperties: false },
-        execute: () => asResult(buildHomeMarkdown(locale)),
+        execute: async () => {
+          const { buildHomeMarkdown } = await import('@/features/home/utils/buildHomeMarkdown');
+          return asResult(buildHomeMarkdown(locale));
+        },
       },
       {
         name: 'view_projects',
@@ -74,7 +78,7 @@ export function WebMcpTools() {
         execute: () =>
           asResult(
             scrollToId('work')
-              ? 'Scrolled to the selected work section. Call get_portfolio for full project details, stacks, and links.'
+              ? 'Scrolled to the selected work section. Call get_portfolio for full project details and stacks.'
               : 'Could not locate the work section on this page.',
           ),
       },

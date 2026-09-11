@@ -802,3 +802,37 @@ html.lenis body {
     transform: none !important;
   }
 }
+
+/* --- Reveal (CSS-driven, see features/ui-components/components/Reveal.tsx) ---
+   Hidden only while `html.js` is present (set by the inline theme script before
+   first paint), so the page is never blank without JavaScript. */
+.reveal {
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0s),
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0s);
+}
+html.js .reveal:not([data-revealed]) {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 24px), 0);
+}
+
+/* Hero headline: motion without hiding the LCP element. The h1 is painted at
+   full opacity from the first frame and only slides into place. */
+@keyframes hero-rise {
+  from {
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+  }
+  html.js .reveal:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+  }
+}

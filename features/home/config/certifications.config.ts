@@ -2,6 +2,17 @@ import type { Certification } from '../types';
 
 export const CERTIFICATIONS: readonly Certification[] = [
   {
+    id: 'aws-saa',
+    nameKey: 'home.certs.aws-saa.name',
+    issuerKey: 'home.certs.aws-saa.issuer',
+    issued: 'Jun 2026',
+    expires: 'Jun 2029',
+    credentialId: '5fa348b1-de2c-4884-957e-ae21e7515b56',
+    skills: ['VPC & IAM', 'EC2 / Lambda', 'RDS / DynamoDB', 'Multi-AZ HA/DR'],
+    logo: '/icons/aws-wordmark.svg',
+    descKey: 'home.certs.aws-saa.desc',
+  },
+  {
     id: 'hccdp',
     nameKey: 'home.certs.hccdp.name',
     issuerKey: 'home.certs.hccdp.issuer',
@@ -14,15 +25,15 @@ export const CERTIFICATIONS: readonly Certification[] = [
     descKey: 'home.certs.hccdp.desc',
   },
   {
-    id: 'aws-saa',
-    nameKey: 'home.certs.aws-saa.name',
-    issuerKey: 'home.certs.aws-saa.issuer',
-    issued: 'Jun 2026',
-    expires: 'Jun 2029',
-    credentialId: '5fa348b1-de2c-4884-957e-ae21e7515b56',
-    skills: ['VPC & IAM', 'EC2 / Lambda', 'RDS / DynamoDB', 'Multi-AZ HA/DR'],
+    id: 'aws-ccp',
+    nameKey: 'home.certs.aws-ccp.name',
+    issuerKey: 'home.certs.aws-ccp.issuer',
+    issued: 'Apr 2026',
+    expires: 'Apr 2029',
+    credentialId: '72b404c5-b893-47a9-a8dc-688a9337ce57',
+    skills: ['Cloud Concepts', 'Shared Responsibility', 'Pricing & Billing', 'Core Services'],
     logo: '/icons/aws-wordmark.svg',
-    descKey: 'home.certs.aws-saa.desc',
+    descKey: 'home.certs.aws-ccp.desc',
   },
   {
     id: 'hccda',
@@ -35,16 +46,5 @@ export const CERTIFICATIONS: readonly Certification[] = [
     skills: ['Core Compute', 'Storage & Networking', 'App Deployment'],
     logo: '/icons/huawei.svg',
     descKey: 'home.certs.hccda.desc',
-  },
-  {
-    id: 'aws-ccp',
-    nameKey: 'home.certs.aws-ccp.name',
-    issuerKey: 'home.certs.aws-ccp.issuer',
-    issued: 'Apr 2026',
-    expires: 'Apr 2029',
-    credentialId: '72b404c5-b893-47a9-a8dc-688a9337ce57',
-    skills: ['Cloud Concepts', 'Shared Responsibility', 'Pricing & Billing', 'Core Services'],
-    logo: '/icons/aws-wordmark.svg',
-    descKey: 'home.certs.aws-ccp.desc',
   },
 ] as const satisfies readonly Certification[];

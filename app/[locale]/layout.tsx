@@ -69,8 +69,12 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
             (own client boundary, no 'use client'/next-dynamic needed). They report
             only from Vercel deployments — never localhost — and are served
             first-party from /_vercel/*, which the app's CSP 'self' already allows. */}
-        <Analytics />
-        <SpeedInsights />
+        {process.env.VERCEL ? (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
       </body>
     </html>
   );

@@ -7,7 +7,15 @@ import { cn } from '@/lib/utils';
 import { LiveClock } from './LiveClock';
 import { ThemeToggle } from './ThemeToggle';
 
-const SECTIONS = ['work', 'experience', 'certifications', 'stack', 'faq', 'contact'] as const;
+const SECTIONS = [
+  'work',
+  'experience',
+  'education',
+  'certifications',
+  'stack',
+  'faq',
+  'contact',
+] as const;
 type SectionId = (typeof SECTIONS)[number];
 
 const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';

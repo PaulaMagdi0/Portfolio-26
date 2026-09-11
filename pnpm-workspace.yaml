@@ -21,6 +21,21 @@ minimumReleaseAge: 1440
 # Force a patched Vite (dev/test only, via vitest + @vitejs/plugin-react) —
 # clears GHSA-fx2h-pf6j-xcff (server.fs.deny bypass) and GHSA-v6wh-96g9-6wx3
 # (launch-editor NTLM hash disclosure; 8.1.x drops the launch-editor dep).
+# Dependabot 2026-09: every open alert is a build-time or dev-only transitive. The
+# selectors are range-scoped (`pkg@major`) so a legacy postcss@4 / undici@6 /
+# brace-expansion@5 consumer is never forced onto an incompatible major.
+#   postcss      <8.5.23  GHSA (sourceMappingURL .map read)      via @tailwindcss/postcss, next, vite
+#   nanoid       <3.3.18  infinite loop on size 0                  via postcss
+#   browserslist <4.28.7  prototype write via custom stats         via @babel/core (eslint plugins)
+#   undici       <7.29.0  CRLF injection via blob body type        via jsdom (tests only)
+#   js-yaml      <4.3.1   quadratic !!omap resolution              dev tooling
+#   brace-expansion <1.1.16  DoS via {} expansion                  via minimatch@3
+# pnpm only re-resolves overrides on a clean install (rm -rf node_modules && pnpm install).
 overrides:
-  postcss: '>=8.5.10'
+  'postcss@8': '^8.5.23'
+  'nanoid@3': '^3.3.18'
+  browserslist: '^4.28.7'
+  'undici@7': '^7.29.0'
+  'js-yaml@4': '^4.3.1'
+  'brace-expansion@1': '^1.1.16'
   vite: '>=8.1.2'

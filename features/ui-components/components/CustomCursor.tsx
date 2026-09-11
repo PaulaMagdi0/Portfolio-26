@@ -17,7 +17,10 @@ export function CustomCursor() {
     let rx = mx;
     let ry = my;
     let rafId = 0;
+    let running = false;
 
+    // The follower loop runs only while the ring is still catching up with the
+    // pointer; a permanent rAF loop kept the main thread busy even when idle.
     const tick = () => {
       rx += (mx - rx) * 0.18;
       ry += (my - ry) * 0.18;
@@ -25,13 +28,22 @@ export function CustomCursor() {
         ringRef.current.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
       if (dotRef.current)
         dotRef.current.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+      if (Math.abs(mx - rx) < 0.1 && Math.abs(my - ry) < 0.1) {
+        running = false;
+        return;
+      }
       rafId = requestAnimationFrame(tick);
     };
-    rafId = requestAnimationFrame(tick);
+    const start = () => {
+      if (running) return;
+      running = true;
+      rafId = requestAnimationFrame(tick);
+    };
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
+      start();
     };
 
     const onOver = (e: MouseEvent) => {

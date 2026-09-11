@@ -1,4 +1,4 @@
-export type { WorkHighlight, WorkCaseStudy, WorkKind, WorkProject } from './work.types';
+export type { WorkHighlight, WorkCaseStudy, WorkProject } from './work.types';
 export type { ExperienceRole } from './experience.types';
 export type { Certification } from './certifications.types';
 export type { StackGroup, MarqueeTool } from './stack.types';

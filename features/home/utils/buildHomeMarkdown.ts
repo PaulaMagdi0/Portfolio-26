@@ -74,7 +74,7 @@ export function buildHomeMarkdown(locale: Locale): string {
   const work = WORK.map((p) => {
     const lines = [
       `### ${t(p.nameKey)}`,
-      join(t(p.companyKey), t(p.periodKey), t(p.badgeKey), p.url),
+      join(t(p.companyKey), t(p.periodKey), t(p.badgeKey)),
       '',
       `> ${t(p.blurbKey)}`,
       '',
@@ -104,8 +104,9 @@ export function buildHomeMarkdown(locale: Locale): string {
   const experience = EXPERIENCE.map((role) => {
     const header = `### ${join(t(role.roleKey), t(role.companyKey))}`;
     const meta = join(t(role.periodKey), t(role.locationKey));
+    const summary = role.summaryKey ? [t(role.summaryKey), ''] : [];
     const bullets = role.bulletKeys.map((key) => `- ${t(key)}`).join('\n');
-    return [header, meta, '', bullets].join('\n');
+    return [header, meta, '', ...summary, bullets].join('\n');
   }).join('\n\n');
   blocks.push(`## ${m.experience.label}\n\n${experience}`);
 

@@ -58,6 +58,7 @@ export function SplitReveal({
     let observer: IntersectionObserver | null = null;
     let safety: number | null = null;
     let cancelIdle: (() => void) | null = null;
+    let preObserver: IntersectionObserver | null = null;
 
     const forceVisible = () => {
       el.style.opacity = '1';
@@ -67,93 +68,123 @@ export function SplitReveal({
       });
     };
 
-    // The headline is already SSR'd and visible. Load GSAP + SplitText off the
-    // critical path (idle for instant mode, observer for scroll mode), then run
-    // the split + cascade. If anything stalls, the static text just stays put.
-    void loadGsap().then(({ gsap, SplitText }) => {
-      if (cancelled || !ref.current) return;
-
-      const setVisibleFallback = () => {
-        if (split) {
-          gsap.set(split.chars, { yPercent: 0, opacity: 1 });
-        }
-        forceVisible();
-      };
-
-      const play = () => {
-        if (!split || cancelled) return;
-        tween = gsap.to(split.chars, {
-          yPercent: 0,
-          duration,
-          ease: 'power4.out',
-          delay,
-          stagger,
-        });
-      };
-
-      const run = () => {
+    // The heading is already SSR'd and visible. Load GSAP + SplitText off the
+    // critical path, then run the split + cascade. If anything stalls, the static
+    // text just stays put.
+    const begin = () => {
+      void loadGsap().then(({ gsap, SplitText }) => {
         if (cancelled || !ref.current) return;
 
-        try {
-          split = new SplitText(ref.current, {
-            type: 'lines,words,chars',
-            linesClass: 'split-line',
-            wordsClass: 'split-word',
-            charsClass: 'split-char',
-          });
-          gsap.set(split.chars, { yPercent: 110 });
-        } catch {
+        const setVisibleFallback = () => {
+          if (split) {
+            gsap.set(split.chars, { yPercent: 0, opacity: 1 });
+          }
           forceVisible();
-          return;
-        }
+        };
 
-        if (mode === 'instant') {
-          play();
-          // Safety only matters for instant mode — if something stalls before
-          // play() commits, reveal the text after 1.5s so it's never stuck hidden.
-          safety = window.setTimeout(setVisibleFallback, 1500);
-        } else {
-          // Scroll mode: the observer is the trigger. No safety timer — otherwise
-          // a section below the fold would have its chars force-revealed at 1.5s,
-          // and when the user scrolls down later the GSAP tween animates 0→0
-          // (no visible cascade).
-          observer = new IntersectionObserver(
-            (entries) => {
-              if (entries.some((e) => e.isIntersecting) && split) {
-                observer?.disconnect();
-                play();
-              }
-            },
-            { threshold: 0.15 },
-          );
-          observer.observe(el);
-        }
-      };
-
-      const start = () => {
-        if (cancelled) return;
-        if (document.fonts && document.fonts.ready) {
-          document.fonts.ready.then(() => {
-            if (!cancelled) run();
+        const play = () => {
+          if (!split || cancelled) return;
+          tween = gsap.to(split.chars, {
+            yPercent: 0,
+            duration,
+            ease: 'power4.out',
+            delay,
+            stagger,
           });
-        } else {
-          run();
-        }
-      };
+        };
 
-      // Instant mode (the hero headline) defers the actual split to an idle
-      // slot so the static SSR'd text paints first, keeping the split work off
-      // the LCP path. Scroll mode can start setting up its observer right away.
-      if (mode === 'instant') {
-        cancelIdle = onIdle(start);
-      } else {
-        start();
-      }
-    });
+        const run = () => {
+          if (cancelled || !ref.current) return;
+
+          // Scroll mode: if the heading is already on screen by the time GSAP arrives
+          // (fast scroll, late network), animating it from hidden would flash. Leave it.
+          if (
+            mode === 'scroll' &&
+            ref.current.getBoundingClientRect().top < window.innerHeight * 0.9
+          ) {
+            forceVisible();
+            return;
+          }
+
+          try {
+            split = new SplitText(ref.current, {
+              type: 'lines,words,chars',
+              linesClass: 'split-line',
+              wordsClass: 'split-word',
+              charsClass: 'split-char',
+            });
+            gsap.set(split.chars, { yPercent: 110 });
+          } catch {
+            forceVisible();
+            return;
+          }
+
+          if (mode === 'instant') {
+            play();
+            // Safety only matters for instant mode — if something stalls before
+            // play() commits, reveal the text after 1.5s so it's never stuck hidden.
+            safety = window.setTimeout(setVisibleFallback, 1500);
+          } else {
+            // Scroll mode: the observer is the trigger. No safety timer — otherwise
+            // a section below the fold would have its chars force-revealed at 1.5s,
+            // and when the user scrolls down later the GSAP tween animates 0→0
+            // (no visible cascade).
+            observer = new IntersectionObserver(
+              (entries) => {
+                if (entries.some((e) => e.isIntersecting) && split) {
+                  observer?.disconnect();
+                  play();
+                }
+              },
+              { threshold: 0.15 },
+            );
+            observer.observe(el);
+          }
+        };
+
+        const start = () => {
+          if (cancelled) return;
+          if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => {
+              if (!cancelled) run();
+            });
+          } else {
+            run();
+          }
+        };
+
+        // Instant mode (the hero headline) defers the actual split to an idle
+        // slot so the static SSR'd text paints first, keeping the split work off
+        // the LCP path. Scroll mode can start setting up its observer right away.
+        if (mode === 'instant') {
+          cancelIdle = onIdle(start);
+        } else {
+          start();
+        }
+      });
+    };
+
+    if (mode === 'instant') {
+      begin();
+    } else {
+      // Scroll mode: don't even fetch GSAP until the heading is within ~400px of
+      // the viewport, so below-the-fold cascades cost nothing at load time.
+      preObserver = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            preObserver?.disconnect();
+            begin();
+          }
+        },
+        { rootMargin: '400px 0px' },
+      );
+      preObserver.observe(el);
+    }
 
     return () => {
       cancelled = true;
       cancelIdle?.();
+      preObserver?.disconnect();
       if (safety !== null) window.clearTimeout(safety);
       observer?.disconnect();
       tween?.kill();

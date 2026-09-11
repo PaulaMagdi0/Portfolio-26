@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Reveal, SectionHead, SplitReveal } from '@/features/ui-components';
 import { WORK } from '../config';
@@ -8,9 +8,19 @@ import type { WorkProject } from '../types';
 import { CaseStudyDrawer } from './CaseStudyDrawer';
 import { WorkRow } from './WorkRow';
 
+interface ActiveCase {
+  project: WorkProject;
+  /** The card button that opened the drawer; focus returns here on close. */
+  opener: HTMLElement;
+}
+
 export function Work() {
   const t = useTranslations('home.work');
-  const [active, setActive] = useState<WorkProject | null>(null);
+  const [active, setActive] = useState<ActiveCase | null>(null);
+  const open = useCallback((project: WorkProject, opener: HTMLElement) => {
+    setActive({ project, opener });
+  }, []);
+  const close = useCallback(() => setActive(null), []);
 
   return (
     <section id="work" className="relative px-6 py-16 md:px-10 md:py-24">
@@ -31,12 +41,16 @@ export function Work() {
               project={project}
               index={i}
               total={WORK.length}
-              onOpen={setActive}
+              onOpen={open}
             />
           ))}
         </ol>
       </div>
-      <CaseStudyDrawer project={active} onClose={() => setActive(null)} />
+      <CaseStudyDrawer
+        project={active?.project ?? null}
+        returnFocusTo={active?.opener ?? null}
+        onClose={close}
+      />
     </section>
   );
 }

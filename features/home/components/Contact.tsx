@@ -1,6 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 import { LiveClock, Reveal, SectionHead, SplitReveal } from '@/features/ui-components';
-import { ContactForm } from '@/features/contact-form';
+import dynamic from 'next/dynamic';
+
+// Own chunk: react-hook-form + zod stay out of the route's main bundle.
+const ContactForm = dynamic(() => import('@/features/contact-form').then((m) => m.ContactForm));
 import { RECIPIENT_EMAIL, SOCIALS } from '../config';
 import { EmailCopyButton } from './EmailCopyButton';
 

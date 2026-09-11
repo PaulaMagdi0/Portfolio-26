@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { ClipReveal, Reveal } from '@/features/ui-components';
@@ -13,11 +12,17 @@ interface WorkRowProps {
   project: WorkProject;
   index: number;
   total: number;
-  onOpen: (project: WorkProject) => void;
+  /** Opens the case study. `opener` gets focus back when the drawer closes. */
+  onOpen: (project: WorkProject, opener: HTMLElement) => void;
 }
 
 type StyledElement = HTMLElement | SVGElement;
 
+/**
+ * Mouse-driven parallax for the swatch layers. The rAF loop runs only while the
+ * pointer is over the card (plus a short settle after it leaves) — six always-on
+ * loops were a measurable main-thread cost for a purely decorative effect.
+ */
 function useSwatchParallax(
   layerRefs: ReadonlyArray<React.RefObject<StyledElement | null>>,
   depth: ReadonlyArray<number>,
@@ -35,29 +40,52 @@ function useSwatchParallax(
     let my = 0;
     let cx = 0;
     let cy = 0;
+    let running = false;
+    let hovering = false;
 
-    const onMove = (e: MouseEvent) => {
-      const r = el.getBoundingClientRect();
-      mx = (e.clientX - r.left) / r.width - 0.5;
-      my = (e.clientY - r.top) / r.height - 0.5;
-    };
-    const onLeave = () => {
-      mx = 0;
-      my = 0;
-    };
-
-    const tick = () => {
-      cx += (mx - cx) * 0.08;
-      cy += (my - cy) * 0.08;
+    const apply = () => {
       layerRefs.forEach((ref, i) => {
         const node = ref.current;
         if (!node) return;
         const d = depth[i] ?? 0;
         node.style.transform = `translate3d(${cx * d}px, ${cy * d}px, 0)`;
       });
+    };
+
+    const tick = () => {
+      cx += (mx - cx) * 0.08;
+      cy += (my - cy) * 0.08;
+      apply();
+      const settled = !hovering && Math.abs(mx - cx) < 0.001 && Math.abs(my - cy) < 0.001;
+      if (settled) {
+        cx = mx;
+        cy = my;
+        apply();
+        running = false;
+        return;
+      }
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      mx = (e.clientX - r.left) / r.width - 0.5;
+      my = (e.clientY - r.top) / r.height - 0.5;
+      hovering = true;
+      start();
+    };
+    const onLeave = () => {
+      mx = 0;
+      my = 0;
+      hovering = false;
+      start();
+    };
 
     el.addEventListener('mousemove', onMove);
     el.addEventListener('mouseleave', onLeave);
@@ -78,65 +106,36 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
   const indexLabel = toLocaleDigits(String(index + 1).padStart(2, '0'), locale);
   const totalLabel = toLocaleDigits(String(total).padStart(2, '0'), locale);
   const [hovered, setHovered] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [imgError, setImgError] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const bgLayerRef = useRef<HTMLDivElement | null>(null);
   const stripesLayerRef = useRef<SVGSVGElement | null>(null);
   const monoLayerRef = useRef<HTMLDivElement | null>(null);
   const swatchRef = useSwatchParallax([bgLayerRef, stripesLayerRef, monoLayerRef], [-6, 10, 18]);
 
-  const isLive = project.kind === 'live';
-  const hasLiveLink = isLive && !!project.url;
-  let cursorLabel = t('ui.cursor.caseStudy');
-  if (hasLiveLink && project.url) {
-    try {
-      cursorLabel = new URL(project.url).hostname;
-    } catch {
-      cursorLabel = t('ui.cursor.visit');
-    }
-  }
-
-  const activate = () => {
-    if (hasLiveLink && project.url) {
-      window.open(project.url, '_blank', 'noopener,noreferrer');
-    } else {
-      onOpen(project);
-    }
+  const open = () => {
+    if (buttonRef.current) onOpen(project, buttonRef.current);
   };
-
-  // No author-supplied name (aria-label/labelledby) on the card: an
-  // `aria-label` on this content-rich `role="button"` always trips axe's
-  // `label-content-name-mismatch` because the card's full visible text can't
-  // fit the label. Instead the accessible name is computed from the card's
-  // content, and the action hint ("opens in new tab" / "view case study") is
-  // appended as a visually-hidden child so screen readers still announce it.
-  const actionHint = hasLiveLink ? t('home.work.ariaVisit') : t('home.work.ariaCaseStudy');
 
   const monogramChar = t(project.nameKey).trim().charAt(0) || project.id.charAt(0).toUpperCase();
   const [color1, color2, color3] = project.swatch;
 
   return (
     <Reveal as="li" className="work-row group">
-      {/* div, not article: ARIA forbids role="button" on <article> (axe
-          aria-allowed-role), and the button role suppresses article
-          semantics for AT anyway — the <li> provides the list structure. */}
+      {/* The whole card is a mouse target for convenience, but the accessible control
+          is the <button> inside the <h3>: a role="button" wrapper would flatten the six
+          titles out of the heading outline and name the button with the card's whole
+          text. Clicks anywhere on the card are forwarded to that button. */}
       <div
-        role="button"
-        tabIndex={0}
-        onClick={activate}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            activate();
-          }
+        onClick={(e) => {
+          const target = e.target;
+          if (target instanceof Node && buttonRef.current?.contains(target)) return;
+          buttonRef.current?.click();
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onFocus={() => setHovered(true)}
-        onBlur={() => setHovered(false)}
-        className="focus-visible:ring-amber/60 grid w-full cursor-pointer grid-cols-1 items-start gap-6 rounded-sm py-10 text-start focus-visible:ring-1 focus-visible:outline-none md:grid-cols-12 md:gap-8 md:py-14"
-        data-cursor-label={cursorLabel}
+        className="grid w-full cursor-pointer grid-cols-1 items-start gap-6 rounded-sm py-10 text-start md:grid-cols-12 md:gap-8 md:py-14"
+        data-cursor-label={t('ui.cursor.caseStudy')}
         data-magnetic
       >
         <div className="md:col-span-1">
@@ -147,8 +146,18 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
         <div className="md:col-span-5">
           <div className="mb-3 flex items-baseline gap-3">
             <h3 className="text-ink font-serif text-[28px] leading-[1.1] md:text-[36px]">
-              <span className="title-underline">{t(project.nameKey)}</span>
-              <span className="sr-only">{actionHint}</span>
+              <button
+                ref={buttonRef}
+                type="button"
+                onClick={open}
+                onFocus={() => setHovered(true)}
+                onBlur={() => setHovered(false)}
+                aria-haspopup="dialog"
+                className="focus-visible:ring-amber/60 cursor-pointer rounded-sm text-start focus-visible:ring-1 focus-visible:outline-none"
+              >
+                <span className="title-underline">{t(project.nameKey)}</span>
+                <span className="sr-only">{t('home.work.ariaCaseStudy')}</span>
+              </button>
             </h3>
             <motion.span
               aria-hidden
@@ -212,80 +221,51 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
                     willChange: 'transform',
                   }}
                 />
-                {project.image && !imgError ? (
-                  <>
-                    <Image
-                      src={project.image}
-                      alt={`${t(project.nameKey)} — screenshot`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 25vw"
-                      onLoad={() => setImgLoaded(true)}
-                      onError={() => setImgError(true)}
-                      className={`object-cover object-top transition-opacity duration-700 ease-out ${
-                        imgLoaded ? 'opacity-100' : 'opacity-0'
-                      }`}
-                    />
-                    <div
-                      aria-hidden
-                      className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/50"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <svg
-                      ref={stripesLayerRef}
-                      className="absolute inset-[-10%] h-[120%] w-[120%] opacity-[0.07]"
-                      aria-hidden
-                      style={{ willChange: 'transform' }}
+                <svg
+                  ref={stripesLayerRef}
+                  className="absolute inset-[-10%] h-[120%] w-[120%] opacity-[0.07]"
+                  aria-hidden
+                  style={{ willChange: 'transform' }}
+                >
+                  <defs>
+                    <pattern
+                      id={`stripes-${project.id}`}
+                      width="8"
+                      height="8"
+                      patternUnits="userSpaceOnUse"
+                      patternTransform="rotate(45)"
                     >
-                      <defs>
-                        <pattern
-                          id={`stripes-${project.id}`}
-                          width="8"
-                          height="8"
-                          patternUnits="userSpaceOnUse"
-                          patternTransform="rotate(45)"
-                        >
-                          <rect width="1" height="8" fill="#ededed" />
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" fill={`url(#stripes-${project.id})`} />
-                    </svg>
-                    <div
-                      ref={monoLayerRef}
-                      className="absolute inset-0 flex items-center justify-center"
-                      style={{ willChange: 'transform' }}
-                    >
-                      <span
-                        className="font-serif text-[80px] leading-none select-none md:text-[110px]"
-                        style={{ color: color3, opacity: 0.2 }}
-                      >
-                        {monogramChar}
-                      </span>
-                    </div>
-                  </>
-                )}
+                      <rect width="1" height="8" fill="#ededed" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill={`url(#stripes-${project.id})`} />
+                </svg>
+                <div
+                  ref={monoLayerRef}
+                  className="absolute inset-0 flex items-center justify-center"
+                  style={{ willChange: 'transform' }}
+                >
+                  <span
+                    className="font-serif text-[80px] leading-none select-none md:text-[110px]"
+                    style={{ color: color3, opacity: 0.2 }}
+                  >
+                    {monogramChar}
+                  </span>
+                </div>
                 {/* The swatch gradient is always dark, so overlay text uses fixed light
                     colours (and the card's own accent) rather than theme tokens, which
                     would go dark-on-dark in light mode. */}
                 <div className="absolute inset-0 flex items-start justify-between gap-3 p-3 font-mono text-[9px] tracking-[0.18em] text-white/60 uppercase">
                   <span className="hidden min-w-0 truncate lg:inline">{project.id}</span>
-                  {isLive ? (
-                    <span className="ml-auto flex max-w-full shrink-0 items-center gap-1.5 truncate rounded-sm border border-emerald-400/60 bg-black/40 px-1.5 py-0.5 text-[8px] tracking-[0.06em] text-emerald-300 backdrop-blur-[2px] lg:text-[9px] lg:tracking-[0.12em]">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-                      {t(project.badgeKey)}
-                    </span>
-                  ) : (
-                    <span
-                      className="ml-auto max-w-full shrink-0 truncate rounded-sm border bg-black/40 px-1.5 py-0.5 text-[8px] tracking-[0.06em] backdrop-blur-[2px] lg:text-[9px] lg:tracking-[0.12em]"
-                      style={{ color: color3, borderColor: `${color3}80` }}
-                    >
-                      {t(project.badgeKey)}
-                    </span>
-                  )}
+                  <span
+                    className="ml-auto max-w-full shrink-0 truncate rounded-sm border bg-black/40 px-1.5 py-0.5 text-[8px] tracking-[0.06em] backdrop-blur-[2px] lg:text-[9px] lg:tracking-[0.12em]"
+                    style={{ color: color3, borderColor: `${color3}80` }}
+                  >
+                    {t(project.badgeKey)}
+                  </span>
                 </div>
                 <div className="absolute inset-0 flex items-end justify-between p-3 font-mono text-[9px] tracking-[0.2em] text-white/60 uppercase">
-                  <span>{project.kind}</span>
+                  <span>{t('home.work.caseStudy.label')}</span>
                   <span>
                     {indexLabel}/{totalLabel}
                   </span>

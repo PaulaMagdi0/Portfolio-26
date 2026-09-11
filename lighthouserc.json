@@ -5,7 +5,7 @@
       "startServerReadyPattern": "Ready in",
       "startServerReadyTimeout": 60000,
       "url": ["http://localhost:3000/en", "http://localhost:3000/ar"],
-      "numberOfRuns": 1
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {

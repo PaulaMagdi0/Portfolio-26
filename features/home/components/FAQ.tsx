@@ -1,7 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 import { Reveal, SectionHead, SplitReveal } from '@/features/ui-components';
 import { FAQ_ITEMS } from '../config';
-import { FaqAccordion } from './FaqAccordion';
+import dynamic from 'next/dynamic';
+
+const FaqAccordion = dynamic(() => import('./FaqAccordion').then((m) => m.FaqAccordion));
 
 /**
  * FAQ section + co-located FAQPage JSON-LD. Resolving the translations here (a

@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Hero3DLazy } from './Hero3DLazy';
 import { HeroHeadline } from './HeroHeadline';
-import { AvailabilityPill, Magnetic, Reveal, SplitReveal } from '@/features/ui-components';
+import { AvailabilityPill, Magnetic, Reveal } from '@/features/ui-components';
 
 export async function Hero() {
   const t = await getTranslations('home.hero');
@@ -31,17 +31,10 @@ export async function Hero() {
           <div className="flex w-full flex-col lg:max-w-[58%]">
             <div className="mt-8 max-w-[1100px] md:mt-12">
               <HeroHeadline>
-                <SplitReveal
-                  as="h1"
-                  mode="instant"
-                  delay={0.15}
-                  stagger={0.014}
-                  duration={1.0}
-                  className="text-ink font-serif text-[14vw] leading-[0.95] tracking-[-0.02em] sm:text-[12vw] md:text-[9.5vw] lg:text-[108px] xl:text-[128px] 2xl:text-[148px]"
-                >
+                <h1 className="text-ink font-serif text-[14vw] leading-[0.95] tracking-[-0.02em] motion-safe:animate-[hero-rise_0.9s_ease-out_both] sm:text-[12vw] md:text-[9.5vw] lg:text-[108px] xl:text-[128px] 2xl:text-[148px]">
                   {t('headline')}
                   <span className="text-amber">.</span>
-                </SplitReveal>
+                </h1>
               </HeroHeadline>
             </div>
 

@@ -33,7 +33,6 @@ export const WORK: readonly WorkProject[] = [
       'Playwright',
     ],
     swatch: ['#1a1410', '#3a2a18', '#d4a574'],
-    kind: 'private',
     badgeKey: 'home.work.evaluation.badge',
     caseStudy: {
       roleKey: 'home.work.evaluation.caseStudy.role',
@@ -70,7 +69,6 @@ export const WORK: readonly WorkProject[] = [
       'PHPUnit',
     ],
     swatch: ['#17100e', '#2e1d18', '#c8996a'],
-    kind: 'private',
     badgeKey: 'home.work.legal.badge',
     caseStudy: {
       roleKey: 'home.work.legal.caseStudy.role',
@@ -99,7 +97,6 @@ export const WORK: readonly WorkProject[] = [
       'CI/CD',
     ],
     swatch: ['#11171a', '#1c2a32', '#7ea7b8'],
-    kind: 'private',
     badgeKey: 'home.work.mobileApi.badge',
     caseStudy: {
       roleKey: 'home.work.mobileApi.caseStudy.role',
@@ -121,7 +118,6 @@ export const WORK: readonly WorkProject[] = [
     ],
     stack: ['Microsoft Azure', 'Azure API Management', 'Azure DevOps', 'CI/CD'],
     swatch: ['#0f1116', '#1a1d2a', '#c1b5d6'],
-    kind: 'private',
     badgeKey: 'home.work.azureDelivery.badge',
     caseStudy: {
       roleKey: 'home.work.azureDelivery.caseStudy.role',
@@ -152,7 +148,6 @@ export const WORK: readonly WorkProject[] = [
       'TypeScript',
     ],
     swatch: ['#10130f', '#1c2a1a', '#a8c190'],
-    kind: 'private',
     badgeKey: 'home.work.scoring.badge',
     caseStudy: {
       roleKey: 'home.work.scoring.caseStudy.role',
@@ -181,7 +176,6 @@ export const WORK: readonly WorkProject[] = [
       'Amazon CloudWatch',
     ],
     swatch: ['#0f1316', '#1a2330', '#88a6d4'],
-    kind: 'private',
     badgeKey: 'home.work.supportBot.badge',
     caseStudy: {
       roleKey: 'home.work.supportBot.caseStudy.role',

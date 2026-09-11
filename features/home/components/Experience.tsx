@@ -46,6 +46,11 @@ export async function Experience() {
                     <p className="text-inkdim mb-4 font-mono text-[13px]">
                       {t(e.companyKey)} <span className="text-inkmute">· {t(e.locationKey)}</span>
                     </p>
+                    {e.summaryKey ? (
+                      <p className="text-inkmute -mt-2 mb-4 max-w-[640px] text-[13px] leading-relaxed">
+                        {t(e.summaryKey)}
+                      </p>
+                    ) : null}
                     <ul className="space-y-2.5">
                       {e.bulletKeys.map((bk) => (
                         <li key={bk} className="text-inkdim flex gap-3 text-[14px] leading-relaxed">

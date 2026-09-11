@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Paula Magdy — Software Engineer",
+    "title": "Paula Magdy — Full-Stack Software Engineer",
     "description": "Paula Magdy is an AWS-certified full-stack software engineer in Cairo, Egypt, with production experience across TypeScript (Next.js/NestJS), PHP (Laravel), and Python (Django/Flask) on AWS, Azure, and Huawei Cloud."
   },
   "hero": {
@@ -9,7 +9,7 @@
     "headline": "Paula Magdy",
     "kicker": "Full-Stack Software Engineer",
     "descriptionLead": "I build production platforms across TypeScript, PHP, and Python on AWS, Azure & Huawei Cloud —",
-    "descriptionEmph": "contributing across data modeling, API design, CI/CD, monitoring, and security, with measurable gains in API performance and deployment speed.",
+    "descriptionEmph": "contributing across data modeling, API design, CI/CD, monitoring, and security — most recently cutting API latency by ~35% and deploy time from ~20 minutes to under 5.",
     "ctaWork": "View Work",
     "ctaResume": "Resume"
   },
@@ -28,7 +28,6 @@
     "label": "SELECTED WORK",
     "intro1": "Production platforms I helped build with cross-functional delivery teams —",
     "introEmph": "what each one does, what I contributed, and the stack I worked in.",
-    "ariaVisit": " (opens in new tab)",
     "ariaCaseStudy": " — view case study",
     "caseStudy": {
       "label": "Case study",
@@ -106,7 +105,7 @@
       "blurb": "Platform that runs large-scale scored events for a government client: participant onboarding, results entry, rule-based scoring, ranking, and live leaderboards. I contributed to the NestJS rules engine and the Next.js operator dashboards and onboarding flows.",
       "badge": "FULL-STACK · REAL-TIME",
       "caseStudy": {
-        "role": "Full-Stack Engineer · cross-functional delivery team",
+        "role": "Full-Stack Software Engineer · cross-functional delivery team",
         "overview": "Operators were running the events out of spreadsheets: slow scoring, fragile state, and no real-time visibility for participants. The platform replaces that with structured onboarding and results entry, a configurable rules engine, and live leaderboards.",
         "system": "Next.js frontend and NestJS backend with a modular rules engine, PostgreSQL via Prisma ORM, WebSockets for live leaderboard updates, and a Docker-based deployment.",
         "contributions": "Developed modules of the scoring engine covering participant onboarding, scoring logic, and ranking with the backend team. · Worked on the real-time leaderboard pipeline and the Next.js operator dashboards that consume it. · Contributed onboarding and results-entry flows to the team's shared, responsive component set, replacing spreadsheet workflows with structured forms and validation."
@@ -116,10 +115,10 @@
       "name": "Serverless Customer-Support Chatbot",
       "company": "Challenge Group",
       "period": "2025",
-      "blurb": "Serverless chatbot on AWS Lambda and Amazon Lex, reached over WhatsApp through Twilio, that answers routine support inquiries and hands off to a human agent when confidence drops. I wrote the Python orchestration and designed the Lex intents from the support team's ticket history.",
+      "blurb": "Serverless chatbot on AWS Lambda and Amazon Lex, reached over WhatsApp through Twilio, that answers routine support inquiries and hands off to a human agent when confidence drops. I designed and built the Python orchestration and the Lex intent model, drawing on the support team's ticket history.",
       "badge": "SERVERLESS · INTERNAL",
       "caseStudy": {
-        "role": "Software Engineer · serverless automation for the customer-support team",
+        "role": "Software Engineer · independent delivery for the customer-support team",
         "overview": "Support agents were handling repetitive inquiries by hand: order status, opening hours, common FAQs. The team needed an automated first line of response that answers instantly and escalates cleanly to a human.",
         "system": "Event-driven pipeline: Twilio webhook → AWS Lambda (Python) → Amazon Lex for intent recognition and slot filling, with credentials in AWS Secrets Manager and CloudWatch for tracing. Scales to zero between conversations.",
         "contributions": "Designed the intent and slot taxonomy from the support team's ticket history. · Wrote the Python Lambda orchestration bridging Lex, Twilio, and the internal support tooling, with secrets in Secrets Manager and CloudWatch logging. · Automated the common request types, with hand-off to a human agent when confidence dropped, cutting manual triage for the support team."
@@ -148,7 +147,6 @@
       "role": "Full-Stack Software Engineer",
       "company": "Challenge Group",
       "location": "Cairo, Egypt",
-      "b1": "Challenge Group is an AWS/Huawei Cloud partner delivering production platforms for government and enterprise clients across Egypt, KSA, and the UAE. Contributed to multiple production platforms as part of cross-functional Agile delivery teams.",
       "b2": "Developed backend services for government and enterprise platforms serving 5,000+ concurrent users — domain-driven NestJS modules and Laravel APIs over PostgreSQL/Prisma and MySQL — applying targeted indexing and query tuning that cut API latency by ~35% under production load.",
       "b3": "Moved deployments to container-first CI/CD — Docker → ECR → ECS via CodeBuild/CodePipeline — cutting deployment time from ~20 minutes to under 5.",
       "b4": "Built the request-and-bid marketplace flow with escalation handling and an in-app wallet on Paymob, letting users pay and withdraw funds without leaving the platform.",
@@ -157,7 +155,8 @@
       "b7": "Provisioned and maintained AWS infrastructure (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) for 5+ production environments, and independently designed and ran the Azure API Management layer.",
       "b8": "Instrumented services with CloudWatch monitoring and structured logging, and maintained automated test coverage (Pest, PHPUnit, Jest, Vitest) that runs in CI to catch regressions before release.",
       "b9": "Built Next.js/React interfaces — onboarding and results-entry flows, role-based admin panels (Filament/Livewire), and live-updating leaderboards — on a shared, responsive component set reused across products.",
-      "b10": "Independently designed, built, and shipped a serverless Amazon Lex chatbot on AWS Lambda, integrated with Twilio, automating customer-support conversations and cutting the manual triage load on the support team."
+      "b10": "Independently designed, built, and shipped a serverless Amazon Lex chatbot on AWS Lambda, integrated with Twilio, automating customer-support conversations and cutting the manual triage load on the support team.",
+      "summary": "Challenge Group is an AWS/Huawei Cloud partner delivering production platforms for government and enterprise clients across Egypt, KSA, and the UAE. Contributed to multiple production platforms as part of cross-functional Agile delivery teams."
     },
     "r2": {
       "period": "Oct 2024 — Jun 2025",
@@ -247,7 +246,7 @@
     "q2": "What technologies does Paula Magdy work with?",
     "a2": "He builds with Next.js, React, and TypeScript on the frontend; Node.js, NestJS, and Express, plus Laravel (PHP) and Django/Flask (Python) on the backend; PostgreSQL, MySQL, MongoDB, Redis, and Prisma ORM for data; and AWS, Azure, Huawei Cloud, Docker, and CI/CD for cloud and delivery.",
     "q3": "What has Paula Magdy built?",
-    "a3": "At Challenge Group — an AWS/Huawei Cloud partner serving government and enterprise clients across Egypt, KSA, and the UAE — he has contributed to multiple production platforms as part of cross-functional Agile delivery teams: backend services for platforms serving 5,000+ concurrent users, transactional workflows including a request-and-bid marketplace and an in-app Paymob wallet, real-time chat and messaging, Next.js/React interfaces and role-based admin panels, AWS and Azure infrastructure with container-first CI/CD, and a serverless Amazon Lex support chatbot.",
+    "a3": "At Challenge Group — an AWS/Huawei Cloud partner serving government and enterprise clients across Egypt, KSA, and the UAE — he has contributed to multiple production platforms as part of cross-functional Agile delivery teams. His work spans backend services for platforms serving 5,000+ concurrent users, transactional workflows including a request-and-bid marketplace and an in-app Paymob wallet, real-time chat and messaging, Next.js/React interfaces and role-based admin panels, AWS and Azure infrastructure with container-first CI/CD, and a serverless Amazon Lex support chatbot.",
     "q4": "Where is Paula Magdy based, and is he open to remote work?",
     "a4": "He is based in Cairo, Egypt, and is open to full-stack engineering roles and consulting engagements, including remote work.",
     "q5": "What certifications does Paula Magdy hold?",
