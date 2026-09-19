@@ -118,15 +118,39 @@ test.describe.serial('full app verification', () => {
     await page.waitForSelector('html.loaded', { timeout: 15_000 }).catch(() => {});
     await page.waitForLoadState('networkidle');
     await page.locator('#work').scrollIntoViewIfNeeded();
+    // Screenshots lazy-load once the section is in view; wait for the first one so
+    // the section screenshot shows real imagery rather than the gradient placeholder.
+    const firstShot = page.locator('#work img').first();
+    await expect
+      .poll(() => firstShot.evaluate((el) => (el as HTMLImageElement).naturalWidth), {
+        timeout: 10_000,
+      })
+      .toBeGreaterThan(0);
     await shot(page, '07-work-section');
-    // Every project is a private case study (no live links), so the row is a
-    // role="button" whose accessible name includes the generic project title.
-    const row = page.getByRole('button', { name: /Mobile Application Backend/i });
+    // Each card's <h3> holds a <button> that opens the drawer; its accessible name
+    // includes the product title.
+    const row = page.getByRole('button', { name: /Sabeel/i });
     await row.first().click();
     await expect(page.getByRole('dialog')).toBeVisible({ timeout: 4000 });
     await shot(page, '08-drawer-open');
     await page.keyboard.press('Escape');
     await expect(page.getByRole('dialog')).toBeHidden({ timeout: 2000 });
+
+    // Live products carry a "Visit site" link that opens the public site in a new
+    // tab and must not open the drawer. The external site is stubbed so the run
+    // never depends on a third party.
+    await page
+      .context()
+      .route(/^https:\/\/(awards\.miite\.ae|esl\.moe\.gov\.eg)\//, (route) =>
+        route.fulfill({ status: 200, contentType: 'text/html', body: '<title>stub</title>' }),
+      );
+    const visit = page.getByRole('link', { name: /visit site/i }).first();
+    await expect(visit).toHaveAttribute('href', /^https:\/\//);
+    await expect(visit).toHaveAttribute('target', '_blank');
+    await expect(visit).toHaveAttribute('rel', /noopener/);
+    const [popup] = await Promise.all([page.context().waitForEvent('page'), visit.click()]);
+    await popup.close();
+    await expect(page.getByRole('dialog')).toBeHidden();
   });
 
   test('7. Contact form validates and shows error alerts', async ({ page }) => {

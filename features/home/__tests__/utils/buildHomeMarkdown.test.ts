@@ -11,19 +11,22 @@ describe('buildHomeMarkdown', () => {
     expect(en).toContain('/en');
   });
 
-  it('renders generic work projects with role, contribution bullets, highlights, and stack', () => {
+  it('renders work projects with role, contribution bullets, highlights, and stack', () => {
     expect(en).toContain('## SELECTED WORK');
-    expect(en).toContain('### Submission & Evaluation Platform');
-    expect(en).toContain('### Legal Services Marketplace Platform');
+    expect(en).toContain('### Make it in the Emirates — Awards Platform');
+    expect(en).toContain('### LawMate — Legal Services Platform');
     expect(en).toContain('- **MY ROLE:**');
     expect(en).toContain('- **MY CONTRIBUTION:**');
     expect(en).toContain('5,000+ concurrent users');
     expect(en).toContain('NestJS');
   });
 
-  it('keeps the work section free of live links and ownership claims', () => {
+  it('links out only from live products and keeps the team framing', () => {
     const work = en.slice(en.indexOf('## SELECTED WORK'), en.indexOf('## EXPERIENCE'));
-    expect(work).not.toMatch(/https?:\/\//);
+    expect(work).toContain('LIVE · https://awards.miite.ae/en');
+    expect(work).toContain('LIVE · https://esl.moe.gov.eg/ar');
+    expect(work.match(/https?:\/\//g)).toHaveLength(2);
+    expect(work).toContain('PRIVATE');
     expect(work).not.toMatch(/end-to-end|\bowned\b|\bled\b/i);
   });
 
@@ -32,6 +35,9 @@ describe('buildHomeMarkdown', () => {
     expect(en).toContain('October 6 University');
     expect(en).toContain('## CERTIFICATIONS');
     expect(en).toContain('HWENDCTEDA542672');
+    expect(en).toContain(
+      'Verify credential: https://www.credly.com/badges/5fa348b1-de2c-4884-957e-ae21e7515b56/public_url',
+    );
   });
 
   it('renders the full FAQ Q&A and contact links', () => {

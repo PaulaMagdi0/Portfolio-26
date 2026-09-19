@@ -1,6 +1,7 @@
 {
   "a11y": {
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "opensInNewTab": " (opens in new tab)"
   },
   "availability": {
     "label": "Available for full-stack engineering roles"

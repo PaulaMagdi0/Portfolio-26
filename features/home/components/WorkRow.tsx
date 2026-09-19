@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { ClipReveal, Reveal } from '@/features/ui-components';
 import { toLocaleDigits } from '@/lib/digits';
+import { cn } from '@/lib/utils';
 import type { WorkProject } from '../types';
 import { AnimatedMetric } from './AnimatedMetric';
+import { WorkVisitLink } from './WorkVisitLink';
 
 interface WorkRowProps {
   project: WorkProject;
@@ -106,6 +109,8 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
   const indexLabel = toLocaleDigits(String(index + 1).padStart(2, '0'), locale);
   const totalLabel = toLocaleDigits(String(total).padStart(2, '0'), locale);
   const [hovered, setHovered] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const bgLayerRef = useRef<HTMLDivElement | null>(null);
@@ -117,19 +122,25 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
     if (buttonRef.current) onOpen(project, buttonRef.current);
   };
 
-  const monogramChar = t(project.nameKey).trim().charAt(0) || project.id.charAt(0).toUpperCase();
+  const name = t(project.nameKey);
+  const monogramChar = name.trim().charAt(0) || project.id.charAt(0).toUpperCase();
   const [color1, color2, color3] = project.swatch;
+  const isLive = project.kind === 'live';
+  const showImage = !imgError;
 
   return (
     <Reveal as="li" className="work-row group">
       {/* The whole card is a mouse target for convenience, but the accessible control
           is the <button> inside the <h3>: a role="button" wrapper would flatten the six
           titles out of the heading outline and name the button with the card's whole
-          text. Clicks anywhere on the card are forwarded to that button. */}
+          text. Clicks anywhere on the card are forwarded to that button, except
+          clicks on the "Visit site" link, which must open the site and nothing else. */}
       <div
         onClick={(e) => {
           const target = e.target;
-          if (target instanceof Node && buttonRef.current?.contains(target)) return;
+          if (!(target instanceof Node)) return;
+          if (buttonRef.current?.contains(target)) return;
+          if (target instanceof Element && target.closest('a[href]')) return;
           buttonRef.current?.click();
         }}
         onMouseEnter={() => setHovered(true)}
@@ -155,7 +166,7 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
                 aria-haspopup="dialog"
                 className="focus-visible:ring-amber/60 cursor-pointer rounded-sm text-start focus-visible:ring-1 focus-visible:outline-none"
               >
-                <span className="title-underline">{t(project.nameKey)}</span>
+                <span className="title-underline">{name}</span>
                 <span className="sr-only">{t('home.work.ariaCaseStudy')}</span>
               </button>
             </h3>
@@ -185,10 +196,17 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
           <p className="text-inkdim max-w-[440px] text-[14px] leading-relaxed">
             {t(project.blurbKey)}
           </p>
-          <div className="text-inkmute mt-4 flex items-center gap-3 font-mono text-[11px]">
+          <div className="text-inkmute mt-4 flex flex-wrap items-center gap-3 font-mono text-[11px]">
             <span>{t(project.companyKey)}</span>
             <span className="bg-inkmute h-1 w-1 rounded-full" />
             <span>{t(project.periodKey)}</span>
+            {isLive ? (
+              // Separator and link wrap as one unit so a line break never strands the dot.
+              <span className="inline-flex items-center gap-3">
+                <span className="bg-inkmute h-1 w-1 rounded-full" />
+                <WorkVisitLink href={project.url} />
+              </span>
+            ) : null}
           </div>
         </div>
         <div className="grid grid-cols-3 gap-x-6 gap-y-2 self-start md:col-span-3 md:grid-cols-1">
@@ -221,41 +239,66 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
                     willChange: 'transform',
                   }}
                 />
-                <svg
-                  ref={stripesLayerRef}
-                  className="absolute inset-[-10%] h-[120%] w-[120%] opacity-[0.07]"
-                  aria-hidden
-                  style={{ willChange: 'transform' }}
-                >
-                  <defs>
-                    <pattern
-                      id={`stripes-${project.id}`}
-                      width="8"
-                      height="8"
-                      patternUnits="userSpaceOnUse"
-                      patternTransform="rotate(45)"
+                {showImage ? (
+                  <>
+                    {/* Below the fold, so next/image lazy-loads it; the gradient layer
+                        underneath is the placeholder until the fade-in completes. */}
+                    <Image
+                      src={project.image}
+                      alt={t('home.work.screenshotAlt', { name })}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 25vw, 300px"
+                      onLoad={() => setImgLoaded(true)}
+                      onError={() => setImgError(true)}
+                      className={cn(
+                        'object-cover object-top transition-opacity duration-700 ease-out',
+                        imgLoaded ? 'opacity-100' : 'opacity-0',
+                      )}
+                    />
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/60"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <svg
+                      ref={stripesLayerRef}
+                      className="absolute inset-[-10%] h-[120%] w-[120%] opacity-[0.07]"
+                      aria-hidden
+                      style={{ willChange: 'transform' }}
                     >
-                      <rect width="1" height="8" fill="#ededed" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill={`url(#stripes-${project.id})`} />
-                </svg>
-                <div
-                  ref={monoLayerRef}
-                  className="absolute inset-0 flex items-center justify-center"
-                  style={{ willChange: 'transform' }}
-                >
-                  <span
-                    className="font-serif text-[80px] leading-none select-none md:text-[110px]"
-                    style={{ color: color3, opacity: 0.2 }}
-                  >
-                    {monogramChar}
-                  </span>
-                </div>
-                {/* The swatch gradient is always dark, so overlay text uses fixed light
-                    colours (and the card's own accent) rather than theme tokens, which
-                    would go dark-on-dark in light mode. */}
-                <div className="absolute inset-0 flex items-start justify-between gap-3 p-3 font-mono text-[9px] tracking-[0.18em] text-white/60 uppercase">
+                      <defs>
+                        <pattern
+                          id={`stripes-${project.id}`}
+                          width="8"
+                          height="8"
+                          patternUnits="userSpaceOnUse"
+                          patternTransform="rotate(45)"
+                        >
+                          <rect width="1" height="8" fill="#ededed" />
+                        </pattern>
+                      </defs>
+                      <rect width="100%" height="100%" fill={`url(#stripes-${project.id})`} />
+                    </svg>
+                    <div
+                      ref={monoLayerRef}
+                      className="absolute inset-0 flex items-center justify-center"
+                      style={{ willChange: 'transform' }}
+                    >
+                      <span
+                        className="font-serif text-[80px] leading-none select-none md:text-[110px]"
+                        style={{ color: color3, opacity: 0.2 }}
+                      >
+                        {monogramChar}
+                      </span>
+                    </div>
+                  </>
+                )}
+                {/* The swatch gradient and the screenshot scrim are always dark, so overlay
+                    text uses fixed light colours (and the card's own accent) rather than
+                    theme tokens, which would go dark-on-dark in light mode. */}
+                <div className="absolute inset-0 flex items-start justify-between gap-3 p-3 font-mono text-[9px] tracking-[0.18em] text-white/70 uppercase">
                   <span className="hidden min-w-0 truncate lg:inline">{project.id}</span>
                   <span
                     className="ml-auto max-w-full shrink-0 truncate rounded-sm border bg-black/40 px-1.5 py-0.5 text-[8px] tracking-[0.06em] backdrop-blur-[2px] lg:text-[9px] lg:tracking-[0.12em]"
@@ -264,8 +307,18 @@ export function WorkRow({ project, index, total, onOpen }: WorkRowProps) {
                     {t(project.badgeKey)}
                   </span>
                 </div>
-                <div className="absolute inset-0 flex items-end justify-between p-3 font-mono text-[9px] tracking-[0.2em] text-white/60 uppercase">
-                  <span>{t('home.work.caseStudy.label')}</span>
+                <div className="absolute inset-0 flex items-end justify-between p-3 font-mono text-[9px] tracking-[0.2em] text-white/70 uppercase">
+                  <span className="inline-flex items-center gap-1.5">
+                    {isLive ? (
+                      <span
+                        aria-hidden
+                        className="h-1.5 w-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse"
+                      />
+                    ) : null}
+                    <span className={isLive ? 'text-emerald-300' : undefined}>
+                      {t(`home.work.kind.${project.kind}`)}
+                    </span>
+                  </span>
                   <span>
                     {indexLabel}/{totalLabel}
                   </span>

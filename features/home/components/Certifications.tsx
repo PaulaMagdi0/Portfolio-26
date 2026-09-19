@@ -66,14 +66,38 @@ export async function Certifications() {
                     <p className="text-inkdim mb-4 max-w-[600px] text-[14px] leading-relaxed">
                       {t(c.descKey)}
                     </p>
-                    {c.credentialId ? (
-                      <div className="text-inkmute mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px]">
-                        <span className="text-inkmute tracking-[0.14em] uppercase">
-                          {sec('credId')}
-                        </span>
-                        <span className="text-ink break-all">{c.credentialId}</span>
-                      </div>
-                    ) : null}
+                    <div className="text-inkmute mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px]">
+                      {c.credentialId ? (
+                        <>
+                          <span className="text-inkmute tracking-[0.14em] uppercase">
+                            {sec('credId')}
+                          </span>
+                          <span className="text-ink break-all">{c.credentialId}</span>
+                        </>
+                      ) : null}
+                      <a
+                        href={c.verifyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        data-cursor-label={t('ui.cursor.visit')}
+                        className="text-amber hover:text-ink focus-visible:ring-amber/60 inline-flex items-center gap-1 rounded-sm tracking-[0.08em] uppercase transition-colors focus-visible:ring-1 focus-visible:outline-none"
+                      >
+                        {sec('verify')}
+                        <svg
+                          className="h-3 w-3 rtl:-scale-x-100"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden
+                        >
+                          <path d="M7 17 17 7M7 7h10v10" />
+                        </svg>
+                        <span className="sr-only">{t('ui.a11y.opensInNewTab')}</span>
+                      </a>
+                    </div>
                     {c.skills.length ? (
                       <ul className="flex flex-wrap gap-1.5">
                         {c.skills.map((s) => (

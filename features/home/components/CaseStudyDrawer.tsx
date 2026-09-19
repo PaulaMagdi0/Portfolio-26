@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import type { WorkProject } from '../types';
 import { AnimatedMetric } from './AnimatedMetric';
 import { CSBlock } from './CSBlock';
+import { WorkVisitLink } from './WorkVisitLink';
 
 interface CaseStudyDrawerProps {
   project: WorkProject | null;
@@ -163,11 +164,24 @@ export function CaseStudyDrawer({ project, onClose, returnFocusTo = null }: Case
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, ease: 'easeOut', delay: 0.18 }}
-                className="text-inkdim mb-10 flex items-center gap-3 font-mono text-[12px]"
+                className="text-inkdim mb-10 flex flex-wrap items-center gap-3 font-mono text-[12px]"
               >
                 <span>{t(project.companyKey)}</span>
                 <span className="bg-inkmute h-1 w-1 rounded-full" />
                 <span>{t(project.periodKey)}</span>
+                {/* Each separator wraps together with its item so a line break never strands a dot. */}
+                <span className="inline-flex items-center gap-3">
+                  <span className="bg-inkmute h-1 w-1 rounded-full" />
+                  <span className="text-inkmute tracking-[0.08em] uppercase">
+                    {t(`home.work.kind.${project.kind}`)}
+                  </span>
+                </span>
+                {project.kind === 'live' ? (
+                  <span className="inline-flex items-center gap-3">
+                    <span className="bg-inkmute h-1 w-1 rounded-full" />
+                    <WorkVisitLink href={project.url} />
+                  </span>
+                ) : null}
               </motion.div>
               <CSBlock label={t('home.work.caseStudy.role')} delay={0.28}>
                 <p className="text-inkdim">{t(project.caseStudy.roleKey)}</p>

@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CaseStudyDrawer } from '@/features/home/components/CaseStudyDrawer';
-import type { WorkProject } from '@/features/home/types';
+import type { LiveWorkProject, PrivateWorkProject } from '@/features/home/types';
 
 type AnyProps = { children?: React.ReactNode; [key: string]: unknown };
 
@@ -37,8 +37,10 @@ vi.mock('framer-motion', async () => {
   };
 });
 
-const project: WorkProject = {
+const project: PrivateWorkProject = {
   id: 'test',
+  kind: 'private',
+  image: '/work/test.webp',
   nameKey: 'home.work.test.name',
   companyKey: 'home.work.test.company',
   periodKey: 'home.work.test.period',
@@ -53,6 +55,12 @@ const project: WorkProject = {
     systemKey: 'home.work.test.cs.system',
     contributionsKey: 'home.work.test.cs.contributions',
   },
+};
+
+const liveProject: LiveWorkProject = {
+  ...project,
+  kind: 'live',
+  url: 'https://example.com/en',
 };
 
 describe('CaseStudyDrawer', () => {
@@ -85,6 +93,21 @@ describe('CaseStudyDrawer', () => {
     rerender(<CaseStudyDrawer project={null} onClose={vi.fn()} returnFocusTo={opener} />);
     expect(opener).toHaveFocus();
     opener.remove();
+  });
+
+  it('offers a visit link for live products that opens in a new tab', () => {
+    render(<CaseStudyDrawer project={liveProject} onClose={vi.fn()} />);
+    const link = screen.getByRole('link', { name: /home\.work\.visit/ });
+    expect(link).toHaveAttribute('href', 'https://example.com/en');
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link.getAttribute('rel')).toContain('noopener');
+    expect(screen.getByText('home.work.kind.live')).toBeInTheDocument();
+  });
+
+  it('shows no visit link for private products', () => {
+    render(<CaseStudyDrawer project={project} onClose={vi.fn()} />);
+    expect(screen.queryByRole('link')).toBeNull();
+    expect(screen.getByText('home.work.kind.private')).toBeInTheDocument();
   });
 
   it('calls onClose when escape is pressed', async () => {

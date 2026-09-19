@@ -29,6 +29,12 @@
     "intro1": "Production platforms I helped build with cross-functional delivery teams —",
     "introEmph": "what each one does, what I contributed, and the stack I worked in.",
     "ariaCaseStudy": " — view case study",
+    "visit": "Visit site",
+    "screenshotAlt": "Screenshot of {name}",
+    "kind": {
+      "live": "LIVE",
+      "private": "PRIVATE"
+    },
     "caseStudy": {
       "label": "Case study",
       "close": "CLOSE",
@@ -59,60 +65,60 @@
       "provisioning": "infra provisioning",
       "pipelines": "release pipelines"
     },
-    "evaluation": {
-      "name": "Submission & Evaluation Platform",
+    "miite": {
+      "name": "Make it in the Emirates — Awards Platform",
       "company": "Challenge Group",
       "period": "2026",
-      "blurb": "Public-facing submission and evaluation platform delivered for a government client, serving applicants, reviewers, and program operators. I contributed across the backend, data layer, and AWS delivery pipeline.",
+      "blurb": "Public-facing awards platform for the UAE Ministry of Industry & Advanced Technology's Make it in the Emirates program, serving applicants, jurors, and program operators. I contributed across the backend, data layer, and AWS delivery pipeline.",
       "badge": "FULL-STACK · PORTAL",
       "caseStudy": {
         "role": "Full-Stack Software Engineer · cross-functional delivery team",
-        "overview": "A government client needed a public-facing platform to run a large-scale public program, with separate flows for applicants, reviewers, and program operators. It had to meet government security and availability requirements at 5,000+ concurrent users.",
+        "overview": "The UAE Ministry of Industry & Advanced Technology needed a public-facing platform to run the Make it in the Emirates Awards, with separate flows for applicants, jurors, and program operators. It had to meet government security and availability requirements at 5,000+ concurrent users.",
         "system": "Next.js frontend and NestJS backend over PostgreSQL with Prisma ORM, deployed on AWS (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager). Container-first pipelines ship Docker images through ECR to ECS via CodeBuild and CodePipeline. Server-side rendering for SEO, a Vitest / React Testing Library / Playwright test pyramid, and structured logging and monitoring in CloudWatch.",
-        "contributions": "Developed domain-driven NestJS modules and Next.js features for the applicant, reviewer, and operator flows alongside the frontend and backend teams. · Designed and tuned PostgreSQL schemas with Prisma, adding targeted indexes and query optimizations that cut API latency by ~35% under production load. · Implemented JWT authentication, role-based access control, and structured DTO validation across the API surface with the backend team. · Helped move delivery to container-first CI/CD, reducing deployment time from ~20 minutes to under 5. · Added CloudWatch monitoring and structured logging to the services I worked on, and maintained Vitest, RTL, and Playwright coverage."
+        "contributions": "Developed domain-driven NestJS modules and Next.js features for the applicant, juror, and operator flows alongside the frontend and backend teams. · Designed and tuned PostgreSQL schemas with Prisma, adding targeted indexes and query optimizations that cut API latency by ~35% under production load. · Implemented JWT authentication, role-based access control, and structured DTO validation across the API surface with the backend team. · Helped move delivery to container-first CI/CD, reducing deployment time from ~20 minutes to under 5. · Added CloudWatch monitoring and structured logging to the services I worked on, and maintained Vitest, RTL, and Playwright coverage."
       }
     },
-    "legal": {
-      "name": "Legal Services Marketplace Platform",
+    "lawmate": {
+      "name": "LawMate — Legal Services Platform",
       "company": "Challenge Group",
       "period": "2026",
-      "blurb": "API-first platform connecting clients with lawyers through a request-and-bid workflow, with in-app payments and real-time communication. I worked on the Laravel backend.",
+      "blurb": "LawMate is an API-first legal-services marketplace connecting clients with lawyers through a request-and-bid workflow, with in-app payments and real-time communication. I worked on the Laravel backend.",
       "badge": "BACKEND · MARKETPLACE",
       "caseStudy": {
         "role": "Backend Engineer · product engineering team",
-        "overview": "Clients needed a structured way to find the right lawyer and agree on a price, and firms needed a backend to receive, bid on, and manage cases. The platform runs a request-and-bid marketplace with payments, real-time chat, voice and SMS, and escalation handling in a single bilingual (EN/AR) product.",
+        "overview": "Clients needed a structured way to find the right lawyer and agree on a price, and firms needed a backend to receive, bid on, and manage cases. LawMate runs a request-and-bid marketplace with payments, real-time chat, voice and SMS, and escalation handling in a single bilingual (EN/AR) product.",
         "system": "API-first Laravel backend with Sanctum authentication, attribute-based routing, and self-validating DTOs, administered through a role-based Filament (Livewire) panel. MySQL for relational data and Redis for cache and queues. Laravel Reverb WebSockets for chat, Twilio for voice and SMS, Firebase Cloud Messaging for mobile push, S3 for media, and Paymob for the in-app wallet, payments, and withdrawals. Pest and PHPUnit cover the domain logic.",
         "contributions": "Implemented the request-and-bid workflow connecting clients with lawyers, including escalation handling, as transactional Laravel services. · Built the in-app wallet integration with Paymob for payments and withdrawals. · Designed self-validating DTOs and attribute-based routing under Sanctum authentication with the backend team. · Implemented parts of the real-time and messaging layer with the feature team: Laravel Reverb WebSocket chat, Twilio voice and SMS, FCM push, and S3 media storage. · Contributed to the role-based Filament (Livewire) admin panel and the EN/AR localization, and wrote Pest / PHPUnit tests for the workflows above."
       }
     },
-    "mobileApi": {
-      "name": "High-Traffic Mobile Application Backend",
+    "sabeel": {
+      "name": "Sabeel — Mobile Backend",
       "company": "Challenge Group",
       "period": "2026",
-      "blurb": "Laravel API and AWS infrastructure behind a mobile app with thousands of active users. I contributed to the data layer, API hardening, and production infrastructure alongside the backend and DevOps teams.",
+      "blurb": "Laravel API and AWS infrastructure behind Sabeel, a mobile app with thousands of active users. I contributed to the data layer, API hardening, and production infrastructure alongside the backend and DevOps teams.",
       "badge": "BACKEND · CLOUD",
       "caseStudy": {
         "role": "Backend Engineer · backend and DevOps teams",
-        "overview": "A growing mobile app with thousands of active users needed a backend that held latency steady under load, plus a deployment pipeline and monitoring the team could rely on.",
+        "overview": "Sabeel, a growing mobile app with thousands of active users, needed a backend that held latency steady under load, plus a deployment pipeline and monitoring the team could rely on.",
         "system": "Laravel REST API on AWS ECS behind an Application Load Balancer, MySQL on Amazon RDS, and static assets on S3 + CloudFront. Deploys run as containers through ECR, CodeBuild, and CodePipeline; secrets live in Secrets Manager, access is IAM-scoped, and CloudWatch carries the alarms.",
         "contributions": "Designed normalized relational data models and optimized complex SQL queries, reducing API latency under production load. · Implemented authentication flows and request validation across the API with the backend team. · Provisioned and maintained production AWS infrastructure with the DevOps team: EC2, RDS, S3, IAM, and Secrets Manager. · Set up CloudWatch dashboards and alarms for the API and database tier so the team had a shared view of production regressions."
       }
     },
-    "scoring": {
-      "name": "Scoring & Ranking Platform",
+    "esl": {
+      "name": "Egyptian Schools League — Competition Engine",
       "company": "Challenge Group",
       "period": "2025",
-      "blurb": "Platform that runs large-scale scored events for a government client: participant onboarding, results entry, rule-based scoring, ranking, and live leaderboards. I contributed to the NestJS rules engine and the Next.js operator dashboards and onboarding flows.",
+      "blurb": "Platform that runs the Egyptian Schools League, a national inter-school sports competition: team onboarding, results entry, rule-based scoring, ranking, and live leaderboards. I contributed to the NestJS rules engine and the Next.js operator dashboards and onboarding flows.",
       "badge": "FULL-STACK · REAL-TIME",
       "caseStudy": {
         "role": "Full-Stack Software Engineer · cross-functional delivery team",
-        "overview": "Operators were running the events out of spreadsheets: slow scoring, fragile state, and no real-time visibility for participants. The platform replaces that with structured onboarding and results entry, a configurable rules engine, and live leaderboards.",
+        "overview": "Operators were running the league's competitions out of spreadsheets: slow scoring, fragile state, and no real-time visibility for participants. The platform replaces that with structured team onboarding and results entry, a configurable rules engine, and live leaderboards.",
         "system": "Next.js frontend and NestJS backend with a modular rules engine, PostgreSQL via Prisma ORM, WebSockets for live leaderboard updates, and a Docker-based deployment.",
-        "contributions": "Developed modules of the scoring engine covering participant onboarding, scoring logic, and ranking with the backend team. · Worked on the real-time leaderboard pipeline and the Next.js operator dashboards that consume it. · Contributed onboarding and results-entry flows to the team's shared, responsive component set, replacing spreadsheet workflows with structured forms and validation."
+        "contributions": "Developed modules of the scoring engine covering team onboarding, scoring logic, and ranking with the backend team. · Worked on the real-time leaderboard pipeline and the Next.js operator dashboards that consume it. · Contributed onboarding and results-entry flows to the team's shared, responsive component set, replacing spreadsheet workflows with structured forms and validation."
       }
     },
-    "supportBot": {
-      "name": "Serverless Customer-Support Chatbot",
+    "whatsappBot": {
+      "name": "WhatsApp AI Chatbot Automation",
       "company": "Challenge Group",
       "period": "2025",
       "blurb": "Serverless chatbot on AWS Lambda and Amazon Lex, reached over WhatsApp through Twilio, that answers routine support inquiries and hands off to a human agent when confidence drops. I designed and built the Python orchestration and the Lex intent model, drawing on the support team's ticket history.",
@@ -124,15 +130,15 @@
         "contributions": "Designed the intent and slot taxonomy from the support team's ticket history. · Wrote the Python Lambda orchestration bridging Lex, Twilio, and the internal support tooling, with secrets in Secrets Manager and CloudWatch logging. · Automated the common request types, with hand-off to a human agent when confidence dropped, cutting manual triage for the support team."
       }
     },
-    "azureDelivery": {
-      "name": "Azure Infrastructure & API Gateway",
+    "altanfeethi": {
+      "name": "Altanfeethi — Azure Delivery",
       "company": "Challenge Group",
       "period": "2026",
-      "blurb": "Azure infrastructure, API gateway, and release pipelines for a client-facing application. I independently provisioned the Azure infrastructure, configured API Management as the API gateway, and set up the release pipelines.",
+      "blurb": "Azure infrastructure, API gateway, and release pipelines for Altanfeethi's client-facing application. I independently provisioned the Azure infrastructure, configured API Management as the API gateway, and set up the release pipelines.",
       "badge": "CLOUD · DEVOPS",
       "caseStudy": {
         "role": "Cloud & DevOps Engineer · independent delivery",
-        "overview": "A client-facing application needed Azure infrastructure in place, an API gateway fronting its services, and a release process the team could trust before going to production.",
+        "overview": "Altanfeethi's client-facing application needed Azure infrastructure in place, an API gateway fronting its services, and a release process the team could trust before going to production.",
         "system": "Azure compute and storage, Azure API Management fronting the service surface, and release pipelines through Azure DevOps with environment gates.",
         "contributions": "Provisioned the Azure infrastructure layout — subscriptions, networking, identity, and policy. · Configured Azure API Management: routing, throttling, and key management for the platform's APIs. · Set up the release pipelines and environment gates that moved the application from staging to production."
       }
@@ -197,6 +203,7 @@
     "heading1": "Credentials",
     "heading2": "& training.",
     "credId": "CREDENTIAL ID",
+    "verify": "Verify credential",
     "aws-saa": {
       "name": "AWS Certified Solutions Architect – Associate",
       "issuer": "Amazon Web Services (AWS)",

@@ -15,3 +15,4 @@ export { MetaCell } from './MetaCell';
 export { Stack } from './Stack';
 export { Work } from './Work';
 export { WorkRow } from './WorkRow';
+export { WorkVisitLink } from './WorkVisitLink';

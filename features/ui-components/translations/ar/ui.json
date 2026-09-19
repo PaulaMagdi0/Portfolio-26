@@ -1,6 +1,7 @@
 {
   "a11y": {
-    "skipToContent": "تخطّي إلى المحتوى"
+    "skipToContent": "تخطّي إلى المحتوى",
+    "opensInNewTab": " (يفتح في علامة تبويب جديدة)"
   },
   "availability": {
     "label": "متاح لأدوار هندسة برمجيات متكاملة"

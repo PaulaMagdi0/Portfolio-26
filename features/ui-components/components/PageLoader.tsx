@@ -4,11 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { toLocaleDigits } from '@/lib/digits';
 
-// Set once the curtain has finished; the inline theme script reads it on the next
-// navigation in this session and pre-applies `html.loaded` so the loader never
-// covers the hero again (see core/theme/utils/themeInitScript.ts).
-const PL_SEEN_KEY = 'pl-seen';
-
 export function PageLoader() {
   const t = useTranslations('ui.loader');
   const tBrand = useTranslations('ui.brand');
@@ -20,20 +15,6 @@ export function PageLoader() {
   const fillRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    let seen = false;
-    try {
-      seen = sessionStorage.getItem(PL_SEEN_KEY) === '1';
-    } catch {
-      /* sessionStorage unavailable */
-    }
-    if (seen) {
-      // The inline theme script already applied `html.loaded`, so the curtain is
-      // hidden by CSS; unmount it on the next frame.
-      document.documentElement.classList.add('loaded');
-      const raf = requestAnimationFrame(() => setDone(true));
-      return () => cancelAnimationFrame(raf);
-    }
-
     const stages = [
       t('initializing'),
       t('loadingAssets'),
@@ -69,19 +50,11 @@ export function PageLoader() {
     };
     apply();
 
-    // Time-based, not frame-based: the old easing needed ~65 frames to reach 100%,
-    // which under a throttled CPU (Lighthouse mobile, low-end phones) stretched the
-    // curtain — and therefore the hero's LCP — to 3s+. Now it reaches 92% by
-    // PROGRESS_MS regardless of frame rate and completes as soon as fonts are in.
-    const PROGRESS_MS = 900;
-    const startedAt = performance.now();
-    const tick = (now: number) => {
+    const tick = () => {
       if (cancelled) return;
       const target = fontsReady ? 100 : 92;
-      const t = Math.min(1, (now - startedAt) / PROGRESS_MS);
-      const eased = 1 - Math.pow(1 - t, 3);
-      pct = Math.max(pct, Math.min(target, eased * 100));
-      if (fontsReady && pct < 100) pct = Math.min(100, pct + 4);
+      const step = (target - pct) * 0.06 + 0.3;
+      pct = Math.min(target, pct + step);
       apply();
       if (pct < 100) {
         rafId = requestAnimationFrame(tick);
@@ -89,30 +62,19 @@ export function PageLoader() {
         setTimeout(() => {
           if (cancelled) return;
           document.documentElement.classList.add('loaded');
-          try {
-            sessionStorage.setItem(PL_SEEN_KEY, '1');
-          } catch {
-            /* sessionStorage unavailable */
-          }
-          // The CSS clip-path curtain wipe runs 0.8s once `html.loaded` is set
+          // The CSS clip-path curtain wipe runs 1.1s once `html.loaded` is set
           // (see globals.css #page-loader transition). Keep the element mounted
           // through the transition; unmounting React-side too early kills it.
           setTimeout(() => {
             if (!cancelled) setDone(true);
-          }, 900);
-        }, 150);
+          }, 1200);
+        }, 280);
       }
     };
     rafId = requestAnimationFrame(tick);
 
-    // Wait for fonts so the reveal doesn't flash fallback glyphs, but cap the wait:
-    // the curtain hides the hero (the LCP element) for as long as it is up, and the
-    // Arabic locale ships ~200 KB of fonts that should not hold it hostage.
-    const fontsPromise = Promise.race([
-      document.fonts?.ready ?? Promise.resolve(),
-      new Promise((r) => setTimeout(r, 800)),
-    ]);
-    Promise.all([fontsPromise, new Promise((r) => setTimeout(r, 500))]).then(() => {
+    const fontsPromise = document.fonts?.ready ?? Promise.resolve();
+    Promise.all([fontsPromise, new Promise((r) => setTimeout(r, 900))]).then(() => {
       fontsReady = true;
     });
 

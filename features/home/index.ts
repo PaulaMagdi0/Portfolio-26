@@ -2,6 +2,7 @@
 export type {
   WorkHighlight,
   WorkCaseStudy,
+  WorkKind,
   WorkProject,
   ExperienceRole,
   Certification,
@@ -45,4 +46,5 @@ export {
   Stack,
   Work,
   WorkRow,
+  WorkVisitLink,
 } from './components';

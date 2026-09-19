@@ -85,6 +85,7 @@ export const PERSON_JSON_LD = {
     {
       '@type': 'EducationalOccupationalCredential',
       name: 'AWS Certified Solutions Architect – Associate',
+      url: 'https://www.credly.com/badges/5fa348b1-de2c-4884-957e-ae21e7515b56/public_url',
       credentialCategory: 'certificate',
       recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },
       dateCreated: '2026-06-01',
@@ -92,6 +93,7 @@ export const PERSON_JSON_LD = {
     {
       '@type': 'EducationalOccupationalCredential',
       name: 'AWS Certified Cloud Practitioner',
+      url: 'https://www.credly.com/badges/9bf189ec-3eb3-415b-b20a-67750205c915/public_url',
       credentialCategory: 'certificate',
       recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },
       dateCreated: '2026-04-01',
@@ -99,6 +101,7 @@ export const PERSON_JSON_LD = {
     {
       '@type': 'EducationalOccupationalCredential',
       name: 'HCCDP-Solution Architectures',
+      url: 'https://drive.google.com/file/d/1aJL8bRgC8p_lp8HcLkV4GxkNkxDjXQW3/view',
       credentialCategory: 'certificate',
       recognizedBy: { '@type': 'Organization', name: 'Huawei' },
       dateCreated: '2026-06-01',
@@ -106,6 +109,7 @@ export const PERSON_JSON_LD = {
     {
       '@type': 'EducationalOccupationalCredential',
       name: 'HCCDA-Tech Essentials',
+      url: 'https://drive.google.com/file/d/1auStEZzvooP8LXHBIpv_T4VwS0C-AV5X/view',
       credentialCategory: 'certificate',
       recognizedBy: { '@type': 'Organization', name: 'Huawei' },
       dateCreated: '2026-05-01',

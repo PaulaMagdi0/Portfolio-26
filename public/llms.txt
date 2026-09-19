@@ -17,6 +17,22 @@ HCCDP-Solution Architectures and HCCDA-Tech Essentials certified.
 Open to full-stack engineering roles and consulting engagements, including remote
 work (based in Cairo, UTC+2). Typically replies within 24 hours.
 
+## Selected Work
+Contributed as a member of cross-functional delivery teams at Challenge Group; full
+case studies (role, system context, contribution, stack) are on the home page.
+- Make it in the Emirates — Awards Platform (2026, live): https://awards.miite.ae/en
+- LawMate — Legal Services Platform (2026, private)
+- Sabeel — Mobile Backend (2026, private)
+- Altanfeethi — Azure Delivery (2026, private)
+- Egyptian Schools League — Competition Engine (2025, live): https://esl.moe.gov.eg/ar
+- WhatsApp AI Chatbot Automation (2025, private)
+
+## Certifications
+- AWS Certified Solutions Architect – Associate (Jun 2026): https://www.credly.com/badges/5fa348b1-de2c-4884-957e-ae21e7515b56/public_url
+- HCCDP-Solution Architectures, Huawei Cloud (Jun 2026): https://drive.google.com/file/d/1aJL8bRgC8p_lp8HcLkV4GxkNkxDjXQW3/view
+- AWS Certified Cloud Practitioner (Apr 2026): https://www.credly.com/badges/9bf189ec-3eb3-415b-b20a-67750205c915/public_url
+- HCCDA-Tech Essentials, Huawei Cloud (May 2026): https://drive.google.com/file/d/1auStEZzvooP8LXHBIpv_T4VwS0C-AV5X/view
+
 ## Site
 - Home (English): https://paulamagdy.com/en
 - Home (Arabic):  https://paulamagdy.com/ar
@@ -32,4 +48,4 @@ work (based in Cairo, UTC+2). Typically replies within 24 hours.
 ## Contact
 Email: paulamagdy665@gmail.com
 
-Last updated: 2026-09-11
+Last updated: 2026-09-19

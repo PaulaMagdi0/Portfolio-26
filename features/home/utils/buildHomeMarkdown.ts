@@ -69,12 +69,18 @@ export function buildHomeMarkdown(locale: Locale): string {
   );
 
   // --- Selected work ---
-  // Mirrors <Work />: generic project titles, team-contribution framing, no client
-  // names or live URLs. Anything written to `home.work.*` is served to agents here.
+  // Mirrors <Work />: product names, team-contribution framing, and the public URL
+  // for live products. Anything written to `home.work.*` is served to agents here.
   const work = WORK.map((p) => {
     const lines = [
       `### ${t(p.nameKey)}`,
-      join(t(p.companyKey), t(p.periodKey), t(p.badgeKey)),
+      join(
+        t(p.companyKey),
+        t(p.periodKey),
+        t(p.badgeKey),
+        t(`home.work.kind.${p.kind}`),
+        p.kind === 'live' ? p.url : undefined,
+      ),
       '',
       `> ${t(p.blurbKey)}`,
       '',
@@ -131,6 +137,7 @@ export function buildHomeMarkdown(locale: Locale): string {
         `Issued ${cert.issued}`,
         `Expires ${cert.expires}`,
         `${m.certs.credId}: ${cert.credentialId}`,
+        `${m.certs.verify}: ${cert.verifyUrl}`,
       ),
       '',
       t(cert.descKey),
