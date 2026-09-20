@@ -14,7 +14,7 @@ describe('buildHomeMarkdown', () => {
   it('renders work projects with role, contribution bullets, highlights, and stack', () => {
     expect(en).toContain('## SELECTED WORK');
     expect(en).toContain('### Make it in the Emirates — Awards Platform');
-    expect(en).toContain('### LawMate — Legal Services Platform');
+    expect(en).toContain('### Services Marketplace — API-first Backend');
     expect(en).toContain('- **MY ROLE:**');
     expect(en).toContain('- **MY CONTRIBUTION:**');
     expect(en).toContain('5,000+ concurrent users');

@@ -1,37 +1,50 @@
 # Paula Magdy — Full-Stack Software Engineer
 
-> Full-stack software engineer in Cairo, Egypt. Production experience across
-> TypeScript, PHP, and Python on AWS, Azure, and Huawei Cloud.
+> Full-stack software engineer in Cairo, Egypt, working across TypeScript, PHP,
+> and Python on AWS, Azure, and Huawei Cloud.
 
 ## About
-Paula Magdy has production experience across multiple stacks — TypeScript
-(Next.js/NestJS), PHP (Laravel), and Python (Django/Flask) — on AWS, Azure, and
-Huawei Cloud. An AWS Certified Solutions Architect, he contributes across data
-modeling, API design, CI/CD, monitoring, and security on cross-functional teams
-delivering government-grade and enterprise platforms that serve thousands of
-concurrent users. Works at Challenge Group. Alumnus of October 6 University.
-AWS Certified Solutions Architect – Associate and Cloud Practitioner; Huawei
-HCCDP-Solution Architectures and HCCDA-Tech Essentials certified.
+Paula Magdy is a full-stack software engineer working across TypeScript
+(NestJS/Next.js), PHP (Laravel), and Python (Django/Flask) on AWS, Azure, and
+Huawei Cloud. Comfortable owning a feature from the data model to the deploy
+pipeline, he works on cross-functional teams delivering government and
+enterprise platforms. Recent work includes services holding 5,000+ concurrent
+users, API latency down about 35%, and deployments cut from roughly 20 minutes
+to under 5. Works at Challenge Group (Full-Stack Software Engineer, Jun 2025 –
+present). Alumnus of October 6 University (B.Sc., Computer Science and
+Information Systems). AWS Certified Solutions Architect – Associate and Cloud
+Practitioner; Huawei Cloud HCCDP – Solution Architectures and HCCDA – Tech
+Essentials certified.
 
 ## Availability
 Open to full-stack engineering roles and consulting engagements, including remote
 work (based in Cairo, UTC+2). Typically replies within 24 hours.
 
 ## Selected Work
-Contributed as a member of cross-functional delivery teams at Challenge Group; full
-case studies (role, system context, contribution, stack) are on the home page.
+Built at Challenge Group, mostly as a member of cross-functional delivery teams; the
+Azure delivery and the support chatbot were delivered independently. Full case
+studies (role, system context, contribution, stack) are on the home page.
 - Make it in the Emirates — Awards Platform (2026, live): https://awards.miite.ae/en
-- LawMate — Legal Services Platform (2026, private)
+- Services Marketplace — API-first Backend (2026, private)
 - Sabeel — Mobile Backend (2026, private)
 - Altanfeethi — Azure Delivery (2026, private)
 - Egyptian Schools League — Competition Engine (2025, live): https://esl.moe.gov.eg/ar
 - WhatsApp AI Chatbot Automation (2025, private)
 
+## Skills
+- Languages: TypeScript, JavaScript, PHP, Python, SQL
+- Backend: Node.js, NestJS, Express, Laravel, Django, Flask, REST APIs, WebSockets (Laravel Reverb), Serverless (AWS Lambda), JWT, RBAC
+- Frontend: React, Next.js, Tailwind CSS, Livewire, Filament, Blade, HTML/CSS
+- Cloud & DevOps: AWS, Microsoft Azure, Huawei Cloud, Docker, CI/CD, Linux, Git
+- Databases & ORMs: PostgreSQL, MySQL, Redis, MongoDB, Prisma, Eloquent, indexing and query optimization
+- Testing & Practices: Jest, Vitest, PHPUnit, Pest, React Testing Library, Domain-Driven Design, Agile/Scrum
+- Spoken languages: Arabic (native), English (professional)
+
 ## Certifications
-- AWS Certified Solutions Architect – Associate (Jun 2026): https://www.credly.com/badges/5fa348b1-de2c-4884-957e-ae21e7515b56/public_url
-- HCCDP-Solution Architectures, Huawei Cloud (Jun 2026): https://drive.google.com/file/d/1aJL8bRgC8p_lp8HcLkV4GxkNkxDjXQW3/view
-- AWS Certified Cloud Practitioner (Apr 2026): https://www.credly.com/badges/9bf189ec-3eb3-415b-b20a-67750205c915/public_url
-- HCCDA-Tech Essentials, Huawei Cloud (May 2026): https://drive.google.com/file/d/1auStEZzvooP8LXHBIpv_T4VwS0C-AV5X/view
+- AWS Certified Solutions Architect – Associate (SAA-C03), Amazon Web Services (Jun 2026): https://www.credly.com/badges/5fa348b1-de2c-4884-957e-ae21e7515b56/public_url
+- HCCDP – Solution Architectures, Huawei Cloud (Jun 2026): https://drive.google.com/file/d/1aJL8bRgC8p_lp8HcLkV4GxkNkxDjXQW3/view
+- HCCDA – Tech Essentials, Huawei Cloud (May 2026): https://drive.google.com/file/d/1auStEZzvooP8LXHBIpv_T4VwS0C-AV5X/view
+- AWS Certified Cloud Practitioner, Amazon Web Services (Apr 2026): https://www.credly.com/badges/9bf189ec-3eb3-415b-b20a-67750205c915/public_url
 
 ## Site
 - Home (English): https://paulamagdy.com/en
@@ -48,4 +61,4 @@ case studies (role, system context, contribution, stack) are on the home page.
 ## Contact
 Email: paulamagdy665@gmail.com
 
-Last updated: 2026-09-19
+Last updated: 2026-09-20

@@ -1,5 +1,6 @@
 import type { Certification } from '../types';
 
+// Order mirrors the CERTIFICATIONS block of the résumé (newest first).
 export const CERTIFICATIONS: readonly Certification[] = [
   {
     id: 'aws-saa',
@@ -17,7 +18,6 @@ export const CERTIFICATIONS: readonly Certification[] = [
     id: 'hccdp',
     nameKey: 'home.certs.hccdp.name',
     issuerKey: 'home.certs.hccdp.issuer',
-    division: 'HUAWEI CLOUD',
     issued: 'Jun 2026',
     expires: 'Jun 2029',
     credentialId: 'HWENDCCCDP00180959183',
@@ -25,6 +25,18 @@ export const CERTIFICATIONS: readonly Certification[] = [
     skills: ['ECS & OBS', 'VPC / ELB', 'Managed Databases', 'HA & Cost'],
     logo: '/icons/huawei.svg',
     descKey: 'home.certs.hccdp.desc',
+  },
+  {
+    id: 'hccda',
+    nameKey: 'home.certs.hccda.name',
+    issuerKey: 'home.certs.hccda.issuer',
+    issued: 'May 2026',
+    expires: 'May 2029',
+    credentialId: 'HWENDCTEDA542672',
+    verifyUrl: 'https://drive.google.com/file/d/1auStEZzvooP8LXHBIpv_T4VwS0C-AV5X/view',
+    skills: ['Core Compute', 'Storage & Networking', 'App Deployment'],
+    logo: '/icons/huawei.svg',
+    descKey: 'home.certs.hccda.desc',
   },
   {
     id: 'aws-ccp',
@@ -37,18 +49,5 @@ export const CERTIFICATIONS: readonly Certification[] = [
     skills: ['Cloud Concepts', 'Shared Responsibility', 'Pricing & Billing', 'Core Services'],
     logo: '/icons/aws-wordmark.svg',
     descKey: 'home.certs.aws-ccp.desc',
-  },
-  {
-    id: 'hccda',
-    nameKey: 'home.certs.hccda.name',
-    issuerKey: 'home.certs.hccda.issuer',
-    division: 'HUAWEI CLOUD',
-    issued: 'May 2026',
-    expires: 'May 2029',
-    credentialId: 'HWENDCTEDA542672',
-    verifyUrl: 'https://drive.google.com/file/d/1auStEZzvooP8LXHBIpv_T4VwS0C-AV5X/view',
-    skills: ['Core Compute', 'Storage & Networking', 'App Deployment'],
-    logo: '/icons/huawei.svg',
-    descKey: 'home.certs.hccda.desc',
   },
 ] as const satisfies readonly Certification[];

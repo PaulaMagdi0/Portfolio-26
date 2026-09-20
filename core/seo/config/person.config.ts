@@ -20,7 +20,7 @@ export const PERSON_JSON_LD = {
   },
   gender: 'Male',
   description:
-    'Paula Magdy is a full-stack software engineer in Cairo, Egypt with production experience across multiple stacks — TypeScript (Next.js/NestJS), PHP (Laravel), and Python (Django/Flask) — on AWS, Azure, and Huawei Cloud. An AWS Certified Solutions Architect, he contributes across data modeling, API design, CI/CD, monitoring, and security on cross-functional teams delivering government-grade and enterprise platforms that serve thousands of concurrent users.',
+    'Paula Magdy is a full-stack software engineer in Cairo, Egypt working across TypeScript (NestJS/Next.js), PHP (Laravel), and Python (Django/Flask) on AWS, Azure, and Huawei Cloud. Comfortable owning a feature from the data model to the deploy pipeline, he works on cross-functional teams delivering government and enterprise platforms; recent work includes services holding 5,000+ concurrent users, API latency down about 35%, and deployments cut from roughly 20 minutes to under 5. AWS Certified Solutions Architect (Associate), also certified on Huawei Cloud.',
   // schema.org's purpose-built field for telling apart same-named entities. A
   // tight role + employer + location + education phrase gives answer engines a
   // compact set of distinctive facts to anchor THIS Paula Magdy to.
@@ -51,6 +51,7 @@ export const PERSON_JSON_LD = {
     'Full-stack web development',
     'Next.js',
     'React',
+    'Tailwind CSS',
     'TypeScript',
     'Node.js',
     'NestJS',
@@ -71,12 +72,15 @@ export const PERSON_JSON_LD = {
     'REST API design',
     'WebSockets',
     'Serverless architecture',
+    'AWS Lambda',
+    'Amazon Lex',
     'AWS cloud infrastructure',
     'Microsoft Azure',
     'Huawei Cloud',
     'Docker',
-    'Kubernetes',
     'CI/CD pipelines',
+    'Linux',
+    'Git',
     'Software architecture',
     'Domain-Driven Design',
     'Agile/Scrum',
@@ -84,11 +88,27 @@ export const PERSON_JSON_LD = {
   hasCredential: [
     {
       '@type': 'EducationalOccupationalCredential',
-      name: 'AWS Certified Solutions Architect – Associate',
+      name: 'AWS Certified Solutions Architect – Associate (SAA-C03)',
       url: 'https://www.credly.com/badges/5fa348b1-de2c-4884-957e-ae21e7515b56/public_url',
       credentialCategory: 'certificate',
       recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },
       dateCreated: '2026-06-01',
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'HCCDP – Solution Architectures',
+      url: 'https://drive.google.com/file/d/1aJL8bRgC8p_lp8HcLkV4GxkNkxDjXQW3/view',
+      credentialCategory: 'certificate',
+      recognizedBy: { '@type': 'Organization', name: 'Huawei Cloud' },
+      dateCreated: '2026-06-01',
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'HCCDA – Tech Essentials',
+      url: 'https://drive.google.com/file/d/1auStEZzvooP8LXHBIpv_T4VwS0C-AV5X/view',
+      credentialCategory: 'certificate',
+      recognizedBy: { '@type': 'Organization', name: 'Huawei Cloud' },
+      dateCreated: '2026-05-01',
     },
     {
       '@type': 'EducationalOccupationalCredential',
@@ -97,22 +117,6 @@ export const PERSON_JSON_LD = {
       credentialCategory: 'certificate',
       recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },
       dateCreated: '2026-04-01',
-    },
-    {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'HCCDP-Solution Architectures',
-      url: 'https://drive.google.com/file/d/1aJL8bRgC8p_lp8HcLkV4GxkNkxDjXQW3/view',
-      credentialCategory: 'certificate',
-      recognizedBy: { '@type': 'Organization', name: 'Huawei' },
-      dateCreated: '2026-06-01',
-    },
-    {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'HCCDA-Tech Essentials',
-      url: 'https://drive.google.com/file/d/1auStEZzvooP8LXHBIpv_T4VwS0C-AV5X/view',
-      credentialCategory: 'certificate',
-      recognizedBy: { '@type': 'Organization', name: 'Huawei' },
-      dateCreated: '2026-05-01',
     },
   ],
   sameAs: [
