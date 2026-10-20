@@ -19,6 +19,10 @@ export const EXPERIENCE: readonly ExperienceRole[] = [
       'home.experience.r1.b7',
       'home.experience.r1.b8',
       'home.experience.r1.b9',
+      'home.experience.r1.b10',
+      'home.experience.r1.b11',
+      'home.experience.r1.b12',
+      'home.experience.r1.b13',
     ],
   },
   {

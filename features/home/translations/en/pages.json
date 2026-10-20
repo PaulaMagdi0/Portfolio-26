@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Paula Magdy — Full-Stack Software Engineer",
-    "description": "Paula Magdy is an AWS-certified full-stack software engineer in Cairo, Egypt, with production experience across TypeScript (Next.js/NestJS), PHP (Laravel), and Python (Django/Flask) on AWS, Azure, and Huawei Cloud."
+    "description": "Paula Magdy, AWS-certified full-stack engineer in Cairo, Egypt, builds production apps with React, Next.js, TypeScript, Node.js/NestJS, Laravel and Python."
   },
   "hero": {
     "portfolio": "PORTFOLIO / 2026",
@@ -162,7 +162,11 @@
       "b6": "Built a NestJS rules engine for competition scoring and ranking on Prisma/PostgreSQL, plus live WebSocket leaderboards and Next.js operator dashboards and onboarding screens.",
       "b7": "Set up a client's entire Azure side solo: infrastructure provisioning, API Management as the API gateway, and release pipelines in Azure DevOps.",
       "b8": "Run AWS infrastructure (VPC, EC2, RDS, S3, CloudFront, IAM, Secrets Manager) for 5+ production environments, with CloudWatch dashboards, alarms, and structured logging.",
-      "b9": "Hardened API layers across products with Sanctum/JWT auth, RBAC, attribute-based routing, and self-validating DTOs. Bad requests get rejected before they reach business logic."
+      "b9": "Hardened API layers across products with Sanctum/JWT auth, RBAC, attribute-based routing, and self-validating DTOs. Bad requests get rejected before they reach business logic.",
+      "b10": "Integrated AI/LLM APIs and used AI-assisted workflows for planning, coding, and testing.",
+      "b11": "Built backend services using microservices architecture and message queues (Amazon SQS).",
+      "b12": "Took part in code reviews, mentored other developers, and wrote technical documentation.",
+      "b13": "Built accessible, reusable UI components following WCAG and ARIA standards."
     },
     "r2": {
       "period": "Oct 2024 — Jun 2025",
@@ -170,7 +174,7 @@
       "company": "Information Technology Institute (ITI)",
       "location": "Cairo, Egypt",
       "summary": "Government-sponsored intensive software engineering program (~1,200 hours).",
-      "b1": "Built full-stack apps on two backend ecosystems, Node.js/Express and Python (Django, Flask), with React frontends, secure REST APIs, auth flows, and role-based access control.",
+      "b1": "Built full-stack apps on three backend ecosystems, Node.js/Express, Python (Django, Flask) and PHP/Laravel, with React frontends, secure REST APIs, auth flows, and role-based access control.",
       "b2": "Modeled relational and NoSQL databases with normalization and indexing so queries stayed fast as data grew; containerized services with Docker and deployed them to AWS in Agile sprints."
     },
     "r3": {
@@ -249,9 +253,9 @@
     "heading1": "Common",
     "heading2": "questions.",
     "q1": "Who is Paula Magdy?",
-    "a1": "Paula Magdy is a full-stack software engineer based in Cairo, Egypt, with 3+ years of experience across TypeScript (NestJS/Next.js), PHP (Laravel), and Python (Django/Flask) on AWS, Azure, and Huawei Cloud. An AWS Certified Solutions Architect, he builds production web platforms with cross-functional teams and is comfortable owning a feature from the data model to the deploy pipeline.",
+    "a1": "Paula Magdy is a full-stack software engineer based in Cairo, Egypt, with 3+ years of experience across TypeScript (NestJS/Next.js), PHP (Laravel), and Python (Django/Flask) on AWS, Azure, and Huawei Cloud. An AWS Certified Solutions Architect, he builds production web platforms with cross-functional teams and is comfortable owning a feature from the data model to the deploy pipeline. He also builds accessible reusable interfaces, integrates AI/LLM APIs, and works with microservices and Amazon SQS messaging.",
     "q2": "What technologies does Paula Magdy work with?",
-    "a2": "He builds with Next.js, React, and TypeScript on the frontend; Node.js, NestJS, and Express, plus Laravel (PHP) and Django/Flask (Python) on the backend; PostgreSQL, MySQL, MongoDB, Redis, and Prisma ORM for data; and AWS, Azure, Huawei Cloud, Docker, and CI/CD for cloud and delivery.",
+    "a2": "He builds with C++, Next.js, React, TypeScript, Redux, Shadcn/UI, Bootstrap, Material UI, Chakra UI, Ant Design, React Native, and Figma; accessibility (WCAG/ARIA); and lazy loading/code splitting. His backend toolkit includes Node.js, NestJS, Express, Laravel, Django, Flask, OAuth, Zod, Swagger/OpenAPI, microservices, Amazon SQS message queues, AI/LLM APIs, webhooks, background jobs, and Amazon API Gateway. He also works with PostgreSQL, MySQL, MongoDB, Redis, Prisma ORM, DynamoDB, Mongoose, Memcached, Elasticsearch, AWS, Azure, Huawei Cloud, Docker, Docker Compose, Kubernetes, GitHub Actions, GitLab CI, CloudFormation, Nginx, DNS/domain setup, Vercel, and CI/CD. His practices include Playwright, TDD, SOLID, design patterns, JIRA, Confluence, and AI-assisted development workflows.",
     "q3": "What has Paula Magdy built?",
     "a3": "At Challenge Group — an AWS/Huawei Cloud partner serving government and enterprise clients across Egypt, KSA, and the UAE — he has contributed to multiple production platforms as part of cross-functional Agile delivery teams. His work spans backend services for platforms serving 5,000+ concurrent users, transactional workflows including a request-and-bid marketplace and an in-app Paymob wallet, real-time chat and messaging, Next.js/React interfaces and role-based admin panels, AWS and Azure infrastructure with container-first CI/CD, and a serverless Amazon Lex support chatbot.",
     "q4": "Where is Paula Magdy based, and is he open to remote work?",
